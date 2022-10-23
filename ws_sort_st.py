@@ -6,14 +6,12 @@ from scipy import stats
 from statistics import mean
 from math import pi
 import streamlit as st
-from st_aggrid import AgGrid, GridOptionsBuilder
-from st_aggrid.shared import GridUpdateMode
 sns.set_style("white")
 
 
 ##################################################################
 
-df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv?token=GHSAT0AAAAAAB2JTLVVKJRNSMOVDEDWSNFUY2VXFPA')
+df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 
 mins = st.slider('Minimum Minutes Played', 0, max(df['Minutes played'].astype(int)), 500)
 maxage = st.slider('Max Age', 17, 50, 25)
@@ -25,35 +23,8 @@ league = st.selectbox('League', ('J1', 'J2', 'J3', 'K League 1', 'K League 2'))
 
 #####################################################################
 
-def aggrid_interactive_table(df: pd.DataFrame):
-    """Creates an st-aggrid interactive table based on a dataframe.
-
-    Args:
-        df (pd.DataFrame]): Source dataframe
-
-    Returns:
-        dict: The selected row
-    """
-    options = GridOptionsBuilder.from_dataframe(
-        df, enableRowGroup=True, enableValue=True,
-    )
-
-    options.configure_side_bar()
-
-    options.configure_selection("single")
-    selection = AgGrid(
-        df,
-        enable_enterprise_modules=True,
-        gridOptions=options.build(),
-        theme="alpine",
-        update_mode=GridUpdateMode.MODEL_CHANGED,
-        allow_unsafe_jscode=True,
-    )
-
-    return selection
-
 ############################################################################
-df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv?token=GHSAT0AAAAAAB2JTLVVKJRNSMOVDEDWSNFUY2VXFPA')
+df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 
 df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
 df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
@@ -301,11 +272,9 @@ final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
 
 final.Age = final.Age.astype(int)
 final.sort_values(by=['Age'], inplace=True)
-final.reset_index(drop=True,inplace=True)
+final = final[final['Age']<=maxage].reset_index(drop=True)
 
 ##################################################################################################
-
-selection = aggrid_interactive_table(df=final)
-if selection:
-    st.write("You selected:")
-    st.json(selection["selected_rows"])
+npg = st.slider('Non-penalty goals per 90: ', 0.0, 1.0, 0.5)
+final = final[final['Non-penalty goals per 90']>=npg].reset_index(drop=True)
+final
