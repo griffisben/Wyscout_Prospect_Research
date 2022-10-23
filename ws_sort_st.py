@@ -1,6 +1,3 @@
-# import pkg_resources
-# pkg_resources.require("seaborn==0.11.1")
-%matplotlib inline
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
