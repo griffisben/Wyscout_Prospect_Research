@@ -1,6 +1,6 @@
 seaborn
 pandas
-matplotlib.pyplot
+matplotlib
 numpy
 scipy
 statistics
