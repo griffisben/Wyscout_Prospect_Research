@@ -4,6 +4,5 @@ matplotlib
 numpy
 scipy
 statistics
-math
 streamlit
 st_aggrid
