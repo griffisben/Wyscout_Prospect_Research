@@ -5,4 +5,3 @@ numpy
 scipy
 statistics
 streamlit
-st_aggrid
