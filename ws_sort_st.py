@@ -284,5 +284,5 @@ drib = st.slider('Successful dribbles % ', 0.0, 1.0, 0.5)
 
 final = final[(final['Non-penalty goals per 90']>=npg) &
              (final['npxG per 90']>=npxg) &
-             (final['Successful dribbles %']>=drib)].reset_index(drop=True)
+             (final['Successful dribbles, %']>=drib)].reset_index(drop=True)
 final
