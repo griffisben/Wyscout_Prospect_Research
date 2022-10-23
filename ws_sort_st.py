@@ -8,7 +8,7 @@ from math import pi
 import streamlit as st
 sns.set_style("white")
 
-st.title('All data from Wyscout | Created by Ben Griffis (@BeGriffis)')
+st.title('All data from Wyscout\nCreated by Ben Griffis (@BeGriffis)')
 
 ##################################################################
 
