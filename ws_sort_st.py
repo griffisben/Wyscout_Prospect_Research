@@ -16,7 +16,7 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 st.title('Prospect Research')
-st.subheader('All data from Wyscout (updated as of 10/23/22)')
+st.subheader('All data from Wyscout (data updated as of 10/24/22)')
 st.subheader('Created by Ben Griffis (@BeGriffis)')
 
 with st.expander('Read App Details'):
@@ -1257,4 +1257,23 @@ except:
     st.text('Please enter a valid name.')
     
     
+with st.expander('Metric Glossary'):
+    st.write('''
+    Short & Medium Pass = Passes shorter than 40 meters.  \n
+    Long Pass = Passes longer than 40 meters.  \n
+    Smart Pass = A creative and penetrative pass that attempts to break the opposition's defensive lines to gain a significant advantage in attack.  \n
+    Cross = Pass from the offensive flanks aimed towards a teammate in the area in front of the opponent’s goal.  \n
+    Shot Assist = A pass where the receiver's next action is a shot.  \n
+    Expected Assists (xA) = The expected goal (xG) value of shots assisted by a pass. xA only exists on passes that are Shot Assists.  \n
+    xA per Shot Assist = The average xA of a player's shot assists.  \n
+    Second Assist = The last action of a player from the goalscoring team, prior to an Assist by a teammate.  \n
+    Third Assist = The penultimate action of a player from the goalscoring team, prior to an Assist by a teammate.  \n
+    Expected Goals (xG) = The likelihood a shot becomes a goal, based on many factors (player position, body part of shot, location of assist, etc.).  \n
+    Non-Penalty xG (npxG) = xG from non-penalty shots only.  \n
+    npxG per Shot = The average npxG of a player's (non-penalty) shots.  \n
+    Acceleration = A run with the ball with a significant speed up.  \n
+    Progressive Carry = A continuous ball control by one player attempting to draw the team significantly closer to the opponent goal. (see Wyscout's glossary for more info)  \n
+    Progressive Pass = A forward pass that attempts to advance a team significantly closer to the opponent’s goal.  \n
+    Defensive Duel = When a player attempts to dispossess an opposition player to stop an attack progressing.  \n
+    ''')
     
