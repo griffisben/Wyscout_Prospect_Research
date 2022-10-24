@@ -373,7 +373,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
 
-if player != '':
+try:
     df = df[df['Minutes played']>=mins].reset_index(drop=True)
     df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
     df1 = df1.dropna(subset=['Age']).reset_index(drop=True)
@@ -1237,3 +1237,5 @@ if player != '':
     #              extra_text = ' | Data final for 21-22',  ######
                 )
     st.pyplot(radar_img)
+except:
+    st.text('Please enter a valid name.')
