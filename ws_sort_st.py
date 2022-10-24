@@ -16,13 +16,15 @@ st.header('Created by Ben Griffis (@BeGriffis')
 
 df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 
-mins = st.slider('Minimum Minutes Played', 0, max(df['Minutes played'].astype(int)), 500)
-maxage = st.slider('Max Age', 17, 50, 25)
-pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
-                                'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
-                                'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
-                                'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
-league = st.selectbox('League', ('J1', 'J2', 'J3', 'K League 1', 'K League 2'))
+with st.sidebar:
+    st.header('Choose Basic Options')
+    mins = st.slider('Minimum Minutes Played', 0, max(df['Minutes played'].astype(int)), 500)
+    maxage = st.slider('Max Age', 17, 50, 25)
+    pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
+                                    'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
+                                    'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
+                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
+    league = st.selectbox('League', ('J1', 'J2', 'J3', 'K League 1', 'K League 2'))
 
 #####################################################################
 
@@ -281,6 +283,7 @@ final = final[final['Age']<=maxage].reset_index(drop=True)
 st.header('Select your desired minimum percentile filter')
 
 with st.sidebar:
+    st.header('Minimum Percentile Filters')
     npg = st.slider('Non-penalty goals per 90 ', 0.0, 1.0, 0.5)
     npxg = st.slider('npxG per 90 ', 0.0, 1.0, 0.5)
     drib = st.slider('Successful dribbles, % ', 0.0, 1.0, 0.5)
