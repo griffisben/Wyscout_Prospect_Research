@@ -30,21 +30,23 @@ with st.expander('Read App Details'):
 ##################################################################
 
 df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
     st.header('Choose Basic Options')
-    mins = st.slider('Minimum Minutes Played', 0, max(df['Minutes played'].astype(int)), 500)
-    maxage = st.slider('Max Age', 17, 50, 25)
+    league = st.selectbox('League', ('J1', 'J2', 'J3', 'K League 1', 'K League 2'))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
-    league = st.selectbox('League', ('J1', 'J2', 'J3', 'K League 1', 'K League 2'))
+    mins = st.slider('Minimum Minutes Played', 0, max(df['Minutes played'].astype(int)), 900)
+    maxage = st.slider('Max Age', min(df.Age.astype(int)), max(df.Age.astype(int)), 25)
+
 
 #####################################################################
 
 ############################################################################
-df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+# df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 
 df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
 df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
