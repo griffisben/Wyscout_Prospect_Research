@@ -8,7 +8,9 @@ from math import pi
 import streamlit as st
 sns.set_style("white")
 
-st.title('All data from Wyscout | Created by Ben Griffis (@BeGriffis)')
+st.title('Prospect Research')
+st.header('All data from Wyscout')
+st.header('Created by Ben Griffis (@BeGriffis')
 
 ##################################################################
 
@@ -276,6 +278,7 @@ final.sort_values(by=['Age'], inplace=True)
 final = final[final['Age']<=maxage].reset_index(drop=True)
 
 ##################################################################################################
+st.header('Select your desired minimum percentile filter')
 npg = st.slider('Non-penalty goals per 90 ', 0.0, 1.0, 0.5)
 npxg = st.slider('npxG per 90 ', 0.0, 1.0, 0.5)
 drib = st.slider('Successful dribbles % ', 0.0, 1.0, 0.5)
