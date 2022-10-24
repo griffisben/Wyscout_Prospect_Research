@@ -351,8 +351,8 @@ final = final[(final['Accurate short / medium passes, %']>=short) &
               (final['Successful defensive actions per 90']>=defend) &
               (final['Defensive duels won, %']>=defduels) &
               (final['pAdj Tkl+Int per 90']>=tklint) &
-              (final['pAdj Sliding tackles']>=tkl) &
-              (final['pAdj Interceptions']>=intercept) &
+              (final['PAdj Sliding tackles']>=tkl) &
+              (final['PAdj Interceptions']>=intercept) &
               (final['Aerial duels won, %']>=aerial) &
               (final['Aerial duels won per 90']>=aerialswon) &
               (final['Shots blocked per 90']>=shotblock) &
