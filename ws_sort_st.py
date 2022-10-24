@@ -14,7 +14,7 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 st.title('Prospect Research')
-st.header('All data from Wyscout (updated as of 10/23/22')
+st.header('All data from Wyscout (updated as of 10/23/22)')
 st.header('Created by Ben Griffis (@BeGriffis)')
 
 ##################################################################
