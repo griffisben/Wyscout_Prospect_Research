@@ -17,7 +17,7 @@ st.header('Created by Ben Griffis (@BeGriffis')
 df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 
 mins = st.slider('Minimum Minutes Played', 0, max(df['Minutes played'].astype(int)), 500)
-maxage = st.slider('Max Age', 17, 45, 25)
+maxage = st.slider('Max Age', 17, 50, 25)
 pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                 'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                 'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
@@ -279,13 +279,20 @@ final = final[final['Age']<=maxage].reset_index(drop=True)
 
 ##################################################################################################
 st.header('Select your desired minimum percentile filter')
-npg = st.slider('Non-penalty goals per 90 ', 0.0, 1.0, 0.5)
-npxg = st.slider('npxG per 90 ', 0.0, 1.0, 0.5)
-drib = st.slider('Successful dribbles % ', 0.0, 1.0, 0.5)
+
+with st.sidebar:
+    npg = st.slider('Non-penalty goals per 90 ', 0.0, 1.0, 0.5)
+    npxg = st.slider('npxG per 90 ', 0.0, 1.0, 0.5)
+    drib = st.slider('Successful dribbles, % ', 0.0, 1.0, 0.5)
+    gc = st.slider('Goal conversion, % ', 0.0, 1.0, 0.5)
+    boxtouch = st.slider('Touches in box per 90 ', 0.0, 1.0, 0.5)
 
 
 
 final = final[(final['Non-penalty goals per 90']>=npg) &
              (final['npxG per 90']>=npxg) &
-             (final['Successful dribbles, %']>=drib)].reset_index(drop=True)
+             (final['Successful dribbles, %']>=drib) &
+              (final['Goal conversion, %']>=gc) &
+              (final['Touches in box per 90']>=boxtouch)
+             ].reset_index(drop=True)
 final
