@@ -1247,7 +1247,7 @@ try:
                  team = gen['Team within selected timeframe'].values[0],
                  age = gen['Age'].values[0],
                  sig = 'Twitter: @BeGriffis',
-                 club_image = 'n',
+                 club_image = 'y',
                  extra_text = ' | Data as of 10/23/22',  ######
     #              extra_text = ' | Data final for 21-22',  ######
                 )
