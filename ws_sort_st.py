@@ -354,7 +354,6 @@ ix = ws_pos.index(gen['Main Position'].values[0])
 
 
 def scout_report(ws_datapath, league, season, xtra, template, pos_buckets, pos, player_pos, mins, compares, name, ws_name, team, age, sig, club_image, save_img, API_TWEET, folder_save, extra_text, savepath=None, imgpath=None):
-    matplotlib.rcParams.update(matplotlib.rcParamsDefault)
     df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
     df = df[df['League']==league].reset_index(drop=True)
     df = df.dropna(subset=['Age', 'Position']).reset_index(drop=True)
