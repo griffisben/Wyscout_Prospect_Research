@@ -414,11 +414,12 @@ try:
 
     gen = df1[df1['Player']==player]
     ix = ws_pos.index(gen['Main Position'].values[0])
+    minplay = int(gen['Minutes played'].values[0])
 
     ##########################################################################################
 
 
-    def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, mins, compares, name, ws_name, team, age, sig, club_image, extra_text):
+    def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
         df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
         df = df[df['League']==league].reset_index(drop=True)
         df = df.dropna(subset=['Age', 'Position']).reset_index(drop=True)
@@ -903,8 +904,8 @@ try:
         ax.text(0.15, 0.8 + PAD, "80", size=10, color='#4A2E19')
         ax.text(0.15, 1 + PAD, "100", size=10, color='#4A2E19')
 
-        plt.suptitle('%s (%i, %s), %s, %s %s\nPercentile Rankings'
-                     %(name, age, player_pos, team, season, league),
+        plt.suptitle('%s (%i, %s, %i mins.), %s, %s %s\nPercentile Rankings'
+                     %(name, age, player_pos, minplay, team, season, league),
                      fontsize=17,
                      fontfamily="DejaVu Sans",
                     color="#4A2E19", #4A2E19
@@ -1229,18 +1230,16 @@ try:
                  league = league,  ######
                  season = '2022',  ######
                  xtra = ' current',  ######
-    #              xtra = '',  ######
                  template = template[ix],
                  pos_buckets = pos_buckets[ix],
                  pos = pos[ix],
                  player_pos = ws_pos[ix],
                  compares = compares[ix],
                  mins = mins,
-    #              name = 'Raimonds Krollis',  ######
+                minplay=minplay,
                  name = gen['Player'].values[0],
                  ws_name = gen['Player'].values[0],
                  team = gen['Team within selected timeframe'].values[0],
-    #              team = 'Valmiera',
                  age = gen['Age'].values[0],
                  sig = 'Twitter: @BeGriffis',
                  club_image = 'n',
