@@ -874,283 +874,285 @@ def scout_report(ws_datapath, league, season, xtra, template, pos_buckets, pos, 
 #     ax.set_facecolor('#fbf9f4')
     fig.set_size_inches(12, (12*.9)) #length, height
 
-    fig.show()
-
-    ####################################################################
+#     fig.show()
     
-#     if analysis == 'distribution':
-    import matplotlib
-    matplotlib.rcParams['figure.dpi'] = 250
+    return fig
+
+#     ####################################################################
+    
+# #     if analysis == 'distribution':
+#     import matplotlib
+#     matplotlib.rcParams['figure.dpi'] = 250
 
 
-    sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0)})
-    c = {'Metric': [], 'Value': [], 'Player': [], 'TrueVal': [], 'Group': []}
-    distdf = pd.DataFrame(c)
+#     sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0)})
+#     c = {'Metric': [], 'Value': [], 'Player': [], 'TrueVal': [], 'Group': []}
+#     distdf = pd.DataFrame(c)
 
-    if template == 'attacking':
-        var_list = [mid1,mid2,mid3,extra3,
-                   mid4,mid5, extra5, mid6,mid7,extra4,
-                   fwd2,fwd1,fwd6, extra9, extra2, fwd11,
-                   fwd5, extra6, mid10, mid9,
-                   def1, mid12,def8,]
-    if template == 'defensive':
-        var_list = [def1, def2,def3,def6, def7, extra7,def8,
-                    def9, extra3,def10, def11, def12,fwd5,extra6,mid5,
-                    def4,def5,extra8]
-    if template == 'cb':
-        var_list = [def1, def2,def3,def6, def7, extra7,def8,
-                    def9,def10, def11, def12,fwd5,extra6,mid5,
-                    def4,def5,extra8]
-    if template == 'gk':
-        var_list = [gk1, gk2,gk3,gk4, gk5, gk6,gk7,
-                    gk8, gk9,gk10]
-
-
-    for i in range(len(var_list)):
-        n1 = var_list[i]
-        n2 = df_pros[var_list[i]].values
-        n2 = ((n2-min(n2))/(max(n2)-min(n2)))*len(n2)
-        n3 = df_pros['Player'].values
-        n4 = df_pros[var_list[i]].values
-        n5 = GROUP[i]
-        new = {'Metric': n1, 'Value': n2, 'Player': n3, 'TrueVal': n4, 'Group': n5}
-        new_row = pd.DataFrame(new)
-        distdf = distdf.append(new_row)
-
-    distdf = distdf.reset_index(drop=True)
-
-    if template == 'attacking':
-        distdf['Metric'] = distdf['Metric'].replace({mid1: "Short & Med\nPass %",
-                                    mid2: "Long\nPass %",
-                                    mid3: "Smart\nPass %",
-                                    extra3: 'Cross\nCompletion %',
-                                    mid4: "Shot Assists",
-                                    mid5: "Expected\nAssists (xA)",
-                                    extra5: 'xA per\nShot Assist',
-                                    mid6: "Assists",
-                                    mid7: "Second\nAssists",
-                                    extra4: 'Smart Passes',
-                                  fwd2: "npxG",
-                                   fwd1: "Non-Pen\nGoals",
-                                    fwd6: "Goals/Shot\non Target %",
-                                      extra9: 'npxG\nper shot',
-                                    extra2: "Shots",
-                                      fwd11: 'Touches in\nPen Box',
-                                     fwd5: "Dribble\nSuccess %",
-                                      extra6: 'Accelerations\nwith Ball',
-                                    mid10: "Progressive\nCarries",
-                                    mid9: "Progressive\nPasses",
-                                    def1: "Defensive\nActions",
-                                    mid12: "Tackles & Int\n(pAdj)",
-                                      def8: 'Aerial\nWin %'
-                                     })
-    if template == 'defensive':
-        distdf['Metric'] = distdf['Metric'].replace({def1: 'Defensive\nActions',
-                                  def2: "Tackles\n(pAdj)",
-                                  def3: "Defensive\nDuels Won %",
-                                  def6: "Shot Blocks",
-                                  def7: "Interceptions\n(pAdj)",
-                                  extra7: 'Aerial Duels\nWon',
-                                  def8: "Aerial\nWin %",
-                                  def9: "Long\nPass %",
-                                extra10: "Crosses",
-                                  extra3: 'Cross\nCompletion %',
-                                  def10: "Assists &\n2nd/3rd Assists",
-                                  def11: "Progressive\nPasses",
-                                  def12: "Progressive\nCarries",
-                                  fwd5: "Dribble\nSucces %",
-                                  extra6: 'Accelerations\nwith Ball',
-                                  mid5: "Expected\nAssists",
-                                  def4: "Fouls",
-                                  def5: "Cards",
-                                  extra8: 'Fouls Drawn'
-                                 })
-    if template == 'cb':
-        distdf['Metric'] = distdf['Metric'].replace({def1: 'Defensive\nActions',
-                                  def2: "Tackles\n(pAdj)",
-                                  def3: "Defensive\nDuels Won %",
-                                  def6: "Shot Blocks",
-                                  def7: "Interceptions\n(pAdj)",
-                                  extra7: 'Aerial Duels\nWon',
-                                  def8: "Aerial\nWin %",
-                                  def9: "Long\nPass %",
-                                  def10: "Assists &\n2nd/3rd Assists",
-                                  def11: "Progressive\nPasses",
-                                  def12: "Progressive\nCarries",
-                                  fwd5: "Dribble\nSucces %",
-                                  extra6: 'Accelerations\nwith Ball',
-                                  mid5: "Expected\nAssists",
-                                  def4: "Fouls",
-                                  def5: "Cards",
-                                  extra8: 'Fouls Drawn'
-                                 })
-    if template == 'gk':
-        distdf['Metric'] = distdf['Metric'].replace({gk1: "Goals\nConceded",
-                                  gk2: "Goals Prevented\nvs Expected",
-                                  gk3: "Shots Against",
-                                  gk4: "Save %",
-                                  gk5: "Clean Sheet %",
-                                  gk6: "Att. Cross Claims\nor Punches",
-                                  gk7: "Aerial Wins",
-                                  gk8: "Passes",
-                                  gk9: "Long Passes",
-                                  gk10: "Long\nPass %",
-                                 })
+#     if template == 'attacking':
+#         var_list = [mid1,mid2,mid3,extra3,
+#                    mid4,mid5, extra5, mid6,mid7,extra4,
+#                    fwd2,fwd1,fwd6, extra9, extra2, fwd11,
+#                    fwd5, extra6, mid10, mid9,
+#                    def1, mid12,def8,]
+#     if template == 'defensive':
+#         var_list = [def1, def2,def3,def6, def7, extra7,def8,
+#                     def9, extra3,def10, def11, def12,fwd5,extra6,mid5,
+#                     def4,def5,extra8]
+#     if template == 'cb':
+#         var_list = [def1, def2,def3,def6, def7, extra7,def8,
+#                     def9,def10, def11, def12,fwd5,extra6,mid5,
+#                     def4,def5,extra8]
+#     if template == 'gk':
+#         var_list = [gk1, gk2,gk3,gk4, gk5, gk6,gk7,
+#                     gk8, gk9,gk10]
 
 
-    x = distdf['Value']
-    g = list(distdf.Metric)
-    df_1 = pd.DataFrame(dict(x=x, g=g))
+#     for i in range(len(var_list)):
+#         n1 = var_list[i]
+#         n2 = df_pros[var_list[i]].values
+#         n2 = ((n2-min(n2))/(max(n2)-min(n2)))*len(n2)
+#         n3 = df_pros['Player'].values
+#         n4 = df_pros[var_list[i]].values
+#         n5 = GROUP[i]
+#         new = {'Metric': n1, 'Value': n2, 'Player': n3, 'TrueVal': n4, 'Group': n5}
+#         new_row = pd.DataFrame(new)
+#         distdf = distdf.append(new_row)
+
+#     distdf = distdf.reset_index(drop=True)
+
+#     if template == 'attacking':
+#         distdf['Metric'] = distdf['Metric'].replace({mid1: "Short & Med\nPass %",
+#                                     mid2: "Long\nPass %",
+#                                     mid3: "Smart\nPass %",
+#                                     extra3: 'Cross\nCompletion %',
+#                                     mid4: "Shot Assists",
+#                                     mid5: "Expected\nAssists (xA)",
+#                                     extra5: 'xA per\nShot Assist',
+#                                     mid6: "Assists",
+#                                     mid7: "Second\nAssists",
+#                                     extra4: 'Smart Passes',
+#                                   fwd2: "npxG",
+#                                    fwd1: "Non-Pen\nGoals",
+#                                     fwd6: "Goals/Shot\non Target %",
+#                                       extra9: 'npxG\nper shot',
+#                                     extra2: "Shots",
+#                                       fwd11: 'Touches in\nPen Box',
+#                                      fwd5: "Dribble\nSuccess %",
+#                                       extra6: 'Accelerations\nwith Ball',
+#                                     mid10: "Progressive\nCarries",
+#                                     mid9: "Progressive\nPasses",
+#                                     def1: "Defensive\nActions",
+#                                     mid12: "Tackles & Int\n(pAdj)",
+#                                       def8: 'Aerial\nWin %'
+#                                      })
+#     if template == 'defensive':
+#         distdf['Metric'] = distdf['Metric'].replace({def1: 'Defensive\nActions',
+#                                   def2: "Tackles\n(pAdj)",
+#                                   def3: "Defensive\nDuels Won %",
+#                                   def6: "Shot Blocks",
+#                                   def7: "Interceptions\n(pAdj)",
+#                                   extra7: 'Aerial Duels\nWon',
+#                                   def8: "Aerial\nWin %",
+#                                   def9: "Long\nPass %",
+#                                 extra10: "Crosses",
+#                                   extra3: 'Cross\nCompletion %',
+#                                   def10: "Assists &\n2nd/3rd Assists",
+#                                   def11: "Progressive\nPasses",
+#                                   def12: "Progressive\nCarries",
+#                                   fwd5: "Dribble\nSucces %",
+#                                   extra6: 'Accelerations\nwith Ball',
+#                                   mid5: "Expected\nAssists",
+#                                   def4: "Fouls",
+#                                   def5: "Cards",
+#                                   extra8: 'Fouls Drawn'
+#                                  })
+#     if template == 'cb':
+#         distdf['Metric'] = distdf['Metric'].replace({def1: 'Defensive\nActions',
+#                                   def2: "Tackles\n(pAdj)",
+#                                   def3: "Defensive\nDuels Won %",
+#                                   def6: "Shot Blocks",
+#                                   def7: "Interceptions\n(pAdj)",
+#                                   extra7: 'Aerial Duels\nWon',
+#                                   def8: "Aerial\nWin %",
+#                                   def9: "Long\nPass %",
+#                                   def10: "Assists &\n2nd/3rd Assists",
+#                                   def11: "Progressive\nPasses",
+#                                   def12: "Progressive\nCarries",
+#                                   fwd5: "Dribble\nSucces %",
+#                                   extra6: 'Accelerations\nwith Ball',
+#                                   mid5: "Expected\nAssists",
+#                                   def4: "Fouls",
+#                                   def5: "Cards",
+#                                   extra8: 'Fouls Drawn'
+#                                  })
+#     if template == 'gk':
+#         distdf['Metric'] = distdf['Metric'].replace({gk1: "Goals\nConceded",
+#                                   gk2: "Goals Prevented\nvs Expected",
+#                                   gk3: "Shots Against",
+#                                   gk4: "Save %",
+#                                   gk5: "Clean Sheet %",
+#                                   gk6: "Att. Cross Claims\nor Punches",
+#                                   gk7: "Aerial Wins",
+#                                   gk8: "Passes",
+#                                   gk9: "Long Passes",
+#                                   gk10: "Long\nPass %",
+#                                  })
 
 
-    team_unique = list(df_1.g.unique())
-    num_teams = len(team_unique)
-    means_ = range(0,num_teams)
-    meds_ = range(0,num_teams)
-    d = {'g': team_unique, 'Mean': means_, 'Median': meds_}
-    df_means = pd.DataFrame(data=d)
-
-    for i in range(len(team_unique)):
-        a = df_1[df_1['g']==team_unique[i]]
-        mu = float(a.mean())
-        med = float(a.median())
-        df_means['g'].iloc[i] = team_unique[i]
-        df_means['Mean'].iloc[i] = mu
-        df_means['Median'].iloc[i] = med
-    y_order = list(df_means['g'])
-
-    df_1 = df_1.merge(df_means, on='g', how='left')
-
-    # add in extra columns
-    df_1['Player'] = distdf['Player']
-    df_1['Value'] = distdf['Value']
-    df_1['TrueVal'] = distdf['TrueVal']
-    df_1['Group'] = distdf['Group']
-    player_df = df_1[df_1['Player']==ws_name].reset_index(drop=True)
-    line_val = player_df['Value']
-    true_val = round(player_df['TrueVal'], 2)
-    labels = df_1['g'].unique()
-
-    COLORS = [f"C{i}" for i, size in enumerate(GROUPS_SIZE) for _ in range(size)]
-    # Initialize the FacetGrid object
-    pal = sns.cubehelix_palette(num_teams, rot=2.5, light=.5)
-    g = sns.FacetGrid(df_1, hue='Group', row="g", aspect=15, height=.5, row_order=y_order,
-    #                   palette=pal,
-                     )
-
-    # Draw the densities in a few steps
-    g.map(sns.kdeplot, "x",
-          bw_adjust=.5, clip_on=False,
-          fill=True, alpha=1, linewidth=1.5)
-    g.map(sns.kdeplot, "x", clip_on=False, color="w", lw=2, bw_adjust=.5,)
+#     x = distdf['Value']
+#     g = list(distdf.Metric)
+#     df_1 = pd.DataFrame(dict(x=x, g=g))
 
 
-    # draw each distribution's line
-    for ax, val, COLORS, tval in zip(g.axes.flat, line_val, COLORS, true_val):
-        ax.axvline(x=val, color='white', linestyle='solid', ymin=0, ymax=.7, lw=4)
-        ax.axvline(x=val, color=COLORS, linestyle='solid', ymin=0, ymax=.7, lw=2)
-        ax.text(max(df_1['Value'])+((max(df_1['Value'])-min(df_1['Value']))/6), 0.01, tval, color=COLORS, fontweight='bold')
+#     team_unique = list(df_1.g.unique())
+#     num_teams = len(team_unique)
+#     means_ = range(0,num_teams)
+#     meds_ = range(0,num_teams)
+#     d = {'g': team_unique, 'Mean': means_, 'Median': meds_}
+#     df_means = pd.DataFrame(data=d)
+
+#     for i in range(len(team_unique)):
+#         a = df_1[df_1['g']==team_unique[i]]
+#         mu = float(a.mean())
+#         med = float(a.median())
+#         df_means['g'].iloc[i] = team_unique[i]
+#         df_means['Mean'].iloc[i] = mu
+#         df_means['Median'].iloc[i] = med
+#     y_order = list(df_means['g'])
+
+#     df_1 = df_1.merge(df_means, on='g', how='left')
+
+#     # add in extra columns
+#     df_1['Player'] = distdf['Player']
+#     df_1['Value'] = distdf['Value']
+#     df_1['TrueVal'] = distdf['TrueVal']
+#     df_1['Group'] = distdf['Group']
+#     player_df = df_1[df_1['Player']==ws_name].reset_index(drop=True)
+#     line_val = player_df['Value']
+#     true_val = round(player_df['TrueVal'], 2)
+#     labels = df_1['g'].unique()
+
+#     COLORS = [f"C{i}" for i, size in enumerate(GROUPS_SIZE) for _ in range(size)]
+#     # Initialize the FacetGrid object
+#     pal = sns.cubehelix_palette(num_teams, rot=2.5, light=.5)
+#     g = sns.FacetGrid(df_1, hue='Group', row="g", aspect=15, height=.5, row_order=y_order,
+#     #                   palette=pal,
+#                      )
+
+#     # Draw the densities in a few steps
+#     g.map(sns.kdeplot, "x",
+#           bw_adjust=.5, clip_on=False,
+#           fill=True, alpha=1, linewidth=1.5)
+#     g.map(sns.kdeplot, "x", clip_on=False, color="w", lw=2, bw_adjust=.5,)
 
 
-    # passing color=None to refline() uses the hue mapping
-    g.refline(y=0, linewidth=2, linestyle="-", color=None, clip_on=False)
-
-    COLORS = [f"C{i}" for i, size in enumerate(GROUPS_SIZE) for _ in range(size)]
-#     path_eff = [path_effects.Stroke(linewidth=.5, foreground='white'), path_effects.Normal()]
-    for ax, val, COLORS, lab in zip(g.axes.flat, line_val, COLORS, labels):
-        ax.text(min(df_1['Value'])-((max(df_1['Value'])-min(df_1['Value']))/3), 0.01, lab, color='w', fontweight='bold', fontsize=12.1)
-        ax.text(min(df_1['Value'])-((max(df_1['Value'])-min(df_1['Value']))/3), 0.01, lab, color=COLORS, fontweight='bold')
-
-    # Set the subplots to overlap
-    g.figure.subplots_adjust(hspace=-.1)
-
-    # Remove axes details that don't play well with overlap
-    g.set_titles("")
-    g.set(yticks=[], xticks=[], ylabel='', xlabel='')
-    g.despine(bottom=True, left=True)
-
-    fig = plt.gcf()
-    fig.patch.set_facecolor('#fbf9f4')
-    fig.set_size_inches(7, 15)
-
-    plt.suptitle('%s (%i, %s), %s, %s %s'
-                 %(name, age, player_pos, team, season, league),
-                 fontsize=15,
-                 fontfamily="DejaVu Sans",
-                color="#4A2E19", #4A2E19
-                 fontweight="bold", fontname="DejaVu Sans",
-                x=0.5,
-                y=1.01)
-
-    plt.annotate("All values are per 90 minutes%s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
-                 xy = (0, -.6), xycoords='axes fraction',
-                ha='left', va='center',
-                fontsize=9, fontfamily="DejaVu Sans",
-                color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                )   
-
-    if template == 'attacking':
-        plt.annotate("Per 90' Number",
-                     xy = (.85, 20.6), xycoords='axes fraction',
-                    ha='left', va='center',
-                    fontsize=9, fontfamily="DejaVu Sans",
-                    color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                    )  
-        plt.annotate("Metric",
-                     xy = (0, 20.6), xycoords='axes fraction',
-                    ha='left', va='center',
-                    fontsize=9, fontfamily="DejaVu Sans",
-                    color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                    )
-    if template == 'defensive':
-        plt.annotate("Per 90' Number",
-                     xy = (.85, 16), xycoords='axes fraction',
-                    ha='left', va='center',
-                    fontsize=9, fontfamily="DejaVu Sans",
-                    color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                    )  
-        plt.annotate("Metric",
-                     xy = (0, 16), xycoords='axes fraction',
-                    ha='left', va='center',
-                    fontsize=9, fontfamily="DejaVu Sans",
-                    color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                    )  
-    if template == 'cb':
-        plt.annotate("Per 90' Number",
-                     xy = (.85, 15), xycoords='axes fraction',
-                    ha='left', va='center',
-                    fontsize=9, fontfamily="DejaVu Sans",
-                    color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                    )  
-        plt.annotate("Metric",
-                     xy = (0, 15), xycoords='axes fraction',
-                    ha='left', va='center',
-                    fontsize=9, fontfamily="DejaVu Sans",
-                    color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                    )  
-    if template == 'gk':
-        plt.annotate("Per 90' Number",
-                     xy = (.85, 9), xycoords='axes fraction',
-                    ha='left', va='center',
-                    fontsize=9, fontfamily="DejaVu Sans",
-                    color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                    )  
-        plt.annotate("Metric",
-                     xy = (0, 9), xycoords='axes fraction',
-                    ha='left', va='center',
-                    fontsize=9, fontfamily="DejaVu Sans",
-                    color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-                    )  
+#     # draw each distribution's line
+#     for ax, val, COLORS, tval in zip(g.axes.flat, line_val, COLORS, true_val):
+#         ax.axvline(x=val, color='white', linestyle='solid', ymin=0, ymax=.7, lw=4)
+#         ax.axvline(x=val, color=COLORS, linestyle='solid', ymin=0, ymax=.7, lw=2)
+#         ax.text(max(df_1['Value'])+((max(df_1['Value'])-min(df_1['Value']))/6), 0.01, tval, color=COLORS, fontweight='bold')
 
 
-    if club_image == 'y':
-        from PIL import Image
-        image = Image.open('%s/%s/%s.png' %(imgpath,league,team))
-        newax = fig.add_axes([.8,-.03,0.08,0.08], anchor='C', zorder=1)
-        newax.imshow(image)
-        newax.axis('off')
-    fig = plt.gcf()
-    fig.show()        
+#     # passing color=None to refline() uses the hue mapping
+#     g.refline(y=0, linewidth=2, linestyle="-", color=None, clip_on=False)
+
+#     COLORS = [f"C{i}" for i, size in enumerate(GROUPS_SIZE) for _ in range(size)]
+# #     path_eff = [path_effects.Stroke(linewidth=.5, foreground='white'), path_effects.Normal()]
+#     for ax, val, COLORS, lab in zip(g.axes.flat, line_val, COLORS, labels):
+#         ax.text(min(df_1['Value'])-((max(df_1['Value'])-min(df_1['Value']))/3), 0.01, lab, color='w', fontweight='bold', fontsize=12.1)
+#         ax.text(min(df_1['Value'])-((max(df_1['Value'])-min(df_1['Value']))/3), 0.01, lab, color=COLORS, fontweight='bold')
+
+#     # Set the subplots to overlap
+#     g.figure.subplots_adjust(hspace=-.1)
+
+#     # Remove axes details that don't play well with overlap
+#     g.set_titles("")
+#     g.set(yticks=[], xticks=[], ylabel='', xlabel='')
+#     g.despine(bottom=True, left=True)
+
+#     fig = plt.gcf()
+#     fig.patch.set_facecolor('#fbf9f4')
+#     fig.set_size_inches(7, 15)
+
+#     plt.suptitle('%s (%i, %s), %s, %s %s'
+#                  %(name, age, player_pos, team, season, league),
+#                  fontsize=15,
+#                  fontfamily="DejaVu Sans",
+#                 color="#4A2E19", #4A2E19
+#                  fontweight="bold", fontname="DejaVu Sans",
+#                 x=0.5,
+#                 y=1.01)
+
+#     plt.annotate("All values are per 90 minutes%s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
+#                  xy = (0, -.6), xycoords='axes fraction',
+#                 ha='left', va='center',
+#                 fontsize=9, fontfamily="DejaVu Sans",
+#                 color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                 )   
+
+#     if template == 'attacking':
+#         plt.annotate("Per 90' Number",
+#                      xy = (.85, 20.6), xycoords='axes fraction',
+#                     ha='left', va='center',
+#                     fontsize=9, fontfamily="DejaVu Sans",
+#                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                     )  
+#         plt.annotate("Metric",
+#                      xy = (0, 20.6), xycoords='axes fraction',
+#                     ha='left', va='center',
+#                     fontsize=9, fontfamily="DejaVu Sans",
+#                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                     )
+#     if template == 'defensive':
+#         plt.annotate("Per 90' Number",
+#                      xy = (.85, 16), xycoords='axes fraction',
+#                     ha='left', va='center',
+#                     fontsize=9, fontfamily="DejaVu Sans",
+#                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                     )  
+#         plt.annotate("Metric",
+#                      xy = (0, 16), xycoords='axes fraction',
+#                     ha='left', va='center',
+#                     fontsize=9, fontfamily="DejaVu Sans",
+#                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                     )  
+#     if template == 'cb':
+#         plt.annotate("Per 90' Number",
+#                      xy = (.85, 15), xycoords='axes fraction',
+#                     ha='left', va='center',
+#                     fontsize=9, fontfamily="DejaVu Sans",
+#                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                     )  
+#         plt.annotate("Metric",
+#                      xy = (0, 15), xycoords='axes fraction',
+#                     ha='left', va='center',
+#                     fontsize=9, fontfamily="DejaVu Sans",
+#                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                     )  
+#     if template == 'gk':
+#         plt.annotate("Per 90' Number",
+#                      xy = (.85, 9), xycoords='axes fraction',
+#                     ha='left', va='center',
+#                     fontsize=9, fontfamily="DejaVu Sans",
+#                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                     )  
+#         plt.annotate("Metric",
+#                      xy = (0, 9), xycoords='axes fraction',
+#                     ha='left', va='center',
+#                     fontsize=9, fontfamily="DejaVu Sans",
+#                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
+#                     )  
+
+
+#     if club_image == 'y':
+#         from PIL import Image
+#         image = Image.open('%s/%s/%s.png' %(imgpath,league,team))
+#         newax = fig.add_axes([.8,-.03,0.08,0.08], anchor='C', zorder=1)
+#         newax.imshow(image)
+#         newax.axis('off')
+#     fig = plt.gcf()
+#     fig.show()        
 
 
 #######################################################################################################
@@ -1186,5 +1188,4 @@ scout_report(ws_datapath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/Wysco
 #              extra_text = ' | Data final for 21-22',  ######
             )
 
-
-
+fig.show()
