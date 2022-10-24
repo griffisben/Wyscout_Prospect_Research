@@ -5,5 +5,3 @@ numpy
 scipy
 statistics
 streamlit
-urllib
-PIL
