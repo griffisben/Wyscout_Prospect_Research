@@ -10,7 +10,7 @@ sns.set_style("white")
 
 st.title('Prospect Research')
 st.header('All data from Wyscout')
-st.header('Created by Ben Griffis (@BeGriffis')
+st.header('Created by Ben Griffis (@BeGriffis)')
 
 ##################################################################
 
@@ -142,16 +142,16 @@ def10 = "1st, 2nd, 3rd assists"
 def11 = "Progressive passes per 90"
 def12 = "Progressive runs per 90"
 # #GOALKEEPER
-gk1 = "Conceded goals per 90"
-gk2 = "Prevented goals per 90"
-gk3 = "Shots against per 90"
-gk4 = "Save rate, %"
-gk5 = "Clean sheets, %"
-gk6 = "Exits per 90"
-gk7 = "Aerial duels per 90"
-gk8 = "Passes per 90"
-gk9 = "Accurate long passes, %"
-gk10 = "Average long pass length, m"
+# gk1 = "Conceded goals per 90"
+# gk2 = "Prevented goals per 90"
+# gk3 = "Shots against per 90"
+# gk4 = "Save rate, %"
+# gk5 = "Clean sheets, %"
+# gk6 = "Exits per 90"
+# gk7 = "Aerial duels per 90"
+# gk8 = "Passes per 90"
+# gk9 = "Accurate long passes, %"
+# gk10 = "Average long pass length, m"
 #EXTRA
 extra = "Accurate passes, %"
 extra2 = 'Shots per 90'
@@ -224,7 +224,9 @@ dfProspect["extrapct9"] = stats.rankdata(dfProspect[extra9], "average")/len(dfPr
 dfProspect["extrapct10"] = stats.rankdata(dfProspect[extra10], "average")/len(dfProspect[extra10])
 
 final = dfProspect[['Player','Age','League','Position','Team within selected timeframe','Birth country', 'Contract expires',
-'fwdpct1','fwdpct2','fwdpct5','fwdpct6','fwdpct11','midpct1','midpct3','midpct4','midpct5','midpct6','midpct7','midpct8','midpct9','midpct10','midpct11','midpct12','defpct1','defpct2','defpct3','defpct4','defpct5','defpct6','defpct7','defpct8','defpct9','defpct10','gkpct1','gkpct2','gkpct3','gkpct4','gkpct5','gkpct6','gkpct7','gkpct8','gkpct10','extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
+'fwdpct1','fwdpct2','fwdpct5','fwdpct6','fwdpct11','midpct1','midpct3','midpct4','midpct5','midpct6','midpct7','midpct8','midpct9','midpct10','midpct11','midpct12','defpct1','defpct2','defpct3','defpct4','defpct5','defpct6','defpct7','defpct8','defpct9','defpct10',
+#                     'gkpct1','gkpct2','gkpct3','gkpct4','gkpct5','gkpct6','gkpct7','gkpct8','gkpct10',
+                    'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
 ]]
 
 final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
@@ -253,15 +255,15 @@ final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
 'defpct8': "Aerial duels won, %",
 'defpct9': "Accurate long passes, %",
 'defpct10': "1st, 2nd, 3rd assists",
-'gkpct1': "Conceded goals per 90",
-'gkpct2': "Prevented goals per 90",
-'gkpct3': "Shots against per 90",
-'gkpct4': "Save rate, %",
-'gkpct5': "Clean sheets, %",
-'gkpct6': "Exits per 90",
-'gkpct7': "Aerial duels per 90",
-'gkpct8': "Passes per 90",
-'gkpct10': "Average long pass length, m",
+# 'gkpct1': "Conceded goals per 90",
+# 'gkpct2': "Prevented goals per 90",
+# 'gkpct3': "Shots against per 90",
+# 'gkpct4': "Save rate, %",
+# 'gkpct5': "Clean sheets, %",
+# 'gkpct6': "Exits per 90",
+# 'gkpct7': "Aerial duels per 90",
+# 'gkpct8': "Passes per 90",
+# 'gkpct10': "Average long pass length, m",
 'extrapct': "Accurate passes, %",
 'extrapct2': "Shots per 90",
 'extrapct3': "Accurate crosses, %",
@@ -280,7 +282,6 @@ final.sort_values(by=['Age'], inplace=True)
 final = final[final['Age']<=maxage].reset_index(drop=True)
 
 ##################################################################################################
-st.header('Select your desired minimum percentile filter')
 
 with st.sidebar:
     st.header('Minimum Percentile Filters')
