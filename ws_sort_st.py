@@ -22,7 +22,7 @@ st.subheader('Created by Ben Griffis (@BeGriffis)')
 with st.expander('Read App Details'):
     st.write('''
     This app helps you find players that meet specific criteria.
-    First, choose a league, position, minimum minutes threshold, and maximum age.
+    First, *using the sidebar on the left*, choose a league, position, minimum minutes threshold, and maximum age.
     These will determine the sample size of players that percentile ratings will generate for.
     Then, use the metric filters on the sidebar to pass minimum percentile ranking thresholds.
     Players not meeting all of these criteria will be filtered out.
