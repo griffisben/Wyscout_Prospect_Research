@@ -904,7 +904,7 @@ try:
         ax.text(0.15, 0.8 + PAD, "80", size=10, color='#4A2E19')
         ax.text(0.15, 1 + PAD, "100", size=10, color='#4A2E19')
 
-        plt.suptitle('%s (%i, %s, %i mins.), %s, %s %s\nPercentile Rankings'
+        plt.suptitle('%s (%i, %s, %i mins.), %s\n%s %s Percentile Rankings'
                      %(name, age, player_pos, minplay, team, season, league),
                      fontsize=17,
                      fontfamily="DejaVu Sans",
