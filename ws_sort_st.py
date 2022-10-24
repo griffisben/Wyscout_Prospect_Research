@@ -10,6 +10,7 @@ sns.set_style("white")
 import warnings
 warnings.filterwarnings('ignore')
 import matplotlib
+from PIL import Image
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
@@ -857,7 +858,6 @@ def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, m
     new_league = league.replace(' ','%20')
     if club_image == 'y':
         ######## Club Image ########
-        from PIL import Image
         image = Image.open('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club Images/%s/%s.png' %(league,team))
         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
         newax.imshow(image)
