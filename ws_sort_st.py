@@ -924,14 +924,14 @@ try:
         new_league = league.replace(' ','%20')
         if club_image == 'y':
             ######## Club Image ########
-            clubpath = 'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/%s/%s.png' %(league.replace(' ','%20'),team.replace(' ','%20'))
+            clubpath = 'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%sImages/%s/%s.png' %('%20',league.replace(' ','%20'),team.replace(' ','%20'))
             image = Image.open(urlopen(clubpath))
             newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
             newax.imshow(image)
             newax.axis('off')
 
             ######## League Logo Image ########
-            l_path = 'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/%s/%s Logo.png' %(league.replace(' ','%20'),league.replace(' ','%20'))
+            l_path = 'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%sImages/%s/%s Logo.png' %('%20',league.replace(' ','%20'),league.replace(' ','%20'))
             l_image = Image.open(urlopen(l_path))
             newax = fig.add_axes([.76,.845,0.1,0.1], anchor='C', zorder=1)
             newax.imshow(l_image)
