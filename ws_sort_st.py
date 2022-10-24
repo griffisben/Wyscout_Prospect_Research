@@ -10,7 +10,6 @@ sns.set_style("white")
 import warnings
 warnings.filterwarnings('ignore')
 import matplotlib
-from PIL import Image
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
