@@ -280,21 +280,22 @@ final.sort_values(by=['Age'], inplace=True)
 final = final[final['Age']<=maxage].reset_index(drop=True)
 
 ##################################################################################################
+st.header('Select your desired minimum percentile filter')
 
 with st.sidebar:
     st.header('Minimum Percentile Filters')
-    npg = st.slider('Non-penalty goals per 90 ', 0.0, 1.0, 0.5)
-    npxg = st.slider('npxG per 90 ', 0.0, 1.0, 0.5)
-    drib = st.slider('Successful dribbles, % ', 0.0, 1.0, 0.5)
-    gc = st.slider('Goal conversion, % ', 0.0, 1.0, 0.5)
-    boxtouch = st.slider('Touches in box per 90 ', 0.0, 1.0, 0.5)
+    short = st.slider('Short & Medium Pass Cmp % ', 0.0, 1.0, 0.5)
+    long = st.slider('Long Pass Cmp % ', 0.0, 1.0, 0.5)
+    smart = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.5)
+    crosspct = st.slider('Cross Cmp %', 0.0, 1.0, 0.5)
+    shotassist = st.slider('Shot Assists per 90 ', 0.0, 1.0, 0.5)
 
 
 
-final = final[(final['Non-penalty goals per 90']>=npg) &
-             (final['npxG per 90']>=npxg) &
-             (final['Successful dribbles, %']>=drib) &
-              (final['Goal conversion, %']>=gc) &
-              (final['Touches in box per 90']>=boxtouch)
+final = final[(final['Accurate short / medium passes, %']>=short) &
+             (final['Accurate long passes, %']>=long) &
+             (final['Accurate smart passes, %']>=smart) &
+              (final['Accurate crosses, %']>=crosspct) &
+              (final['Shot assists per 90']>=shotassist)
              ].reset_index(drop=True)
 final
