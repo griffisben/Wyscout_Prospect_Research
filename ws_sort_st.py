@@ -1249,11 +1249,6 @@ try:
                  extra_text = ' | Data as of 10/24/22',  ######
     #              extra_text = ' | Data final for 21-22',  ######
                 )
-    with open(radar_img, "rb") as file:
-        st.download_button(label='Download radar as a png',
-                          data=file,
-                          filename='%s Radar %s %s' %(name,season,league),
-                          mime='image/png')
     st.pyplot(radar_img)
 except:
     st.text('Please enter a valid name.')
