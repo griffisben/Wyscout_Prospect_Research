@@ -353,7 +353,7 @@ ix = ws_pos.index(gen['Main Position'].values[0])
 ##########################################################################################
 
 
-def scout_report(ws_datapath, league, season, xtra, template, pos_buckets, pos, player_pos, mins, compares, name, ws_name, team, age, sig, club_image, save_img, API_TWEET, folder_save, extra_text, savepath=None, imgpath=None):
+def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, mins, compares, name, ws_name, team, age, sig, club_image, extra_text):
     df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
     df = df[df['League']==league].reset_index(drop=True)
     df = df.dropna(subset=['Age', 'Position']).reset_index(drop=True)
@@ -1160,9 +1160,7 @@ def scout_report(ws_datapath, league, season, xtra, template, pos_buckets, pos, 
 #######################################################################################################
 #######################################################################################################
 
-radar_img = scout_report(ws_datapath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/Wyscout Data/Random Gen',
-             savepath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/GriffGraphs',
-             imgpath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/Images',
+radar_img = scout_report(
              league = league,  ######
              season = '2022',  ######
              xtra = ' current',  ######
@@ -1181,9 +1179,6 @@ radar_img = scout_report(ws_datapath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef
              age = gen['Age'].values[0],
              sig = 'Twitter: @BeGriffis',
              club_image = 'n',
-             save_img = 'n',
-             API_TWEET = 'n',
-             folder_save = 'n',
              extra_text = ' | Data as of 10/23/22',  ######
 #              extra_text = ' | Data final for 21-22',  ######
             )
