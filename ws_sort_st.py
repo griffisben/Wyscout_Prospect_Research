@@ -1187,4 +1187,4 @@ scout_report(ws_datapath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/Wysco
              extra_text = ' | Data as of 10/23/22',  ######
 #              extra_text = ' | Data final for 21-22',  ######
             )
-
+st.image(fig)
