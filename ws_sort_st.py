@@ -291,7 +291,7 @@ with st.sidebar:
     crosspct = st.slider('Cross Cmp %', 0.0, 1.0, 0.25)
     shotassist = st.slider('Shot Assists per 90 ', 0.0, 1.0, 0.25)
     xa = st.slider('xA per 90 ', 0.0, 1.0, 0.25)
-    xasa = st.slider('xA per 90 ', 0.0, 1.0, 0.25)
+    xasa = st.slider('xA per Shot Assist ', 0.0, 1.0, 0.25)
 
 
 
