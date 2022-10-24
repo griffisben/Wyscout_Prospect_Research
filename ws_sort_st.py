@@ -1179,7 +1179,7 @@ radar_img = scout_report(
 #              team = 'Valmiera',
              age = gen['Age'].values[0],
              sig = 'Twitter: @BeGriffis',
-             club_image = 'y',
+             club_image = 'n',
              extra_text = ' | Data as of 10/23/22',  ######
 #              extra_text = ' | Data final for 21-22',  ######
             )
