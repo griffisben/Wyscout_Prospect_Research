@@ -14,9 +14,18 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 st.title('Prospect Research')
-st.header('All data from Wyscout (updated as of 10/23/22)')
-st.header('Created by Ben Griffis (@BeGriffis)')
-st.text('This app helps you find players that meet specific criteria. First, choose a league, position, minimum minutes threshold, and maximum age. These will determine the sample size of players that percentile ratings will generate for. Then, use the metric filters on the sidebar to pass minimum percentile ranking thresholds. Players not meeting all of these criteria will be filtered out. Finally, you can type or copy+paste any of the player names into the textbox below to generate their radar chart.')
+st.subheader('All data from Wyscout (updated as of 10/23/22)')
+st.subheader('Created by Ben Griffis (@BeGriffis)')
+
+with st.expander('Read App Details'):
+    st.write('''
+    This app helps you find players that meet specific criteria.
+    First, choose a league, position, minimum minutes threshold, and maximum age.
+    These will determine the sample size of players that percentile ratings will generate for.
+    Then, use the metric filters on the sidebar to pass minimum percentile ranking thresholds.
+    Players not meeting all of these criteria will be filtered out.
+    Finally, you can type or copy+paste any of the player names into the textbox below to generate their radar chart.
+    ''')
 
 ##################################################################
 
