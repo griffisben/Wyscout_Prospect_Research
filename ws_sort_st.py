@@ -17,7 +17,7 @@ st.header('Created by Ben Griffis (@BeGriffis')
 df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 
 mins = st.slider('Minimum Minutes Played', 0, max(df['Minutes played'].astype(int)), 500)
-maxage = st.slider('Max Age', 17, 50, 25)
+maxage = st.slider('Max Age', 17, 45, 25)
 pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                 'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                 'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
