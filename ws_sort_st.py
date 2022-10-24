@@ -388,6 +388,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_
 
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
+page = st.text_input("Age of the player to generate (to guarantee the correct player)")
 
 try:
     df = df[df['Minutes played']>=mins].reset_index(drop=True)
@@ -417,7 +418,7 @@ try:
     template = ['attacking','attacking','defensive','defensive','attacking','defensive','defensive','attacking','attacking','cb','defensive','attacking','defensive','gk','defensive','attacking','attacking','attacking','attacking','cb','cb']
     compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central Midfielders','Central Midfielders','Wingers','CAMs & Wingers','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central Midfielders','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs']
 
-    gen = df1[df1['Player']==player]
+    gen = df1[(df1['Player']==player) & (df1['Age']==page)]
     ix = ws_pos.index(gen['Main Position'].values[0])
     minplay = int(gen['Minutes played'].values[0])
 
