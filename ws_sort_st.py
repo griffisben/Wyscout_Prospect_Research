@@ -388,7 +388,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_
 
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
-page = st.text_input("Age of the player to generate (to guarantee the correct player)")
+page = st.number_input("Age of the player to generate (to guarantee the correct player)")
 
 try:
     df = df[df['Minutes played']>=mins].reset_index(drop=True)
