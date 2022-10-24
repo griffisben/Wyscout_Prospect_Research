@@ -290,14 +290,18 @@ final = final[final['Age']<=maxage].reset_index(drop=True)
 
 with st.sidebar:
     st.header('Minimum Percentile Filters')
-    short = st.slider('Short & Medium Pass Cmp % ', 0.0, 1.0, 0.0)
-    long = st.slider('Long Pass Cmp % ', 0.0, 1.0, 0.0)
+    short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0)
+    long = st.slider('Long Pass Cmp %', 0.0, 1.0, 0.0)
     smart = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.0)
     crosspct = st.slider('Cross Cmp %', 0.0, 1.0, 0.0)
-    shotassist = st.slider('Shot Assists per 90 ', 0.0, 1.0, 0.0)
-    xa = st.slider('xA per 90 ', 0.0, 1.0, 0.0)
-    xasa = st.slider('xA per Shot Assist ', 0.0, 1.0, 0.0)
-
+    shotassist = st.slider('Shot Assists per 90', 0.0, 1.0, 0.0)
+    xa = st.slider('xA per 90', 0.0, 1.0, 0.0)
+    xasa = st.slider('xA per Shot Assist', 0.0, 1.0, 0.0)
+    ast = st.slider('Assists per 90', 0.0, 1.0, 0.0)
+    ast2 = st.slider('Second Assists per 90', 0.0, 1.0, 0.0)
+    smart = st.slider('Smart Passes per 90', 0.0, 1.0, 0.0)
+    npxg = st.slider('npxG per 90', 0.0, 1.0, 0.0)
+    npg = st.slider('Non-Pen Goals per 90', 0.0, 1.0, 0.0)
 
 
 
@@ -307,7 +311,12 @@ final = final[(final['Accurate short / medium passes, %']>=short) &
               (final['Accurate crosses, %']>=crosspct) &
               (final['Shot assists per 90']>=shotassist) &
               (final['xA per 90']>=xa) &
-              (final['xA per Shot Assist']>=xasa)
+              (final['xA per Shot Assist']>=xasa) &
+              (final['Assists per 90']>=ast) &
+              (final['Second assists per 90']>=ast2) &
+              (final['Smart passes per 90']>=smart) &
+              (final['npxG per 90']>=npxg) &
+              (final['Non-penalty goals per 90']>=npg)
              ].reset_index(drop=True)
 final
 
