@@ -16,13 +16,13 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 st.title('Prospect Research')
-st.subheader('All data from Wyscout (data updated as of 10/24/22)')
+st.subheader('All data from Wyscout (updated as of 10/23/22)')
 st.subheader('Created by Ben Griffis (@BeGriffis)')
 
 with st.expander('Read App Details'):
     st.write('''
     This app helps you find players that meet specific criteria.
-    First, *using the sidebar on the left*, choose a league, position, minimum minutes threshold, and maximum age.
+    First, choose a league, position, minimum minutes threshold, and maximum age.
     These will determine the sample size of players that percentile ratings will generate for.
     Then, use the metric filters on the sidebar to pass minimum percentile ranking thresholds.
     Players not meeting all of these criteria will be filtered out.
@@ -31,7 +31,10 @@ with st.expander('Read App Details'):
 
 ##################################################################
 
-df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+url = 'https://drive.google.com/file/d/1_ZTgUSfmLt7NFOYm103Pacj2CNTsSyj3/view?usp=sharing'
+pathdf = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+
+df = pd.read_csv(pathdf)
 df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
@@ -381,7 +384,7 @@ final
 ########################################################################################################
 ########################################################################################################
 
-df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+df = pd.read_csv(pathdf)
 
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
@@ -422,7 +425,9 @@ try:
 
 
     def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
-        df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+        url = 'https://drive.google.com/file/d/1_ZTgUSfmLt7NFOYm103Pacj2CNTsSyj3/view?usp=sharing'
+        pathdf = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+        df = pd.read_csv(pathdf)
         df = df[df['League']==league].reset_index(drop=True)
         df = df.dropna(subset=['Age', 'Position']).reset_index(drop=True)
         if league == 'Latvian Virsliga':
@@ -1250,4 +1255,11 @@ try:
     st.pyplot(radar_img)
 except:
     st.text('Please enter a valid name.')
+    
+    
+with st.expander('Metric Glossary'):
+    st.write('''
+    Short & Medium Pass Cmp % = Completion % of passes fewer than 40 meters long.  \n
+    
+    ''')
     
