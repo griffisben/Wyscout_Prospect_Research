@@ -16,7 +16,7 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 st.title('Prospect Research')
-st.subheader('All data from Wyscout (updated as of 10/23/22)')
+st.subheader('All data from Wyscout (data updated as of 10/24/22)')
 st.subheader('Created by Ben Griffis (@BeGriffis)')
 
 with st.expander('Read App Details'):
