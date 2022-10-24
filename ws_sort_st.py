@@ -292,7 +292,7 @@ with st.sidebar:
     st.header('Minimum Percentile Filters')
     short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0)
     long = st.slider('Long Pass Cmp %', 0.0, 1.0, 0.0)
-    smart = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.0)
+    smartpct = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.0)
     crosspct = st.slider('Cross Cmp %', 0.0, 1.0, 0.0)
     shotassist = st.slider('Shot Assists per 90', 0.0, 1.0, 0.0)
     xa = st.slider('xA per 90', 0.0, 1.0, 0.0)
@@ -302,21 +302,63 @@ with st.sidebar:
     smart = st.slider('Smart Passes per 90', 0.0, 1.0, 0.0)
     npxg = st.slider('npxG per 90', 0.0, 1.0, 0.0)
     npg = st.slider('Non-Pen Goals per 90', 0.0, 1.0, 0.0)
+    gc = st.slider('Goals per Shot on Target', 0.0, 1.0, 0.0)
+    npxgshot = st.slider('npxG per shot', 0.0, 1.0, 0.0)
+    shots = st.slider('Shots per 90', 0.0, 1.0, 0.0)
+    boxtouches = st.slider('Touches in Penalty Box per 90', 0.0, 1.0, 0.0)
+    drib = st.slider('Dribble Success %', 0.0, 1.0, 0.0)
+    accel = st.slider('Accelerations per 90', 0.0, 1.0, 0.0)
+    progcarry = st.slider('Progressive Carries per 90', 0.0, 1.0, 0.0)
+    progpass = st.slider('Progressive Passes per 90', 0.0, 1.0, 0.0)
+    defend = st.slider('Successful Defensive Actions per 90', 0.0, 1.0, 0.0)
+    tklint = st.slider('Tackles & Interceptions per 90', 0.0, 1.0, 0.0)
+    aerial = st.slider('Aerial Win %', 0.0, 1.0, 0.0)
+    tkl = st.slider('Sliding Tackles per 90', 0.0, 1.0, 0.0)
+    defduels = st.slider('Defensive Duels Success %', 0.0, 1.0, 0.0)
+    shotblock = st.slider('Shots Blocked per 90', 0.0, 1.0, 0.0)
+    intercept = st.slider('Interceptions per 90', 0.0, 1.0, 0.0)
+    aerialswon = st.slider('Aerials Won per 90', 0.0, 1.0, 0.0)
+    crosses = st.slider('Crosses per 90', 0.0, 1.0, 0.0)
+    ast123 = st.slider('1st, 2nd, & 3rd Assists', 0.0, 1.0, 0.0)
+    foul = st.slider('Fouls Committed per 90', 0.0, 1.0, 0.0)
+    fouldraw = st.slider('Fouls Drawn per 90', 0.0, 1.0, 0.0)
+    cards = st.slider('Cards per 90', 0.0, 1.0, 0.0)
 
 
 
 final = final[(final['Accurate short / medium passes, %']>=short) &
              (final['Accurate long passes, %']>=long) &
-             (final['Accurate smart passes, %']>=smart) &
+              (final['Smart passes per 90']>=smart) &
+             (final['Accurate smart passes, %']>=smartpct) &
+              (final['Crosses per 90']>=crosses) &
               (final['Accurate crosses, %']>=crosspct) &
               (final['Shot assists per 90']>=shotassist) &
               (final['xA per 90']>=xa) &
               (final['xA per Shot Assist']>=xasa) &
               (final['Assists per 90']>=ast) &
               (final['Second assists per 90']>=ast2) &
-              (final['Smart passes per 90']>=smart) &
+              (final['1st, 2nd, 3rd assists']>=ast123) &
               (final['npxG per 90']>=npxg) &
-              (final['Non-penalty goals per 90']>=npg)
+              (final['Non-penalty goals per 90']>=npg) &
+              (final['Goal conversion, %']>=gc) &
+              (final['npxG per shot']>=npxgshot) &
+              (final['Shots per 90']>=shots) &
+              (final['Touches in box per 90']>=boxtouches) &
+              (final['Successful dribbles, %']>=drib) &
+              (final['Accelerations per 90']>=accel) &
+              (final['Progressive runs per 90']>=progcarry) &
+              (final['Progressive passes per 90']>=progpass) &
+              (final['Successful defensive actions per 90']>=defend) &
+              (final['Defensive duels won, %']>=defduels) &
+              (final['pAdj Tkl+Int per 90']>=tklint) &
+              (final['pAdj Sliding tackles']>=tkl) &
+              (final['pAdj Interceptions']>=intercept) &
+              (final['Aerial duels won, %']>=aerial) &
+              (final['Aerial duels won per 90']>=aerialswon) &
+              (final['Shots blocked per 90']>=shotblock) &
+              (final['Fouls per 90']>=foul) &
+              (final['Fouls suffered per 90']>=fouldraw) &
+              (final['Cards per 90']>=cards) &
              ].reset_index(drop=True)
 final
 
