@@ -858,13 +858,13 @@ def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, m
     if club_image == 'y':
         ######## Club Image ########
         from PIL import Image
-        image = Image.open('https://github.com/griffisben/Wyscout_Prospect_Research/blob/main/Club%20Images/%s/%s.png' %(new_league,new_team))
+        image = Image.open('https://github.com/griffisben/Wyscout_Prospect_Research/blob/main/Club%20Images/%s/%s.png' %(league,team))
         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
         newax.imshow(image)
         newax.axis('off')
         
         ######## League Logo Image ########
-        l_image = Image.open('https://github.com/griffisben/Wyscout_Prospect_Research/blob/main/Club%20Images/%s/%s%20Logo.png' %(new_league,new_league))
+        l_image = Image.open('https://github.com/griffisben/Wyscout_Prospect_Research/blob/main/Club%20Images/%s/%s%20Logo.png' %(league,league))
         newax = fig.add_axes([.76,.845,0.1,0.1], anchor='C', zorder=1)
         newax.imshow(l_image)
         newax.axis('off')
