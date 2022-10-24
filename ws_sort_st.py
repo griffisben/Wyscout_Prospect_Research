@@ -10,6 +10,7 @@ sns.set_style("white")
 import warnings
 warnings.filterwarnings('ignore')
 import matplotlib
+import requests
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
@@ -923,13 +924,17 @@ try:
         new_league = league.replace(' ','%20')
         if club_image == 'y':
             ######## Club Image ########
-            image = Image.open('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club Images/%s/%s.png' %(league,team))
+            clubpath = 'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club Images/%s/%s.png' %(league,team)
+            clubresponse = requests.get(clubpath)
+            image = Image.open(BytesIO(response.content))
             newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
             newax.imshow(image)
             newax.axis('off')
 
             ######## League Logo Image ########
-            l_image = Image.open('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club Images/%s/%s Logo.png' %(league,league))
+            l_path = 'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club Images/%s/%s.png' %(league,team)
+            l_response = requests.get(l_path)
+            l_image = Image.open(BytesIO(response.content))
             newax = fig.add_axes([.76,.845,0.1,0.1], anchor='C', zorder=1)
             newax.imshow(l_image)
             newax.axis('off')
