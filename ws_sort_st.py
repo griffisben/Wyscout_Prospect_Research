@@ -1257,9 +1257,4 @@ except:
     st.text('Please enter a valid name.')
     
     
-with st.expander('Metric Glossary'):
-    st.write('''
-    Short & Medium Pass Cmp % = Completion % of passes fewer than 40 meters long.  \n
-    
-    ''')
     
