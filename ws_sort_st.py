@@ -36,7 +36,7 @@ df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
     st.header('Choose Basic Options')
-    league = st.selectbox('League', ('J1', 'J2', 'J3', 'K League 1', 'K League 2'))
+    league = st.selectbox('League', ('K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Virsliga', 'Eliteserien', 'Allsvenskan'))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
@@ -921,8 +921,6 @@ try:
                     fontsize=9, fontfamily="DejaVu Sans",
                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
                     ) 
-        new_team = team.replace(' ','%20')
-        new_league = league.replace(' ','%20')
         if club_image == 'y':
             ######## Club Image ########
             clubpath = 'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%sImages/%s/%s.png' %('%20',league.replace(' ','%20'),team.replace(' ','%20'))
