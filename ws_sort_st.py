@@ -563,7 +563,7 @@ def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, m
     
     ######################################################################
     
-    dfRadarMF = dfProspect[(dfProspect['Player']==ws_name) & ((dfProspect['Team within selected timeframe']==team))].reset_index(drop=True)
+    dfRadarMF = dfProspect[(dfProspect['Player']==ws_name) & (dfProspect['Team within selected timeframe']==team) & (dfProspect['Age']==age)].reset_index(drop=True)
 
     if template == 'attacking':
         dfRadarMF = dfRadarMF[["Player",
