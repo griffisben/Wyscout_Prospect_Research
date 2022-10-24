@@ -31,10 +31,10 @@ with st.expander('Read App Details'):
 
 ##################################################################
 
-url = 'https://drive.google.com/file/d/1_ZTgUSfmLt7NFOYm103Pacj2CNTsSyj3/view?usp=sharing'
-pathdf = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+# url = 'https://drive.google.com/file/d/1_ZTgUSfmLt7NFOYm103Pacj2CNTsSyj3/view?usp=sharing'
+# pathdf = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
 
-df = pd.read_csv(pathdf)
+df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
@@ -384,7 +384,7 @@ final
 ########################################################################################################
 ########################################################################################################
 
-df = pd.read_csv(pathdf)
+df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
@@ -425,9 +425,9 @@ try:
 
 
     def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
-        url = 'https://drive.google.com/file/d/1_ZTgUSfmLt7NFOYm103Pacj2CNTsSyj3/view?usp=sharing'
-        pathdf = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
-        df = pd.read_csv(pathdf)
+#         url = 'https://drive.google.com/file/d/1_ZTgUSfmLt7NFOYm103Pacj2CNTsSyj3/view?usp=sharing'
+#         pathdf = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+        df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
         df = df[df['League']==league].reset_index(drop=True)
         df = df.dropna(subset=['Age', 'Position']).reset_index(drop=True)
         if league == 'Latvian Virsliga':
