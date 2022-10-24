@@ -1160,7 +1160,7 @@ def scout_report(ws_datapath, league, season, xtra, template, pos_buckets, pos, 
 #######################################################################################################
 #######################################################################################################
 
-scout_report(ws_datapath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/Wyscout Data/Random Gen',
+radar_img = scout_report(ws_datapath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/Wyscout Data/Random Gen',
              savepath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/GriffGraphs',
              imgpath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/Images',
              league = league,  ######
@@ -1187,4 +1187,4 @@ scout_report(ws_datapath = 'C:/Users/Ben/From Mac/Python/FBRef/FBRef Files/Wysco
              extra_text = ' | Data as of 10/23/22',  ######
 #              extra_text = ' | Data final for 21-22',  ######
             )
-st.image(fig)
+st.image(radar_img)
