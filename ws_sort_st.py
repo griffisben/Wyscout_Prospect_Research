@@ -280,7 +280,6 @@ final.sort_values(by=['Age'], inplace=True)
 final = final[final['Age']<=maxage].reset_index(drop=True)
 
 ##################################################################################################
-st.header('Select your desired minimum percentile filter')
 
 with st.sidebar:
     st.header('Minimum Percentile Filters')
