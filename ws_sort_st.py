@@ -42,7 +42,7 @@ with st.sidebar:
                                     'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
     mins = st.slider('Minimum Minutes Played', 0, max(df['Minutes played'].astype(int)), 900)
-    maxage = st.slider('Max Age', min(df.Age.astype(int)), max(df.Age.astype(int)), 25)
+    maxage = st.slider('Max Age', 15, max(df.Age.astype(int)), 25)
 
 
 #####################################################################
