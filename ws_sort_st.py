@@ -358,7 +358,7 @@ final = final[(final['Accurate short / medium passes, %']>=short) &
               (final['Shots blocked per 90']>=shotblock) &
               (final['Fouls per 90']>=foul) &
               (final['Fouls suffered per 90']>=fouldraw) &
-              (final['Cards per 90']>=cards) &
+              (final['Cards per 90']>=cards)
              ].reset_index(drop=True)
 final
 
