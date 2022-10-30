@@ -1280,13 +1280,13 @@ with st.expander('Metric Glossary'):
     
 with st.expander('Latest Data Updates'):
     st.write('''
-    Allsvenskan: 10/27/22
-    Eliteserien: 10/24/22
-    Indonesian BRI Liga 1: After league stoppage in October
-    J1, J2, J3: 10/30/22
-    K League 1 & 2: DATA FINAL FOR 2022
-    Latvian Virsliga: 10/24/22
-    Malaysian Super League: DATA FINAL FOR 2022
+    Allsvenskan: 10/27/22  \n
+    Eliteserien: 10/24/22  \n
+    Indonesian BRI Liga 1: After league stoppage in October  \n
+    J1, J2, J3: 10/30/22  \n
+    K League 1 & 2: DATA FINAL FOR 2022  \n
+    Latvian Virsliga: 10/24/22  \n
+    Malaysian Super League: DATA FINAL FOR 2022  \n
     Thai League 1: 10/30/22
     ''')
     
