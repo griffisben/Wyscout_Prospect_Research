@@ -15,8 +15,8 @@ import matplotlib
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
-st.title('Prospect Research')
-st.subheader('All data from Wyscout (data updated as of 10/24/22)')
+st.title('Soccer Prospect Research & Radar Creation')
+st.subheader("All data from Wyscout (please see footer for each league's latest data update)")
 st.subheader('Created by Ben Griffis (@BeGriffis)')
 
 with st.expander('Read App Details'):
@@ -39,7 +39,7 @@ df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
     st.header('Choose Basic Options')
-    league = st.selectbox('League', ('K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Virsliga', 'Eliteserien', 'Allsvenskan'))
+    league = st.selectbox('League', ('K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Indonesian Liga 1', 'Thai League 1', 'Malaysian Super League', 'Latvian Virsliga', 'Eliteserien', 'Allsvenskan'))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
@@ -1276,5 +1276,17 @@ with st.expander('Metric Glossary'):
     Progressive Carry = A continuous ball control by one player attempting to draw the team significantly closer to the opponent goal. (see Wyscout's glossary for more info)  \n
     Progressive Pass = A forward pass that attempts to advance a team significantly closer to the opponent’s goal.  \n
     Defensive Duel = When a player attempts to dispossess an opposition player to stop an attack progressing.  \n
+    ''')
+    
+with st.expander('Latest Data Updates'):
+    st.write('''
+    Allsvenskan: 10/27/22
+    Eliteserien: 10/24/22
+    Indonesian BRI Liga 1: After league stoppage in October
+    J1, J2, J3: 10/30/22
+    K League 1 & 2: DATA FINAL FOR 2022
+    Latvian Virsliga: 10/24/22
+    Malaysian Super League: DATA FINAL FOR 2022
+    Thai League 1: 10/30/22
     ''')
     
