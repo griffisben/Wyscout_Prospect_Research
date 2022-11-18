@@ -1237,14 +1237,14 @@ try:
     summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League']
     winter = ['Indonesian Liga 1', 'Thai League 1']
     
-    if league is in complete:
+    if league in complete:
         xtratext = ' | Data Final for 2022'
-    elif league is in incomplete:
+    elif league in incomplete:
         xtratext = ' | Data as of 11/18/22'
     
-    if league is in summer:
+    if league in summer:
         ssn_ = '2022'
-    elif league is in winter:
+    elif league in winter:
         ssn_ = '22-23'
     
     radar_img = scout_report(
