@@ -1237,8 +1237,9 @@ try:
     #######################################################################################################
     #######################################################################################################
     complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League']
+    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League']
     incomplete = ['Chinese Super League', 'Indonesian Liga 1', 'Thai League 1']
-    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Kazakh Premier League']
+    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League']
     winter = ['Indonesian Liga 1', 'Thai League 1']
     
     if league in complete:
