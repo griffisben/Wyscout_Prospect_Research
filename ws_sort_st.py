@@ -42,7 +42,7 @@ with st.sidebar:
     league = st.selectbox('League', ('K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Chinese Super League',
                                      'Indonesian Liga 1', 'Thai League 1', 'Malaysian Super League',
                                      'Latvian Virsliga', 'Estonian Meistriliiga', 'Allsvenskan',
-                                     'Eliteserien', 'Veikkausliiga', 'MLS', 'Argentinian Primera División', 'Chilean Primera División',
+                                     'Eliteserien', 'Veikkausliiga', 'MLS', 'Argentinian Primera División', 'Chilean Primera División', 'Peruvian Primera División',
                                     'Uruguayan Primera División', 'Brasileirão', 'Uzbek Super League', 'Kazakh Premier League'))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
@@ -1236,10 +1236,9 @@ try:
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League']
-    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League']
+    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
     incomplete = ['Chinese Super League', 'Indonesian Liga 1', 'Thai League 1']
-    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League']
+    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
     winter = ['Indonesian Liga 1', 'Thai League 1']
     
     if league in complete:
@@ -1312,6 +1311,7 @@ with st.expander('Latest Data Updates'):
     Latvian Virsliga: DATA FINAL FOR 2022  \n
     Malaysian Super League: DATA FINAL FOR 2022  \n
     MLS: DATA FINAL FOR 2022  \n
+    Peruvian Primera División: DATA FINAL FOR 2022  \n
     Thai League 1: 12/4/22  \n
     Uruguayan Primera División: DATA FINAL FOR 2022  \n
     Uzbek Super League: DATA FINAL FOR 2022  \n
