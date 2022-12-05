@@ -17,7 +17,7 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 st.title('Soccer Prospect Research & Radar Creation')
 st.subheader("All data from Wyscout (please see footer for each league's latest data update)")
-st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)')
+st.subheader('Created by Ben Griffis (Twitter: @BeGriffis | www.cafetactiques.com)')
 
 with st.expander('Read App Details'):
     st.write('''
@@ -42,7 +42,8 @@ with st.sidebar:
     league = st.selectbox('League', ('K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Chinese Super League',
                                      'Indonesian Liga 1', 'Thai League 1', 'Malaysian Super League',
                                      'Latvian Virsliga', 'Estonian Meistriliiga', 'Allsvenskan',
-                                     'Eliteserien', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División'))
+                                     'Eliteserien', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División',
+                                    'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División'))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
@@ -1235,9 +1236,9 @@ try:
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División']
+    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División']
     incomplete = ['Chinese Super League', 'Indonesian Liga 1', 'Thai League 1']
-    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División']
+    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División']
     winter = ['Indonesian Liga 1', 'Thai League 1']
     
     if league in complete:
@@ -1297,7 +1298,10 @@ with st.expander('Metric Glossary'):
 with st.expander('Latest Data Updates'):
     st.write('''
     Allsvenskan: DATA FINAL FOR 2022  \n
-    Chinese Super League: 11/18/22  \n
+    Argentinian Primera División: DATA FINAL FOR 2022  \n
+    Brasileirão: DATA FINAL FOR 2022  \n
+    Chilean Primera División: DATA FINAL FOR 2022  \n
+    Chinese Super League: 12/4/22  \n
     Eliteserien: DATA FINAL FOR 2022  \n
     Estonian Meistriliiga: DATA FINAL FOR 2022  \n
     Indonesian Liga 1: After league stoppage in October  \n
@@ -1306,7 +1310,7 @@ with st.expander('Latest Data Updates'):
     Latvian Virsliga: DATA FINAL FOR 2022  \n
     Malaysian Super League: DATA FINAL FOR 2022  \n
     MLS: DATA FINAL FOR 2022  \n
-    Thai League 1: 11/18/22  \n
+    Thai League 1: 12/4/22  \n
     Uruguayan Primera División: DATA FINAL FOR 2022  \n
     Veikkausliiga: DATA FINAL FOR 2022
     ''')
