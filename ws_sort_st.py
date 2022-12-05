@@ -17,7 +17,7 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 st.title('Soccer Prospect Research & Radar Creation')
 st.subheader("All data from Wyscout (please see footer for each league's latest data update)")
-st.subheader('Created by Ben Griffis (Twitter: @BeGriffis | www.cafetactiques.com)')
+st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)')
 
 with st.expander('Read App Details'):
     st.write('''
@@ -39,7 +39,10 @@ df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
     st.header('Choose Basic Options')
-    league = st.selectbox('League', ('K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Chinese Super League', 'Indonesian Liga 1', 'Thai League 1', 'Malaysian Super League', 'Latvian Virsliga', 'Estonian Meistriliiga', 'Allsvenskan', 'Eliteserien', 'Veikkausliiga'))
+    league = st.selectbox('League', ('K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Chinese Super League',
+                                     'Indonesian Liga 1', 'Thai League 1', 'Malaysian Super League',
+                                     'Latvian Virsliga', 'Estonian Meistriliiga', 'Allsvenskan',
+                                     'Eliteserien', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División'))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
@@ -1232,9 +1235,9 @@ try:
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga']
+    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División']
     incomplete = ['Chinese Super League', 'Indonesian Liga 1', 'Thai League 1']
-    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League']
+    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División']
     winter = ['Indonesian Liga 1', 'Thai League 1']
     
     if league in complete:
@@ -1268,7 +1271,7 @@ try:
                 )
     st.pyplot(radar_img)
 except:
-    st.text('Please enter a valid name.')
+    st.text('Please enter a valid name & age.')
     
     
 with st.expander('Metric Glossary'):
@@ -1302,7 +1305,9 @@ with st.expander('Latest Data Updates'):
     K League 1 & 2: DATA FINAL FOR 2022  \n
     Latvian Virsliga: DATA FINAL FOR 2022  \n
     Malaysian Super League: DATA FINAL FOR 2022  \n
+    MLS: DATA FINAL FOR 2022  \n
     Thai League 1: 11/18/22  \n
+    Uruguayan Primera División: DATA FINAL FOR 2022  \n
     Veikkausliiga: DATA FINAL FOR 2022
     ''')
     
