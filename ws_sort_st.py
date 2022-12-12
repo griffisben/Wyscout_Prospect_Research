@@ -31,9 +31,6 @@ with st.expander('Read App Details'):
 
 ##################################################################
 
-# url = 'https://drive.google.com/file/d/1_ZTgUSfmLt7NFOYm103Pacj2CNTsSyj3/view?usp=sharing'
-# pathdf = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
-
 df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
 
@@ -43,7 +40,9 @@ with st.sidebar:
                                      'Indonesian Liga 1', 'Thai League 1', 'Malaysian Super League',
                                      'Latvian Virsliga', 'Estonian Meistriliiga', 'Allsvenskan',
                                      'Eliteserien', 'Veikkausliiga', 'MLS', 'Argentinian Primera División', 'Chilean Primera División', 'Peruvian Primera División',
-                                    'Uruguayan Primera División', 'Brasileirão', 'Uzbek Super League', 'Kazakh Premier League'))
+                                    'Uruguayan Primera División', 'Brasileirão', 'Uzbek Super League', 'Kazakh Premier League',
+                                    'English Championship', 'English League One', 'English League Two',
+                                    '1. Bundesliga', '2. Bundesliga', '3. Liga'))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
@@ -1237,14 +1236,14 @@ try:
     #######################################################################################################
     #######################################################################################################
     complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
-    incomplete = ['Chinese Super League', 'Indonesian Liga 1', 'Thai League 1']
+    incomplete = ['Chinese Super League', 'Indonesian Liga 1', 'Thai League 1', 'English Championship', 'English League One', 'English League Two', '1. Bundesliga', '2. Bundesliga', '3. Liga']
     summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
-    winter = ['Indonesian Liga 1', 'Thai League 1']
+    winter = ['Indonesian Liga 1', 'Thai League 1', 'English Championship', 'English League One', 'English League Two', '1. Bundesliga', '2. Bundesliga', '3. Liga']
     
     if league in complete:
         xtratext = ' | Data Final for 2022'
     elif league in incomplete:
-        xtratext = ' | Data as of 11/18/22'
+        xtratext = ' | Data as of 12/12/22'
     
     if league in summer:
         ssn_ = '2022'
@@ -1301,10 +1300,12 @@ with st.expander('Latest Data Updates'):
     Argentinian Primera División: DATA FINAL FOR 2022  \n
     Brasileirão: DATA FINAL FOR 2022  \n
     Chilean Primera División: DATA FINAL FOR 2022  \n
-    Chinese Super League: 12/4/22  \n
+    Chinese Super League: 12/12/22  \n
     Eliteserien: DATA FINAL FOR 2022  \n
+    English Leagues: 12/12/22  \n
     Estonian Meistriliiga: DATA FINAL FOR 2022  \n
-    Indonesian Liga 1: After league stoppage in October  \n
+    German Leagues: 12/12/22  \n
+    Indonesian Liga 1: 12/12/22  \n
     J1, J2, J3: DATA FINAL FOR 2022  \n
     K League 1 & 2: DATA FINAL FOR 2022  \n
     Kazakh Premier League: DATA FINAL FOR 2022  \n
@@ -1312,7 +1313,7 @@ with st.expander('Latest Data Updates'):
     Malaysian Super League: DATA FINAL FOR 2022  \n
     MLS: DATA FINAL FOR 2022  \n
     Peruvian Primera División: DATA FINAL FOR 2022  \n
-    Thai League 1: 12/4/22  \n
+    Thai League 1: 12/12/22  \n
     Uruguayan Primera División: DATA FINAL FOR 2022  \n
     Uzbek Super League: DATA FINAL FOR 2022  \n
     Veikkausliiga: DATA FINAL FOR 2022
