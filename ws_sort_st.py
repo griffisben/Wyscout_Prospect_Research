@@ -45,7 +45,7 @@ with st.sidebar:
                                     '1. Bundesliga', '2. Bundesliga', '3. Liga', 'Ekstraklasa', 'Hungarian NB I'))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
-                                    'Central Midfielders no CAM (DM, CM)', 'Fullbacks (FBs/WBs)',
+                                    'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
     mins = st.number_input('Minimum Minutes Played', 300, max(df['Minutes played'].astype(int)), 900)
     maxage = st.slider('Max Age', 15, max(df.Age.astype(int)), 25)
