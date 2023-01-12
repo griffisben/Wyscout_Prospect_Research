@@ -107,6 +107,12 @@ if pos == 'Central Midfielders (DM, CM, CAM)':
 if pos == 'Central Midfielders no CAM (DM, CM)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                            (dfProspect['Main Position'].str.contains('DMF'))]
+if pos == 'Central Midfielders no DM (CM, CAM)':
+    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
+                           (dfProspect['Main Position'].str.contains('AMF'))]
+    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
+    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('RAMF')]
+
 if pos == 'Fullbacks (FBs/WBs)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('LB')) |
                            (dfProspect['Main Position'].str.contains('RB')) |
@@ -416,9 +422,9 @@ try:
 
     ws_pos = ['LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB']
     pos_buckets = ['mult','mult','mult','mult','mult','mult','mult','mult','mult','single','mult','single','mult','single','mult','mult','mult','mult','mult','single','single']
-    pos = ['Winger','Winger','Fullback','Fullback','Midfielder','Midfielder no CAM','Midfielder no CAM','Winger','Forward no ST','CB','Fullback','CF','Fullback','GK','Midfielder no CAM','Midfielder','Winger','Winger','Winger','CB','CB']
+    pos = ['Winger','Winger','Fullback','Fullback','Midfielder','Midfielder no CAM','Midfielder no CAM','Winger','Midfielder no DM','CB','Fullback','CF','Fullback','GK','Midfielder no CAM','Midfielder','Winger','Winger','Winger','CB','CB']
     template = ['attacking','attacking','defensive','defensive','attacking','defensive','defensive','attacking','attacking','cb','defensive','attacking','defensive','gk','defensive','attacking','attacking','attacking','attacking','cb','cb']
-    compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central Midfielders','Central Midfielders','Wingers','CAMs & Wingers','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central Midfielders','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs']
+    compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs']
 
     gen = df1[(df1['Player']==player) & (df1['Age']==page)]
     ix = ws_pos.index(gen['Main Position'].values[0])
@@ -487,6 +493,11 @@ try:
             if pos == 'Midfielder no CAM':
                 dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                                        (dfProspect['Main Position'].str.contains('DMF'))]
+            if pos == 'Midfielder no DM':
+                dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
+                                       (dfProspect['Main Position'].str.contains('AMF'))]
+                dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('RAMF')]
+                dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
             if pos == 'Fullback':
                 dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('LB')) |
                                        (dfProspect['Main Position'].str.contains('RB')) |
