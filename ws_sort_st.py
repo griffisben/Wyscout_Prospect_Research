@@ -401,6 +401,7 @@ page = st.number_input("Age of the player to generate (to guarantee the correct 
 
 try:
     df = df[df['Minutes played']>=mins].reset_index(drop=True)
+    df = df[df['League']==league].reset_index(drop=True)
     df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
     df1 = df1.dropna(subset=['Age']).reset_index(drop=True)
     df1['Age'] = df1['Age'].astype(int)
