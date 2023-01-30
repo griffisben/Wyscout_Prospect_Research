@@ -42,7 +42,8 @@ with st.sidebar:
                                      'Eliteserien', 'Veikkausliiga', 'MLS', 'Argentinian Primera División', 'Chilean Primera División', 'Peruvian Primera División',
                                     'Uruguayan Primera División', 'Brasileirão', 'Uzbek Super League', 'Kazakh Premier League',
                                     'English Championship', 'English League One', 'English League Two',
-                                    '1. Bundesliga', '2. Bundesliga', '3. Liga', 'Ekstraklasa', 'Hungarian NB I'))
+                                    '1. Bundesliga', '2. Bundesliga', '3. Liga',
+                                     'Ekstraklasa', 'Hungarian NB I', 'Czech Fortuna Liga', 'Slovak Super Liga', ))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
@@ -434,14 +435,12 @@ try:
 
 
     def scout_report(league, season, xtra, template, pos_buckets, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
-#         url = 'https://drive.google.com/file/d/1_ZTgUSfmLt7NFOYm103Pacj2CNTsSyj3/view?usp=sharing'
-#         pathdf = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
         df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
         df = df[df['League']==league].reset_index(drop=True)
         df = df.dropna(subset=['Age', 'Position']).reset_index(drop=True)
-        if league == 'Latvian Virsliga':
-            df.replace({'Valmiera / BSS': 'Valmiera',
-                       'Metta / LU': 'Metta'}, inplace=True)
+#         if league == 'Latvian Virsliga':
+#             df.replace({'Valmiera / BSS': 'Valmiera',
+#                        'Metta / LU': 'Metta'}, inplace=True)
 
         df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
         df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
@@ -517,6 +516,10 @@ try:
                                        (dfProspect['Main Position'].str.contains('LB')) |
                                        (dfProspect['Main Position'].str.contains('RB')) |
                                        (dfProspect['Main Position'].str.contains('WB'))]
+            if pos == 'Centre-Backs':
+                dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
+            if pos == 'Strikers':
+                dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
 
         # FORWARD
         fwd1 = "Non-penalty goals per 90"
@@ -1245,20 +1248,23 @@ try:
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    complete = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
-    incomplete = ['Chinese Super League', 'Indonesian Liga 1', 'Thai League 1', 'English Championship', 'English League One', 'English League Two', '1. Bundesliga', '2. Bundesliga', '3. Liga', 'Indian Super League', 'Ekstraklasa', 'Hungarian NB I']
+    complete = ['Allsvenskan', 'Chinese Super League', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
+    incomplete = ['Czech Fortuna Liga', 'Slovak Super Liga', 'Indonesian Liga 1', 'Thai League 1', 'English Championship', 'English League One', 'English League Two', '1. Bundesliga', '2. Bundesliga', '3. Liga', 'Indian Super League', 'Ekstraklasa', 'Hungarian NB I']
     summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
-    winter = ['Indonesian Liga 1', 'Thai League 1', 'English Championship', 'English League One', 'English League Two', '1. Bundesliga', '2. Bundesliga', '3. Liga', 'Indian Super League', 'Ekstraklasa', 'Hungarian NB I']
-    
-    if league in complete:
-        xtratext = ' | Data Final for 2022'
-    elif league in incomplete:
-        xtratext = ' | Data as of 1/11/23'
+    winter = ['Czech Fortuna Liga', 'Slovak Super Liga', 'Indonesian Liga 1', 'Thai League 1', 'English Championship', 'English League One', 'English League Two', '1. Bundesliga', '2. Bundesliga', '3. Liga', 'Indian Super League', 'Ekstraklasa', 'Hungarian NB I']
     
     if league in summer:
         ssn_ = '2022'
+        if league in incomplete:
+            xtratext = ' | Data as of 1/29/23'
+        elif league in complete:
+            xtratext = ' | Data final for 2022'
     elif league in winter:
         ssn_ = '22-23'
+        if league in incomplete:
+            xtratext = ' | Data as of 1/29/23'
+        elif league in complete:
+            xtratext = ' | Data final for 2022'
     
     radar_img = scout_report(
                  league = league,  ######
@@ -1310,15 +1316,16 @@ with st.expander('Latest Data Updates'):
     Argentinian Primera División: DATA FINAL FOR 2022  \n
     Brasileirão: DATA FINAL FOR 2022  \n
     Chilean Primera División: DATA FINAL FOR 2022  \n
-    Chinese Super League: 1/11/23  \n
-    Ekstraklasa: 1/11/23  \n
+    Chinese Super League: DATA FINAL FOR 2022  \n
+    Czech Fortuna Liga: 1/29/23  \n
+    Ekstraklasa: 1/29/23  \n
     Eliteserien: DATA FINAL FOR 2022  \n
-    English Leagues: 1/11/23  \n
+    English Leagues: 1/29/23  \n
     Estonian Meistriliiga: DATA FINAL FOR 2022  \n
-    German Leagues: 12/12/22  \n
-    Hungarian NB I: 1/11/23  \n
-    Indian Super League: 1/11/23  \n
-    Indonesian Liga 1: 1/11/23  \n
+    German Leagues: 1/29/22  \n
+    Hungarian NB I: 1/29/23  \n
+    Indian Super League: 1/29/23  \n
+    Indonesian Liga 1: 1/29/23  \n
     J1, J2, J3: DATA FINAL FOR 2022  \n
     K League 1 & 2: DATA FINAL FOR 2022  \n
     Kazakh Premier League: DATA FINAL FOR 2022  \n
@@ -1326,7 +1333,8 @@ with st.expander('Latest Data Updates'):
     Malaysian Super League: DATA FINAL FOR 2022  \n
     MLS: DATA FINAL FOR 2022  \n
     Peruvian Primera División: DATA FINAL FOR 2022  \n
-    Thai League 1: 1/11/23  \n
+    Slovak Super Liga: 1/29/23  \n
+    Thai League 1: 1/29/23  \n
     Uruguayan Primera División: DATA FINAL FOR 2022  \n
     Uzbek Super League: DATA FINAL FOR 2022  \n
     Veikkausliiga: DATA FINAL FOR 2022
