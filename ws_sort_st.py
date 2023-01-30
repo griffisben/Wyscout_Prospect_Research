@@ -123,9 +123,13 @@ if pos == 'Defenders (CB, FB/WB, DM)':
                            (dfProspect['Main Position'].str.contains('RB')) |
                            (dfProspect['Main Position'].str.contains('WB')) |
                            (dfProspect['Main Position'].str.contains('CB')) |
+                           (dfProspect['Main Position'].str.contains('LCB')) |
+                           (dfProspect['Main Position'].str.contains('RCB')) |
                            (dfProspect['Main Position'].str.contains('DMF'))]
 if pos == 'Centre-Backs':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
+    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB')) |
+                           (dfProspect['Main Position'].str.contains('LCB')) |
+                           (dfProspect['Main Position'].str.contains('RCB'))]
 if pos == 'Strikers':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
 
@@ -501,23 +505,18 @@ try:
                 dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('LB')) |
                                        (dfProspect['Main Position'].str.contains('RB')) |
                                        (dfProspect['Main Position'].str.contains('WB'))]
-            if pos == 'Defenders':
+            if pos == 'Defenders (CB, FB/WB, DM)':
                 dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('LB')) |
                                        (dfProspect['Main Position'].str.contains('RB')) |
                                        (dfProspect['Main Position'].str.contains('WB')) |
                                        (dfProspect['Main Position'].str.contains('CB')) |
+                                       (dfProspect['Main Position'].str.contains('LCB')) |
+                                       (dfProspect['Main Position'].str.contains('RCB')) |
                                        (dfProspect['Main Position'].str.contains('DMF'))]
-            if pos == 'All Wings':
-                dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('WF')) |
-                                       (dfProspect['Main Position'].str.contains('LAMF')) |
-                                       (dfProspect['Main Position'].str.contains('RAMF')) |
-                                       (dfProspect['Main Position'].str.contains('LW')) |
-                                       (dfProspect['Main Position'].str.contains('RW')) |
-                                       (dfProspect['Main Position'].str.contains('LB')) |
-                                       (dfProspect['Main Position'].str.contains('RB')) |
-                                       (dfProspect['Main Position'].str.contains('WB'))]
             if pos == 'Centre-Backs':
-                dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
+                dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB')) |
+                                       (dfProspect['Main Position'].str.contains('LCB')) |
+                                       (dfProspect['Main Position'].str.contains('RCB'))]
             if pos == 'Strikers':
                 dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
 
