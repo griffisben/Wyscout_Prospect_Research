@@ -32,7 +32,7 @@ with st.expander('Read App Details'):
 ##################################################################
 
 df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
-df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
+df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
     st.header('Choose Basic Options')
@@ -66,7 +66,7 @@ df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
 df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
 df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
 
-df = df.dropna(subset=['Position', 'Age']).reset_index(drop=True)
+df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 
 df['Main Position'] = ''
@@ -130,10 +130,8 @@ if pos == 'Centre-Backs':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB')) |
                            (dfProspect['Main Position'].str.contains('LCB')) |
                            (dfProspect['Main Position'].str.contains('RCB'))]
-    print('test CB')
 if pos == 'Strikers':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
-    print('test ST')
 
 
 ########## PROSPECT RESEARCH ##########
@@ -409,7 +407,7 @@ try:
     df = df[df['Minutes played']>=mins].reset_index(drop=True)
     df = df[df['League']==league].reset_index(drop=True)
     df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
-    df1 = df1.dropna(subset=['Age']).reset_index(drop=True)
+    df1 = df1.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
     df1['Age'] = df1['Age'].astype(int)
     df1['Main Position'] = ''
     for i in range(len(df1)):
@@ -444,7 +442,7 @@ try:
     def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
         df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
         df = df[df['League']==league].reset_index(drop=True)
-        df = df.dropna(subset=['Age', 'Position']).reset_index(drop=True)
+        df = df.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
 #         if league == 'Latvian Virsliga':
 #             df.replace({'Valmiera / BSS': 'Valmiera',
 #                        'Metta / LU': 'Metta'}, inplace=True)
