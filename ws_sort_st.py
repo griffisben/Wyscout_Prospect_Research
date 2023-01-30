@@ -460,7 +460,6 @@ try:
         #####################################################################################
         # Filter data
         dfProspect = df[df['Minutes played']>=mins]
-    #     dfProspect = df[df['Minutes played']<=700]
 
         if pos_buckets == 'single':
             dfProspect = dfProspect[dfProspect['Main Position'].str.contains(pos)]
@@ -678,7 +677,7 @@ try:
                                     'midpct12': "Tackles & Int\n(pAdj)",
                                       'defpct8': 'Aerial\nWin %'
                                      }, inplace=True)
-            print('Number of players comparing to:',len(dfProspect))
+#             print('Number of players comparing to:',len(dfProspect))
 
         if template == 'defensive':
             dfRadarMF = dfRadarMF[["Player",
@@ -706,7 +705,7 @@ try:
                                       'defpct5': "Cards",
                                       'extrapct8': 'Fouls Drawn'
                                      }, inplace=True)
-            print('Number of players comparing to:',len(dfProspect))
+#             print('Number of players comparing to:',len(dfProspect))
 
         if template == 'cb':
             dfRadarMF = dfRadarMF[["Player",
@@ -732,7 +731,7 @@ try:
                                       'defpct5': "Cards",
                                       'extrapct8': 'Fouls Drawn'
                                      }, inplace=True)
-            print('Number of players comparing to:',len(dfProspect))
+#             print('Number of players comparing to:',len(dfProspect))
 
 
 
