@@ -130,8 +130,10 @@ if pos == 'Centre-Backs':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB')) |
                            (dfProspect['Main Position'].str.contains('LCB')) |
                            (dfProspect['Main Position'].str.contains('RCB'))]
+    print('test CB')
 if pos == 'Strikers':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
+    print('test ST')
 
 
 ########## PROSPECT RESEARCH ##########
@@ -463,7 +465,7 @@ try:
 
         #####################################################################################
         # Filter data
-        dfProspect = df[df['Minutes played']>=mins]
+        dfProspect = df[df['Minutes played']>=mins].reset_index(drop=True)
 
 #         if pos_buckets == 'single':
 #             dfProspect = dfProspect[dfProspect['Main Position'].str.contains(pos)]
