@@ -130,9 +130,9 @@ fig = px.scatter(
     x = xx,
     y = yy,
     text = 'Player',
-    textposition = 'top right',
     hover_data=['Team', 'Age', 'Position',],
     hover_name = 'Player')
+fig.update_traces(textposition='top right')
 
 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
