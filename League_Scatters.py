@@ -127,7 +127,6 @@ if pos == 'Strikers':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
 
 
-px.defaults.bg_color = '#fbf9f4'
 
 fig = px.scatter(
     dfProspect,
