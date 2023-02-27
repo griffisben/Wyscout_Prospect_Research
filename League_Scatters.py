@@ -132,7 +132,7 @@ fig = px.scatter(
     dfProspect,
     x = xx,
     y = yy,
-    color = 'Team'
+    color = 'Team',
 #     marginal_x='rug',
 #     marginal_y='rug',
     text = 'Player',
@@ -141,7 +141,7 @@ fig = px.scatter(
     title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins),
     width=900,
     height=700)
-fig.update_traces(textposition='top right', marker_size=10)
+fig.update_traces(textposition='top right', marker_size=10, marker_edge_color='black')
 
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
 fig.add_vline(x=dfProspect[xx].median(), name='Median', line_width=0.5)
