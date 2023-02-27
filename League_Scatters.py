@@ -12,7 +12,7 @@ warnings.filterwarnings('ignore')
 import matplotlib
 import plotly.express as px
 import plotly.figure_factory as ff
-from plotly.graph_objs import *
+from plotly.graph_objects import Layout
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
@@ -142,7 +142,7 @@ fig = px.scatter(
     hover_data=['Team', 'Age', 'Position',],
     hover_name = 'Player',
     title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins),
-    layout=layout)
+    template=layout)
 fig.update_traces(textposition='top right')
 
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
