@@ -141,7 +141,7 @@ fig = px.scatter(
     title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins),
     width=900,
     height=700)
-fig.update_traces(textposition='top right', marker_size=10, marker_edge_color='black')
+fig.update_traces(textposition='top right', marker=dict(size=10, line=dict(width=1, color='black')))
 
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
 fig.add_vline(x=dfProspect[xx].median(), name='Median', line_width=0.5)
