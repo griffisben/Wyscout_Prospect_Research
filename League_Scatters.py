@@ -62,8 +62,8 @@ with st.sidebar:
                                     '1. Bundesliga', '2. Bundesliga', '3. Liga',
                                      'Ekstraklasa', 'Hungarian NB I', 'Czech Fortuna Liga', 'Slovak Super Liga', ))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
-                                    'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
-                                    'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
+                                    'Forwards no ST (AM, W)', 'Wingers', 'Midfielders (DM, CM, CAM)',
+                                    'Central & Defensive Midfielders (DM, CM)', 'Central & Attacking Midfielders (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'Goalkeepers'))
     mins = st.number_input('Minimum Minutes Played', 300, max(df['Minutes played'].astype(int)), 900)
     xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)].tolist()))
@@ -98,14 +98,14 @@ if pos == 'Wingers':
                            (dfProspect['Main Position'].str.contains('LW')) |
                            (dfProspect['Main Position'].str.contains('RW'))]
     dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('WB')]
-if pos == 'Central Midfielders (DM, CM, CAM)':
+if pos == 'Midfielders (DM, CM, CAM)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                            (dfProspect['Main Position'].str.contains('DMF')) |
                            (dfProspect['Main Position'].str.contains('AMF'))]
-if pos == 'Central Midfielders no CAM (DM, CM)':
+if pos == 'Central & Defensive Midfielders (DM, CM)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                            (dfProspect['Main Position'].str.contains('DMF'))]
-if pos == 'Central Midfielders no DM (CM, CAM)':
+if pos == 'Central & Attacking Midfielders (CM, CAM)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                            (dfProspect['Main Position'].str.contains('AMF'))]
     dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
