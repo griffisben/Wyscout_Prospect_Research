@@ -63,8 +63,8 @@ with st.sidebar:
                                     'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
     mins = st.number_input('Minimum Minutes Played', 300, max(df['Minutes played'].astype(int)), 900)
-    xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)-1].tolist()), 'npxG per 90')
-    yy = st.selectbox('Y-Axis', (df.columns[8:len(df.columns)-1].tolist()), 'Non-penalty goals per 90')
+    xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)-1].tolist()))
+    yy = st.selectbox('Y-Axis', (df.columns[8:len(df.columns)-1].tolist()))
 
     
 # Filter data
