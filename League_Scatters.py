@@ -28,12 +28,14 @@ with st.expander('Read App Details'):
     Then, use the metric selectors on the side to choose the X and Y variables.
     ''')
 
+lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
 df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 
 df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
 df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
+df['1st, 2nd, 3rd assists per 90'] = df['1st, 2nd, 3rd assists'] / (df['Minutes played'] / 90)
 df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
 df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
 df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
@@ -57,17 +59,18 @@ with st.sidebar:
                                      'Latvian Virsliga', 'Estonian Meistriliiga', 'Allsvenskan',
                                      'Eliteserien', 'Veikkausliiga', 'MLS', 'Argentinian Primera División', 'Chilean Primera División', 'Peruvian Primera División',
                                     'Uruguayan Primera División', 'Brasileirão', 'Uzbek Super League', 'Kazakh Premier League',
-                                    'English Championship', 'English League One', 'English League Two',
                                     '1. Bundesliga', '2. Bundesliga', '3. Liga',
                                      'Ekstraklasa', 'Hungarian NB I', 'Czech Fortuna Liga', 'Slovak Super Liga', ))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
-                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
+                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'Goalkeepers'))
     mins = st.number_input('Minimum Minutes Played', 300, max(df['Minutes played'].astype(int)), 900)
-    xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)-1].tolist()))
-    yy = st.selectbox('Y-Axis', (df.columns[8:len(df.columns)-1].tolist()))
+    xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)].tolist()))
+    yy = st.selectbox('Y-Axis', (df.columns[8:len(df.columns)].tolist()))
 
+ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
+date = lg_lookup[lg_lookup['League']==league].Date.values[0]
     
 # Filter data
 dfProspect = df[(df['Minutes played']>=mins) & (df['League']==league)].copy()
@@ -125,6 +128,8 @@ if pos == 'Centre-Backs':
 
 if pos == 'Strikers':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
+if pos == 'Goalkeepers':
+    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('GK'))]
 
 
 
@@ -137,7 +142,7 @@ fig = px.scatter(
     text = 'Player',
     hover_data=['Team', 'Age', 'Position',],
     hover_name = 'Player',
-    title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins),
+    title = '%s %s, %s & %s <br><sup>%s | Minimum %i minutes played | %s | Code by @BeGriffis</sup>' %(ssn,league,xx,yy,pos,mins,date),
     width=900,
     height=700)
 fig.update_traces(textposition='top right', marker=dict(size=10, line=dict(width=1, color='black')))
@@ -176,14 +181,13 @@ with st.expander('Latest Data Updates'):
     Brasileirão: DATA FINAL FOR 2022  \n
     Chilean Primera División: DATA FINAL FOR 2022  \n
     Chinese Super League: DATA FINAL FOR 2022  \n
-    Czech Fortuna Liga: 1/29/23  \n
-    Ekstraklasa: 1/29/23  \n
+    Czech Fortuna Liga: 2/27/23  \n
+    Ekstraklasa: 2/27/23  \n
     Eliteserien: DATA FINAL FOR 2022  \n
-    English Leagues: 1/29/23  \n
     Estonian Meistriliiga: DATA FINAL FOR 2022  \n
-    German Leagues: 1/29/22  \n
-    Hungarian NB I: 1/29/23  \n
-    Indian Super League: 1/29/23  \n
+    German Leagues: 2/27/23  \n
+    Hungarian NB I: 2/27/23  \n
+    Indian Super League: 2/27/23  \n
     Indonesian Liga 1: 2/27/23  \n
     J1, J2, J3: DATA FINAL FOR 2022  \n
     K League 1 & 2: DATA FINAL FOR 2022  \n
@@ -192,8 +196,8 @@ with st.expander('Latest Data Updates'):
     Malaysian Super League: DATA FINAL FOR 2022  \n
     MLS: DATA FINAL FOR 2022  \n
     Peruvian Primera División: DATA FINAL FOR 2022  \n
-    Slovak Super Liga: 1/29/23  \n
-    Thai League 1: 1/29/23  \n
+    Slovak Super Liga: 2/27/23  \n
+    Thai League 1: 2/27/23  \n
     Uruguayan Primera División: DATA FINAL FOR 2022  \n
     Uzbek Super League: DATA FINAL FOR 2022  \n
     Veikkausliiga: DATA FINAL FOR 2022
