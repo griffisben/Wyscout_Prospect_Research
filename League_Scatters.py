@@ -126,6 +126,11 @@ if pos == 'Strikers':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
 
 
+layout = Layout(
+    paper_bgcolor='#fbf9f4',
+    plot_bgcolor='#fbf9f4'
+)
+
 fig = px.scatter(
     dfProspect,
     x = xx,
@@ -135,7 +140,8 @@ fig = px.scatter(
     text = 'Player',
     hover_data=['Team', 'Age', 'Position',],
     hover_name = 'Player',
-    title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins))
+    title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins),
+    layout=layout)
 fig.update_traces(textposition='top right')
 
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
