@@ -96,6 +96,8 @@ if pos == 'Midfielders (DM, CM, CAM)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                            (dfProspect['Main Position'].str.contains('DMF')) |
                            (dfProspect['Main Position'].str.contains('AMF'))]
+    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
+    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('RAMF')]
 if pos == 'Central & Defensive Midfielders (DM, CM)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                            (dfProspect['Main Position'].str.contains('DMF'))]
