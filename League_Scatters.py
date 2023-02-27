@@ -12,6 +12,7 @@ warnings.filterwarnings('ignore')
 import matplotlib
 import plotly.express as px
 import plotly.figure_factory as ff
+from plotly.graph_objs import *
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
