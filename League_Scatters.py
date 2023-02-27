@@ -11,6 +11,7 @@ import warnings
 warnings.filterwarnings('ignore')
 import matplotlib
 import plotly.express as px
+import plotly.figure_factory as ff
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
