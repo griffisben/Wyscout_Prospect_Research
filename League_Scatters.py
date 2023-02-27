@@ -14,7 +14,7 @@ import plotly.express as px
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
-st.title('AFC Scatter Plot Program')
+st.title('Player Scatter Plot Program')
 st.subheader("All data from Wyscout (please see footer for each league's latest data update)")
 st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)')
 
@@ -131,7 +131,8 @@ fig = px.scatter(
     y = yy,
     text = 'Player',
     hover_data=['Team', 'Age', 'Position',],
-    hover_name = 'Player')
+    hover_name = 'Player',
+    title = '%s %s, %s & %s\nMinimum %i minutes played' %(league,pos,xx,yy,mins))
 fig.update_traces(textposition='top right')
 
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
