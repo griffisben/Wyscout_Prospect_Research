@@ -141,6 +141,11 @@ fig.add_vline(x=dfProspect[xx].median(), name='Median', line_width=0.5)
 st.plotly_chart(fig, theme=None, use_container_width=False)
 
 
+fig2 = ff.create_distplot(dfProspect[xx], bin_size=.2)
+
+st.plotly_chart(fig2, theme=None, use_container_width=False)
+
+
 with st.expander('Metric Glossary'):
     st.write('''
     Short & Medium Pass = Passes shorter than 40 meters.  \n
