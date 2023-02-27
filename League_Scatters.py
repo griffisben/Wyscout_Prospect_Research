@@ -142,9 +142,11 @@ fig.add_vline(x=dfProspect[xx].median(), name='Median', line_width=0.5)
 st.plotly_chart(fig, theme=None, use_container_width=False)
 
 
-fig2 = ff.create_distplot([dfProspect[xx].tolist()], group_labels=[[xx]], bin_size=.2)
-
+fig2 = px.histogram(dfProspect, x=xx, nbins=25)
 st.plotly_chart(fig2, theme=None, use_container_width=False)
+
+fig3 = px.histogram(dfProspect, x=yy, nbins=25)
+st.plotly_chart(fig3, theme=None, use_container_width=False)
 
 
 with st.expander('Metric Glossary'):
