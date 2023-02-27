@@ -138,7 +138,8 @@ fig = px.scatter(
     hover_data=['Team', 'Age', 'Position',],
     hover_name = 'Player',
     title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins),
-    width=1000)
+    width=900,
+    height=700)
 fig.update_traces(textposition='top right')
 
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
