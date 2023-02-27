@@ -54,13 +54,7 @@ for i in range(len(df)):
 
 with st.sidebar:
     st.header('Choose Basic Options')
-    league = st.selectbox('League', ('Indian Super League', 'K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Chinese Super League',
-                                     'Indonesian Liga 1', 'Thai League 1', 'Malaysian Super League',
-                                     'Latvian Virsliga', 'Estonian Meistriliiga', 'Allsvenskan',
-                                     'Eliteserien', 'Veikkausliiga', 'MLS', 'Argentinian Primera División', 'Chilean Primera División', 'Peruvian Primera División',
-                                    'Uruguayan Primera División', 'Brasileirão', 'Uzbek Super League', 'Kazakh Premier League',
-                                    '1. Bundesliga', '2. Bundesliga', '3. Liga',
-                                     'Ekstraklasa', 'Hungarian NB I', 'Czech Fortuna Liga', 'Slovak Super Liga', ))
+    league = st.selectbox('League', (lg_lookup.League.tolist()))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Midfielders (DM, CM, CAM)',
                                     'Central & Defensive Midfielders (DM, CM)', 'Central & Attacking Midfielders (CM, CAM)', 'Fullbacks (FBs/WBs)',
