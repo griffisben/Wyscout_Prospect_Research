@@ -137,7 +137,7 @@ fig.update_traces(textposition='top right')
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
 fig.add_vline(x=dfProspect[xx].median(), name='Median', line_width=0.5)
 
-st.plotly_chart(fig, theme=None, use_container_width=True)
+st.plotly_chart(fig, theme=None, use_container_width=False)
 
 
 with st.expander('Metric Glossary'):
