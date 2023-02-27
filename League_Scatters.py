@@ -132,11 +132,11 @@ fig = px.scatter(
     y = yy,
     marginal_x='violin',
     marginal_y='violin',
-    text = 'Player',
+#     text = 'Player',
     hover_data=['Team', 'Age', 'Position',],
     hover_name = 'Player',
     title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins))
-fig.update_traces(textposition='top right')
+# fig.update_traces(textposition='top right')
 
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
 fig.add_vline(x=dfProspect[xx].median(), name='Median', line_width=0.5)
