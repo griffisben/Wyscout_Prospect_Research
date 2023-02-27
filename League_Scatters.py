@@ -133,7 +133,9 @@ fig = px.scatter(
     text = 'Player',
     hover_data=['Team', 'Age', 'Position',],
     hover_name = 'Player',
-    title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins))
+    title = '%s, %s & %s <br><sup>%s | Minimum %i minutes played | Code by @BeGriffis</sup>' %(league,xx,yy,pos,mins),
+    marginal_x='violin',
+    marginal_y='violin')
 fig.update_traces(textposition='top right')
 
 fig.add_hline(y=dfProspect[yy].median(), name='Median', line_width=0.5)
@@ -141,12 +143,6 @@ fig.add_vline(x=dfProspect[xx].median(), name='Median', line_width=0.5)
 
 st.plotly_chart(fig, theme=None, use_container_width=False)
 
-
-fig2 = px.histogram(dfProspect, x=xx, nbins=25)
-st.plotly_chart(fig2, theme=None, use_container_width=False)
-
-fig3 = px.histogram(dfProspect, x=yy, nbins=25)
-st.plotly_chart(fig3, theme=None, use_container_width=False)
 
 
 with st.expander('Metric Glossary'):
