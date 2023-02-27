@@ -41,7 +41,7 @@ df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
 df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
 
 df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
-
+df.rename(columns={'Team':'xxxTeam', 'Team within selected timeframe':'Team'})
 
 df['Main Position'] = ''
 for i in range(len(df)):
@@ -63,8 +63,8 @@ with st.sidebar:
                                     'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
     mins = st.number_input('Minimum Minutes Played', 300, max(df['Minutes played'].astype(int)), 900)
-    xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)-1].tolist()))
-    yy = st.selectbox('Y-Axis', (df.columns[8:len(df.columns)-1].tolist()))
+    xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)-1].tolist()), 'npxG per 90')
+    yy = st.selectbox('Y-Axis', (df.columns[8:len(df.columns)-1].tolist()), 'Non-penalty goals per 90')
 
     
 # Filter data
@@ -130,7 +130,8 @@ fig = px.scatter(
     x = xx,
     y = yy,
     text = 'Player',
-    hover_data=['Team within selected timeframe', 'Age', 'Main Position',],
+    textposition = 'top right',
+    hover_data=['Team', 'Age', 'Position',],
     hover_name = 'Player')
 
 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
@@ -171,7 +172,7 @@ with st.expander('Latest Data Updates'):
     German Leagues: 1/29/22  \n
     Hungarian NB I: 1/29/23  \n
     Indian Super League: 1/29/23  \n
-    Indonesian Liga 1: 1/29/23  \n
+    Indonesian Liga 1: 2/27/23  \n
     J1, J2, J3: DATA FINAL FOR 2022  \n
     K League 1 & 2: DATA FINAL FOR 2022  \n
     Kazakh Premier League: DATA FINAL FOR 2022  \n
