@@ -134,8 +134,8 @@ fig = px.scatter(
     hover_name = 'Player')
 fig.update_traces(textposition='top right')
 
-fig.add_hline(y=dfProspect[yy].median(), label='Median')
-fig.add_vline(x=dfProspect[xx].median(), label='Median')
+fig.add_hline(y=dfProspect[yy].median(), name='Median')
+fig.add_vline(x=dfProspect[xx].median(), name='Median')
 
 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
