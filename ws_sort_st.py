@@ -980,7 +980,7 @@ radar_img = scout_report(
              club_image = 'n',
              extra_text = xtratext,
             )
-st.pyplot(radar_img)
+st.pyplot(radar_img.figure)
 # except:
 #     st.text('Please enter a valid name & age.')
     
