@@ -413,8 +413,11 @@ a = df1['Main Position'].unique()
 a = list(set(a))
 
 ws_pos = ['LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB']
-pos_buckets = ['mult','mult','mult','mult','mult','mult','mult','mult','mult','single','mult','single','mult','single','mult','mult','mult','mult','mult','single','single']
-pos = ['Winger','Winger','Fullback','Fullback','Midfielder','Midfielder no CAM','Midfielder no CAM','Winger','Midfielder no DM','CB','Fullback','CF','Fullback','GK','Midfielder no CAM','Midfielder','Winger','Winger','Winger','CB','CB']
+pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
+       'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
+       'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
+       'Central Midfielders no CAM (DM, CM)',
+       'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
 template = ['attacking','attacking','defensive','defensive','attacking','defensive','defensive','attacking','attacking','cb','defensive','attacking','defensive','gk','defensive','attacking','attacking','attacking','attacking','cb','cb']
 compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs']
 
@@ -506,6 +509,8 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
         dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
     if pos == 'Centre-Backs':
         dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
+    if pos == 'GK':
+        dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('GK'))]
 
     # FORWARD
     fwd1 = "Non-penalty goals per 90"
