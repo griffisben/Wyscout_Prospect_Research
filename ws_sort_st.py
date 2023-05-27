@@ -62,11 +62,12 @@ df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
 
 df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 
-# df.reset_index(drop=True,inplace=True)
 df['Main Position'] = ''
 for i in range(len(df)):
     df['Main Position'][i] = df['Position'][i].split()[0]
-st.text(print(df['Main Position'].unique().tolist()))
+    if df['Main Position'][i][-1:] == ',':
+        df['Main Position'][i] = df['Main Position'][i][:-1]
+
 #############################################################################################################################
 
 # Filter data
