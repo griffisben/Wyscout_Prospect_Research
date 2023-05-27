@@ -6,4 +6,3 @@ scipy
 statistics
 streamlit
 plotly
-math
