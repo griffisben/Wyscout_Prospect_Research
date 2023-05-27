@@ -59,7 +59,7 @@ with st.sidebar:
                                     'Forwards no ST (AM, W)', 'Wingers', 'Midfielders (DM, CM, CAM)',
                                     'Central & Defensive Midfielders (DM, CM)', 'Central & Attacking Midfielders (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'Goalkeepers'))
-    mins = st.number_input('Minimum Minutes Played', 300, max(df['Minutes played'].astype(int)), 900)
+    mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
     xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)].tolist()))
     yy = st.selectbox('Y-Axis', (df.columns[8:len(df.columns)].tolist()))
 
@@ -172,29 +172,29 @@ with st.expander('Metric Glossary'):
     
 with st.expander('Latest Data Updates'):
     st.write('''
-    Allsvenskan: DATA FINAL FOR 2022  \n
+    Allsvenskan: 5/25/23  \n
     Argentinian Primera División: DATA FINAL FOR 2022  \n
     Brasileirão: DATA FINAL FOR 2022  \n
     Chilean Primera División: DATA FINAL FOR 2022  \n
     Chinese Super League: DATA FINAL FOR 2022  \n
-    Czech Fortuna Liga: 2/27/23  \n
-    Ekstraklasa: 2/27/23  \n
-    Eliteserien: DATA FINAL FOR 2022  \n
-    Estonian Meistriliiga: DATA FINAL FOR 2022  \n
-    German Leagues: 2/27/23  \n
-    Hungarian NB I: 2/27/23  \n
-    Indian Super League: 2/27/23  \n
-    Indonesian Liga 1: 2/27/23  \n
-    J1, J2, J3: DATA FINAL FOR 2022  \n
-    K League 1 & 2: DATA FINAL FOR 2022  \n
-    Kazakh Premier League: DATA FINAL FOR 2022  \n
-    Latvian Virsliga: DATA FINAL FOR 2022  \n
-    Malaysian Super League: DATA FINAL FOR 2022  \n
-    MLS: DATA FINAL FOR 2022  \n
+    Czech Fortuna Liga: 5/25/23  \n
+    Ekstraklasa: 5/25/23  \n
+    Eliteserien: 5/25/23  \n
+    Estonian Meistriliiga: 5/25/23  \n
+    Hungarian NB I: 5/27/23  \n
+    Indian Super League: DATA FINAL FOR 22-23  \n
+    Indonesian Liga 1: DATA FINAL FOR 22-23  \n
+    J1, J2, J3: 5/25/23  \n
+    K League 1 & 2: 5/25/23  \n
+    Kazakh Premier League: 5/25/23  \n
+    Latvian Virsliga: 5/25/23  \n
+    Malaysian Super League: 5/25/23  \n
+    MLS: 5/25/23  \n
     Peruvian Primera División: DATA FINAL FOR 2022  \n
-    Slovak Super Liga: 2/27/23  \n
-    Thai League 1: 2/27/23  \n
+    Slovak Super Liga: 5/25/23  \n
+    Thai League 1: 5/25/23  \n
     Uruguayan Primera División: DATA FINAL FOR 2022  \n
-    Uzbek Super League: DATA FINAL FOR 2022  \n
-    Veikkausliiga: DATA FINAL FOR 2022
+    Uzbek Super League: 5/25/23  \n
+    Veikkausliiga: 5/25/23
     ''')
+    

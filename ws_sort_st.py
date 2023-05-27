@@ -31,24 +31,18 @@ with st.expander('Read App Details'):
 
 ##################################################################
 
+lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
 df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
     st.header('Choose Basic Options')
-    league = st.selectbox('League', ('Indian Super League', 'K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Chinese Super League',
-                                     'Indonesian Liga 1', 'Thai League 1', 'Malaysian Super League',
-                                     'Latvian Virsliga', 'Estonian Meistriliiga', 'Allsvenskan',
-                                     'Eliteserien', 'Veikkausliiga', 'MLS', 'Argentinian Primera División', 'Chilean Primera División', 'Peruvian Primera División',
-                                    'Uruguayan Primera División', 'Brasileirão', 'Uzbek Super League', 'Kazakh Premier League',
-                                    'English Championship', 'English League One', 'English League Two',
-                                    '1. Bundesliga', '2. Bundesliga', '3. Liga',
-                                     'Ekstraklasa', 'Hungarian NB I', 'Czech Fortuna Liga', 'Slovak Super Liga', ))
+    league = st.selectbox('League', (lg_lookup.League.tolist()))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
-                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs'))
-    mins = st.number_input('Minimum Minutes Played', 300, max(df['Minutes played'].astype(int)), 900)
+                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs'))
+    mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
     maxage = st.slider('Max Age', 15, max(df.Age.astype(int)), 25)
 
 
@@ -79,6 +73,7 @@ for i in range(len(df)):
 dfProspect = df[(df['Minutes played']>=mins) & (df['League']==league)].copy()
 
 
+
 if pos == 'Forwards (AM, W, CF)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF')) |
                            (dfProspect['Main Position'].str.contains('RW')) |
@@ -91,9 +86,7 @@ if pos == 'Strikers and Wingers':
 if pos == 'Forwards no ST (AM, W)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('AMF')) |
                            (dfProspect['Main Position'].str.contains('RW')) |
-                           (dfProspect['Main Position'].str.contains('LW')) |
-#                                (dfProspect['Main Position'].str.contains('LAMF')) |
-                           (dfProspect['Main Position'].str.contains('AMF'))]
+                           (dfProspect['Main Position'].str.contains('LW'))]
 if pos == 'Wingers':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('WF')) |
                            (dfProspect['Main Position'].str.contains('LAMF')) |
@@ -105,15 +98,16 @@ if pos == 'Central Midfielders (DM, CM, CAM)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                            (dfProspect['Main Position'].str.contains('DMF')) |
                            (dfProspect['Main Position'].str.contains('AMF'))]
-if pos == 'Central Midfielders no CAM (DM, CM)':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
-                           (dfProspect['Main Position'].str.contains('DMF'))]
+    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('RAMF')]
+    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
 if pos == 'Central Midfielders no DM (CM, CAM)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
                            (dfProspect['Main Position'].str.contains('AMF'))]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
     dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('RAMF')]
-
+    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
+if pos == 'Central Midfielders no CAM (DM, CM)':
+    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
+                           (dfProspect['Main Position'].str.contains('DMF'))]
 if pos == 'Fullbacks (FBs/WBs)':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('LB')) |
                            (dfProspect['Main Position'].str.contains('RB')) |
@@ -123,17 +117,14 @@ if pos == 'Defenders (CB, FB/WB, DM)':
                            (dfProspect['Main Position'].str.contains('RB')) |
                            (dfProspect['Main Position'].str.contains('WB')) |
                            (dfProspect['Main Position'].str.contains('CB')) |
-                           (dfProspect['Main Position'].str.contains('LCB')) |
-                           (dfProspect['Main Position'].str.contains('RCB')) |
                            (dfProspect['Main Position'].str.contains('DMF'))]
-if pos == 'Centre-Backs':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('B'))]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('WB')]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('RB')]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LB')]
-
+if pos == 'CBs & DMs':
+    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB')) |
+                           (dfProspect['Main Position'].str.contains('DMF'))]
 if pos == 'Strikers':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
+if pos == 'Centre-Backs':
+    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
 
 
 ########## PROSPECT RESEARCH ##########
@@ -969,305 +960,14 @@ try:
 
         return fig
 
-    #     ####################################################################
-
-    # #     if analysis == 'distribution':
-    #     import matplotlib
-    #     matplotlib.rcParams['figure.dpi'] = 250
-
-
-    #     sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0)})
-    #     c = {'Metric': [], 'Value': [], 'Player': [], 'TrueVal': [], 'Group': []}
-    #     distdf = pd.DataFrame(c)
-
-    #     if template == 'attacking':
-    #         var_list = [mid1,mid2,mid3,extra3,
-    #                    mid4,mid5, extra5, mid6,mid7,extra4,
-    #                    fwd2,fwd1,fwd6, extra9, extra2, fwd11,
-    #                    fwd5, extra6, mid10, mid9,
-    #                    def1, mid12,def8,]
-    #     if template == 'defensive':
-    #         var_list = [def1, def2,def3,def6, def7, extra7,def8,
-    #                     def9, extra3,def10, def11, def12,fwd5,extra6,mid5,
-    #                     def4,def5,extra8]
-    #     if template == 'cb':
-    #         var_list = [def1, def2,def3,def6, def7, extra7,def8,
-    #                     def9,def10, def11, def12,fwd5,extra6,mid5,
-    #                     def4,def5,extra8]
-    #     if template == 'gk':
-    #         var_list = [gk1, gk2,gk3,gk4, gk5, gk6,gk7,
-    #                     gk8, gk9,gk10]
-
-
-    #     for i in range(len(var_list)):
-    #         n1 = var_list[i]
-    #         n2 = df_pros[var_list[i]].values
-    #         n2 = ((n2-min(n2))/(max(n2)-min(n2)))*len(n2)
-    #         n3 = df_pros['Player'].values
-    #         n4 = df_pros[var_list[i]].values
-    #         n5 = GROUP[i]
-    #         new = {'Metric': n1, 'Value': n2, 'Player': n3, 'TrueVal': n4, 'Group': n5}
-    #         new_row = pd.DataFrame(new)
-    #         distdf = distdf.append(new_row)
-
-    #     distdf = distdf.reset_index(drop=True)
-
-    #     if template == 'attacking':
-    #         distdf['Metric'] = distdf['Metric'].replace({mid1: "Short & Med\nPass %",
-    #                                     mid2: "Long\nPass %",
-    #                                     mid3: "Smart\nPass %",
-    #                                     extra3: 'Cross\nCompletion %',
-    #                                     mid4: "Shot Assists",
-    #                                     mid5: "Expected\nAssists (xA)",
-    #                                     extra5: 'xA per\nShot Assist',
-    #                                     mid6: "Assists",
-    #                                     mid7: "Second\nAssists",
-    #                                     extra4: 'Smart Passes',
-    #                                   fwd2: "npxG",
-    #                                    fwd1: "Non-Pen\nGoals",
-    #                                     fwd6: "Goals/Shot\non Target %",
-    #                                       extra9: 'npxG\nper shot',
-    #                                     extra2: "Shots",
-    #                                       fwd11: 'Touches in\nPen Box',
-    #                                      fwd5: "Dribble\nSuccess %",
-    #                                       extra6: 'Accelerations\nwith Ball',
-    #                                     mid10: "Progressive\nCarries",
-    #                                     mid9: "Progressive\nPasses",
-    #                                     def1: "Defensive\nActions",
-    #                                     mid12: "Tackles & Int\n(pAdj)",
-    #                                       def8: 'Aerial\nWin %'
-    #                                      })
-    #     if template == 'defensive':
-    #         distdf['Metric'] = distdf['Metric'].replace({def1: 'Defensive\nActions',
-    #                                   def2: "Tackles\n(pAdj)",
-    #                                   def3: "Defensive\nDuels Won %",
-    #                                   def6: "Shot Blocks",
-    #                                   def7: "Interceptions\n(pAdj)",
-    #                                   extra7: 'Aerial Duels\nWon',
-    #                                   def8: "Aerial\nWin %",
-    #                                   def9: "Long\nPass %",
-    #                                 extra10: "Crosses",
-    #                                   extra3: 'Cross\nCompletion %',
-    #                                   def10: "Assists &\n2nd/3rd Assists",
-    #                                   def11: "Progressive\nPasses",
-    #                                   def12: "Progressive\nCarries",
-    #                                   fwd5: "Dribble\nSucces %",
-    #                                   extra6: 'Accelerations\nwith Ball',
-    #                                   mid5: "Expected\nAssists",
-    #                                   def4: "Fouls",
-    #                                   def5: "Cards",
-    #                                   extra8: 'Fouls Drawn'
-    #                                  })
-    #     if template == 'cb':
-    #         distdf['Metric'] = distdf['Metric'].replace({def1: 'Defensive\nActions',
-    #                                   def2: "Tackles\n(pAdj)",
-    #                                   def3: "Defensive\nDuels Won %",
-    #                                   def6: "Shot Blocks",
-    #                                   def7: "Interceptions\n(pAdj)",
-    #                                   extra7: 'Aerial Duels\nWon',
-    #                                   def8: "Aerial\nWin %",
-    #                                   def9: "Long\nPass %",
-    #                                   def10: "Assists &\n2nd/3rd Assists",
-    #                                   def11: "Progressive\nPasses",
-    #                                   def12: "Progressive\nCarries",
-    #                                   fwd5: "Dribble\nSucces %",
-    #                                   extra6: 'Accelerations\nwith Ball',
-    #                                   mid5: "Expected\nAssists",
-    #                                   def4: "Fouls",
-    #                                   def5: "Cards",
-    #                                   extra8: 'Fouls Drawn'
-    #                                  })
-    #     if template == 'gk':
-    #         distdf['Metric'] = distdf['Metric'].replace({gk1: "Goals\nConceded",
-    #                                   gk2: "Goals Prevented\nvs Expected",
-    #                                   gk3: "Shots Against",
-    #                                   gk4: "Save %",
-    #                                   gk5: "Clean Sheet %",
-    #                                   gk6: "Att. Cross Claims\nor Punches",
-    #                                   gk7: "Aerial Wins",
-    #                                   gk8: "Passes",
-    #                                   gk9: "Long Passes",
-    #                                   gk10: "Long\nPass %",
-    #                                  })
-
-
-    #     x = distdf['Value']
-    #     g = list(distdf.Metric)
-    #     df_1 = pd.DataFrame(dict(x=x, g=g))
-
-
-    #     team_unique = list(df_1.g.unique())
-    #     num_teams = len(team_unique)
-    #     means_ = range(0,num_teams)
-    #     meds_ = range(0,num_teams)
-    #     d = {'g': team_unique, 'Mean': means_, 'Median': meds_}
-    #     df_means = pd.DataFrame(data=d)
-
-    #     for i in range(len(team_unique)):
-    #         a = df_1[df_1['g']==team_unique[i]]
-    #         mu = float(a.mean())
-    #         med = float(a.median())
-    #         df_means['g'].iloc[i] = team_unique[i]
-    #         df_means['Mean'].iloc[i] = mu
-    #         df_means['Median'].iloc[i] = med
-    #     y_order = list(df_means['g'])
-
-    #     df_1 = df_1.merge(df_means, on='g', how='left')
-
-    #     # add in extra columns
-    #     df_1['Player'] = distdf['Player']
-    #     df_1['Value'] = distdf['Value']
-    #     df_1['TrueVal'] = distdf['TrueVal']
-    #     df_1['Group'] = distdf['Group']
-    #     player_df = df_1[df_1['Player']==ws_name].reset_index(drop=True)
-    #     line_val = player_df['Value']
-    #     true_val = round(player_df['TrueVal'], 2)
-    #     labels = df_1['g'].unique()
-
-    #     COLORS = [f"C{i}" for i, size in enumerate(GROUPS_SIZE) for _ in range(size)]
-    #     # Initialize the FacetGrid object
-    #     pal = sns.cubehelix_palette(num_teams, rot=2.5, light=.5)
-    #     g = sns.FacetGrid(df_1, hue='Group', row="g", aspect=15, height=.5, row_order=y_order,
-    #     #                   palette=pal,
-    #                      )
-
-    #     # Draw the densities in a few steps
-    #     g.map(sns.kdeplot, "x",
-    #           bw_adjust=.5, clip_on=False,
-    #           fill=True, alpha=1, linewidth=1.5)
-    #     g.map(sns.kdeplot, "x", clip_on=False, color="w", lw=2, bw_adjust=.5,)
-
-
-    #     # draw each distribution's line
-    #     for ax, val, COLORS, tval in zip(g.axes.flat, line_val, COLORS, true_val):
-    #         ax.axvline(x=val, color='white', linestyle='solid', ymin=0, ymax=.7, lw=4)
-    #         ax.axvline(x=val, color=COLORS, linestyle='solid', ymin=0, ymax=.7, lw=2)
-    #         ax.text(max(df_1['Value'])+((max(df_1['Value'])-min(df_1['Value']))/6), 0.01, tval, color=COLORS, fontweight='bold')
-
-
-    #     # passing color=None to refline() uses the hue mapping
-    #     g.refline(y=0, linewidth=2, linestyle="-", color=None, clip_on=False)
-
-    #     COLORS = [f"C{i}" for i, size in enumerate(GROUPS_SIZE) for _ in range(size)]
-    # #     path_eff = [path_effects.Stroke(linewidth=.5, foreground='white'), path_effects.Normal()]
-    #     for ax, val, COLORS, lab in zip(g.axes.flat, line_val, COLORS, labels):
-    #         ax.text(min(df_1['Value'])-((max(df_1['Value'])-min(df_1['Value']))/3), 0.01, lab, color='w', fontweight='bold', fontsize=12.1)
-    #         ax.text(min(df_1['Value'])-((max(df_1['Value'])-min(df_1['Value']))/3), 0.01, lab, color=COLORS, fontweight='bold')
-
-    #     # Set the subplots to overlap
-    #     g.figure.subplots_adjust(hspace=-.1)
-
-    #     # Remove axes details that don't play well with overlap
-    #     g.set_titles("")
-    #     g.set(yticks=[], xticks=[], ylabel='', xlabel='')
-    #     g.despine(bottom=True, left=True)
-
-    #     fig = plt.gcf()
-    #     fig.patch.set_facecolor('#fbf9f4')
-    #     fig.set_size_inches(7, 15)
-
-    #     plt.suptitle('%s (%i, %s), %s, %s %s'
-    #                  %(name, age, player_pos, team, season, league),
-    #                  fontsize=15,
-    #                  fontfamily="DejaVu Sans",
-    #                 color="#4A2E19", #4A2E19
-    #                  fontweight="bold", fontname="DejaVu Sans",
-    #                 x=0.5,
-    #                 y=1.01)
-
-    #     plt.annotate("All values are per 90 minutes%s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
-    #                  xy = (0, -.6), xycoords='axes fraction',
-    #                 ha='left', va='center',
-    #                 fontsize=9, fontfamily="DejaVu Sans",
-    #                 color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                 )   
-
-    #     if template == 'attacking':
-    #         plt.annotate("Per 90' Number",
-    #                      xy = (.85, 20.6), xycoords='axes fraction',
-    #                     ha='left', va='center',
-    #                     fontsize=9, fontfamily="DejaVu Sans",
-    #                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                     )  
-    #         plt.annotate("Metric",
-    #                      xy = (0, 20.6), xycoords='axes fraction',
-    #                     ha='left', va='center',
-    #                     fontsize=9, fontfamily="DejaVu Sans",
-    #                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                     )
-    #     if template == 'defensive':
-    #         plt.annotate("Per 90' Number",
-    #                      xy = (.85, 16), xycoords='axes fraction',
-    #                     ha='left', va='center',
-    #                     fontsize=9, fontfamily="DejaVu Sans",
-    #                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                     )  
-    #         plt.annotate("Metric",
-    #                      xy = (0, 16), xycoords='axes fraction',
-    #                     ha='left', va='center',
-    #                     fontsize=9, fontfamily="DejaVu Sans",
-    #                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                     )  
-    #     if template == 'cb':
-    #         plt.annotate("Per 90' Number",
-    #                      xy = (.85, 15), xycoords='axes fraction',
-    #                     ha='left', va='center',
-    #                     fontsize=9, fontfamily="DejaVu Sans",
-    #                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                     )  
-    #         plt.annotate("Metric",
-    #                      xy = (0, 15), xycoords='axes fraction',
-    #                     ha='left', va='center',
-    #                     fontsize=9, fontfamily="DejaVu Sans",
-    #                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                     )  
-    #     if template == 'gk':
-    #         plt.annotate("Per 90' Number",
-    #                      xy = (.85, 9), xycoords='axes fraction',
-    #                     ha='left', va='center',
-    #                     fontsize=9, fontfamily="DejaVu Sans",
-    #                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                     )  
-    #         plt.annotate("Metric",
-    #                      xy = (0, 9), xycoords='axes fraction',
-    #                     ha='left', va='center',
-    #                     fontsize=9, fontfamily="DejaVu Sans",
-    #                     color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
-    #                     )  
-
-
-    #     if club_image == 'y':
-    #         from PIL import Image
-    #         image = Image.open('%s/%s/%s.png' %(imgpath,league,team))
-    #         newax = fig.add_axes([.8,-.03,0.08,0.08], anchor='C', zorder=1)
-    #         newax.imshow(image)
-    #         newax.axis('off')
-    #     fig = plt.gcf()
-    #     fig.show()        
-
 
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    complete = ['Allsvenskan', 'Chinese Super League', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
-    incomplete = ['Czech Fortuna Liga', 'Slovak Super Liga', 'Indonesian Liga 1', 'Thai League 1', 'English Championship', 'English League One', 'English League Two', '1. Bundesliga', '2. Bundesliga', '3. Liga', 'Indian Super League', 'Ekstraklasa', 'Hungarian NB I']
-    summer = ['Allsvenskan', 'Eliteserien', 'Estonian Meistriliiga', 'J1', 'J2', 'J3', 'K League 1', 'K League 2', 'Latvian Virsliga', 'Malaysian Super League', 'Veikkausliiga', 'Chinese Super League', 'MLS', 'Uruguayan Primera División', 'Chilean Primera División', 'Brasileirão', 'Argentinian Primera División', 'Uzbek Super League', 'Kazakh Premier League', 'Peruvian Primera División']
-    winter = ['Czech Fortuna Liga', 'Slovak Super Liga', 'Indonesian Liga 1', 'Thai League 1', 'English Championship', 'English League One', 'English League Two', '1. Bundesliga', '2. Bundesliga', '3. Liga', 'Indian Super League', 'Ekstraklasa', 'Hungarian NB I']
-    
-    if league in summer:
-        ssn_ = '2022'
-        if league in incomplete:
-            xtratext = ' | Data as of 1/29/23'
-        elif league in complete:
-            xtratext = ' | Data final for 2022'
-    elif league in winter:
-        ssn_ = '22-23'
-        if league in incomplete:
-            xtratext = ' | Data as of 1/29/23'
-        elif league in complete:
-            xtratext = ' | Data final for 2022'
-    
+    ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
+    xtratext = lg_lookup[lg_lookup['League']==league].Date.values[0]
+        
     radar_img = scout_report(
                  league = league,  ######
                  season = ssn_,  
@@ -1314,31 +1014,29 @@ with st.expander('Metric Glossary'):
     
 with st.expander('Latest Data Updates'):
     st.write('''
-    Allsvenskan: DATA FINAL FOR 2022  \n
+    Allsvenskan: 5/25/23  \n
     Argentinian Primera División: DATA FINAL FOR 2022  \n
     Brasileirão: DATA FINAL FOR 2022  \n
     Chilean Primera División: DATA FINAL FOR 2022  \n
     Chinese Super League: DATA FINAL FOR 2022  \n
-    Czech Fortuna Liga: 1/29/23  \n
-    Ekstraklasa: 1/29/23  \n
-    Eliteserien: DATA FINAL FOR 2022  \n
-    English Leagues: 1/29/23  \n
-    Estonian Meistriliiga: DATA FINAL FOR 2022  \n
-    German Leagues: 1/29/22  \n
-    Hungarian NB I: 1/29/23  \n
-    Indian Super League: 1/29/23  \n
-    Indonesian Liga 1: 1/29/23  \n
-    J1, J2, J3: DATA FINAL FOR 2022  \n
-    K League 1 & 2: DATA FINAL FOR 2022  \n
-    Kazakh Premier League: DATA FINAL FOR 2022  \n
-    Latvian Virsliga: DATA FINAL FOR 2022  \n
-    Malaysian Super League: DATA FINAL FOR 2022  \n
-    MLS: DATA FINAL FOR 2022  \n
+    Czech Fortuna Liga: 5/25/23  \n
+    Ekstraklasa: 5/25/23  \n
+    Eliteserien: 5/25/23  \n
+    Estonian Meistriliiga: 5/25/23  \n
+    Hungarian NB I: 5/27/23  \n
+    Indian Super League: DATA FINAL FOR 22-23  \n
+    Indonesian Liga 1: DATA FINAL FOR 22-23  \n
+    J1, J2, J3: 5/25/23  \n
+    K League 1 & 2: 5/25/23  \n
+    Kazakh Premier League: 5/25/23  \n
+    Latvian Virsliga: 5/25/23  \n
+    Malaysian Super League: 5/25/23  \n
+    MLS: 5/25/23  \n
     Peruvian Primera División: DATA FINAL FOR 2022  \n
-    Slovak Super Liga: 1/29/23  \n
-    Thai League 1: 1/29/23  \n
+    Slovak Super Liga: 5/25/23  \n
+    Thai League 1: 5/25/23  \n
     Uruguayan Primera División: DATA FINAL FOR 2022  \n
-    Uzbek Super League: DATA FINAL FOR 2022  \n
-    Veikkausliiga: DATA FINAL FOR 2022
+    Uzbek Super League: 5/25/23  \n
+    Veikkausliiga: 5/25/23
     ''')
     
