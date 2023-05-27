@@ -928,7 +928,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
                 x=0.5,
                 y=.97)
 
-    plt.annotate("All values are per 90 minutes%s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
+    plt.annotate("All values are per 90 minutes | %s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
                  xy = (0, -.05), xycoords='axes fraction',
                 ha='left', va='center',
                 fontsize=9, fontfamily="DejaVu Sans",
