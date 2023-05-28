@@ -348,40 +348,40 @@ with st.sidebar:
 
 
 
-# final = final[(final['Accurate short / medium passes, %']>=short) &
-#              (final['Accurate long passes, %']>=long) &
-#               (final['Smart passes per 90']>=smart) &
-#              (final['Accurate smart passes, %']>=smartpct) &
-#               (final['Crosses per 90']>=crosses) &
-#               (final['Accurate crosses, %']>=crosspct) &
-#               (final['Shot assists per 90']>=shotassist) &
-#               (final['xA per 90']>=xa) &
-#               (final['xA per Shot Assist']>=xasa) &
-#               (final['Assists per 90']>=ast) &
-#               (final['Second assists per 90']>=ast2) &
-#               (final['1st, 2nd, 3rd assists']>=ast123) &
-#               (final['npxG per 90']>=npxg) &
-#               (final['Non-penalty goals per 90']>=npg) &
+final = final[(final['Accurate short / medium passes, %']>=short) &
+             (final['Accurate long passes, %']>=long) &
+              (final['Smart passes per 90']>=smart) &
+             (final['Accurate smart passes, %']>=smartpct) &
+              (final['Crosses per 90']>=crosses) &
+              (final['Accurate crosses, %']>=crosspct) &
+              (final['Shot assists per 90']>=shotassist) &
+              (final['xA per 90']>=xa) &
+              (final['xA per Shot Assist']>=xasa) &
+              (final['Assists per 90']>=ast) &
+              (final['Second assists per 90']>=ast2) &
+              (final['1st, 2nd, 3rd assists']>=ast123) &
+              (final['npxG per 90']>=npxg) &
+              (final['Non-penalty goals per 90']>=npg) &
 #               (final['Goal conversion, %']>=gc) &
-#               (final['npxG per shot']>=npxgshot) &
-#               (final['Shots per 90']>=shots) &
-#               (final['Touches in box per 90']>=boxtouches) &
-#               (final['Successful dribbles, %']>=drib) &
-#               (final['Accelerations per 90']>=accel) &
-#               (final['Progressive runs per 90']>=progcarry) &
-#               (final['Progressive passes per 90']>=progpass) &
-#               (final['Successful defensive actions per 90']>=defend) &
-#               (final['Defensive duels won, %']>=defduels) &
-#               (final['pAdj Tkl+Int per 90']>=tklint) &
-#               (final['PAdj Sliding tackles']>=tkl) &
-#               (final['PAdj Interceptions']>=intercept) &
-#               (final['Aerial duels won, %']>=aerial) &
-#               (final['Aerial duels won per 90']>=aerialswon) &
-#               (final['Shots blocked per 90']>=shotblock) &
-#               (final['Fouls per 90']>=foul) &
-#               (final['Fouls suffered per 90']>=fouldraw) &
-#               (final['Cards per 90']>=cards)
-#              ].reset_index(drop=True)
+              (final['npxG per shot']>=npxgshot) &
+              (final['Shots per 90']>=shots) &
+              (final['Touches in box per 90']>=boxtouches) &
+              (final['Successful dribbles, %']>=drib) &
+              (final['Accelerations per 90']>=accel) &
+              (final['Progressive runs per 90']>=progcarry) &
+              (final['Progressive passes per 90']>=progpass) &
+              (final['Successful defensive actions per 90']>=defend) &
+              (final['Defensive duels won, %']>=defduels) &
+              (final['pAdj Tkl+Int per 90']>=tklint) &
+              (final['PAdj Sliding tackles']>=tkl) &
+              (final['PAdj Interceptions']>=intercept) &
+              (final['Aerial duels won, %']>=aerial) &
+              (final['Aerial duels won per 90']>=aerialswon) &
+              (final['Shots blocked per 90']>=shotblock) &
+              (final['Fouls per 90']>=foul) &
+              (final['Fouls suffered per 90']>=fouldraw) &
+              (final['Cards per 90']>=cards)
+             ].reset_index(drop=True)
 st.text(len(final))
 
 final
