@@ -307,6 +307,7 @@ final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
 final.Age = final.Age.astype(int)
 final.sort_values(by=['Age'], inplace=True)
 final = final[final['Age']<=maxage].reset_index(drop=True)
+final.fillna(0)
 
 ##################################################################################################
 
@@ -356,7 +357,7 @@ final = final[(final['Accurate short / medium passes, %']>=short) &
               (final['Accurate crosses, %']>=crosspct) &
               (final['Shot assists per 90']>=shotassist) &
               (final['xA per 90']>=xa) &
-#               (final['xA per Shot Assist']>=xasa) &
+              (final['xA per Shot Assist']>=xasa) &
               (final['Assists per 90']>=ast) &
               (final['Second assists per 90']>=ast2) &
               (final['1st, 2nd, 3rd assists']>=ast123) &
