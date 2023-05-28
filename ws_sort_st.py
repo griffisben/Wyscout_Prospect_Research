@@ -314,8 +314,8 @@ final.fillna(0,inplace=True)
 with st.sidebar:
     st.header('Minimum Percentile Filters')
     def _update_slider(value):
-        st.session_state["slider1"] = value
-    st.button("Reset Sliders", on_click=_update_slider, kwargs={"value": 0.0})
+        st.session_state["slider1"] = 0.0
+    st.button("Reset Sliders", on_click=_update_slider)
 
 #     if "slider1" not in st.session_state:
 #         st.session_state["slider1"] = 0
