@@ -383,7 +383,6 @@ final = final[(final['Accurate short / medium passes, %']>=short) &
               (final['Fouls suffered per 90']>=fouldraw) &
               (final['Cards per 90']>=cards)
              ].reset_index(drop=True)
-st.text(len(final))
 
 final
 
