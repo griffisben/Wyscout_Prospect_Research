@@ -315,9 +315,42 @@ with st.sidebar:
     st.header('Minimum Percentile Filters')
     def _update_slider(value):
         st.session_state["slider1"] = value
+        st.session_state["slider2"] = value
+        st.session_state["slider3"] = value
+        st.session_state["slider4"] = value
+        st.session_state["slider5"] = value
+        st.session_state["slider6"] = value
+        st.session_state["slider7"] = value
+        st.session_state["slider8"] = value
+        st.session_state["slider9"] = value
+        st.session_state["slider10"] = value
+        st.session_state["slider11"] = value
+        st.session_state["slider12"] = value
+        st.session_state["slider13"] = value
+        st.session_state["slider14"] = value
+        st.session_state["slider15"] = value
+        st.session_state["slider16"] = value
+        st.session_state["slider17"] = value
+        st.session_state["slider18"] = value
+        st.session_state["slider19"] = value
+        st.session_state["slider20"] = value
+        st.session_state["slider21"] = value
+        st.session_state["slider22"] = value
+        st.session_state["slider23"] = value
+        st.session_state["slider24"] = value
+        st.session_state["slider25"] = value
+        st.session_state["slider26"] = value
+        st.session_state["slider27"] = value
+        st.session_state["slider28"] = value
+        st.session_state["slider29"] = value
+        st.session_state["slider30"] = value
+        st.session_state["slider31"] = value
+        st.session_state["slider32"] = value
+        st.session_state["slider33"] = value
+
     st.button("Reset Sliders", on_click=_update_slider, kwargs={"value": 0.0})
 
-    if "slider1" not in st.session_state:
+    if ['slider1','slider2','slider3','slider4','slider5','slider6','slider7','slider8','slider9','slider10','slider11','slider12','slider13','slider14','slider15','slider16','slider17','slider18','slider19','slider20','slider21','slider22','slider23','slider24','slider25','slider26','slider27','slider28','slider29','slider30','slider31','slider32','slider33'] not in st.session_state:
         st.session_state["slider1"] = 0.0
     
     short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0, key='slider1')
@@ -340,19 +373,19 @@ with st.sidebar:
     boxtouches = st.slider('Touches in Penalty Box per 90', 0.0, 1.0, 0.0, key='slider18')
     drib = st.slider('Dribble Success %', 0.0, 1.0, 0.0, key='slider19')
     accel = st.slider('Accelerations per 90', 0.0, 1.0, 0.0, key='slider20')
-    progcarry = st.slider('Progressive Carries per 90', 0.0, 1.0, 0.0)
-    progpass = st.slider('Progressive Passes per 90', 0.0, 1.0, 0.0)
-    aerial = st.slider('Aerial Win %', 0.0, 1.0, 0.0)
-    aerialswon = st.slider('Aerials Won per 90', 0.0, 1.0, 0.0)
-    defduels = st.slider('Defensive Duels Success %', 0.0, 1.0, 0.0)
-    defend = st.slider('Successful Defensive Actions per 90', 0.0, 1.0, 0.0)
-    tklint = st.slider('Tackles & Interceptions per 90', 0.0, 1.0, 0.0)
-    tkl = st.slider('Sliding Tackles per 90', 0.0, 1.0, 0.0)
-    intercept = st.slider('Interceptions per 90', 0.0, 1.0, 0.0)
-    shotblock = st.slider('Shots Blocked per 90', 0.0, 1.0, 0.0)
-    foul = st.slider('Fouls Committed per 90', 0.0, 1.0, 0.0)
-    fouldraw = st.slider('Fouls Drawn per 90', 0.0, 1.0, 0.0)
-    cards = st.slider('Cards per 90', 0.0, 1.0, 0.0)
+    progcarry = st.slider('Progressive Carries per 90', 0.0, 1.0, 0.0, key='slider21')
+    progpass = st.slider('Progressive Passes per 90', 0.0, 1.0, 0.0, key='slider22')
+    aerial = st.slider('Aerial Win %', 0.0, 1.0, 0.0, key='slider23')
+    aerialswon = st.slider('Aerials Won per 90', 0.0, 1.0, 0.0, key='slider24')
+    defduels = st.slider('Defensive Duels Success %', 0.0, 1.0, 0.0, key='slider25')
+    defend = st.slider('Successful Defensive Actions per 90', 0.0, 1.0, 0.0, key='slider26')
+    tklint = st.slider('Tackles & Interceptions per 90', 0.0, 1.0, 0.0, key='slider27')
+    tkl = st.slider('Sliding Tackles per 90', 0.0, 1.0, 0.0, key='slider28')
+    intercept = st.slider('Interceptions per 90', 0.0, 1.0, 0.0, key='slider29')
+    shotblock = st.slider('Shots Blocked per 90', 0.0, 1.0, 0.0, key='slider30')
+    foul = st.slider('Fouls Committed per 90', 0.0, 1.0, 0.0, key='slider31')
+    fouldraw = st.slider('Fouls Drawn per 90', 0.0, 1.0, 0.0, key='slider32')
+    cards = st.slider('Cards per 90', 0.0, 1.0, 0.0, key='slider33')
 
 
 
