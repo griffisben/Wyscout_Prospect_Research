@@ -313,6 +313,10 @@ final.fillna(0,inplace=True)
 
 with st.sidebar:
     st.header('Minimum Percentile Filters')
+    def reset():
+        st.session_state.selection = 0.0
+
+    st.button('Reset', on_click=reset)
     short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0)
     long = st.slider('Long Pass Cmp %', 0.0, 1.0, 0.0)
     smartpct = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.0)
