@@ -254,7 +254,7 @@ final = dfProspect[['Player','Age','League','Position','Team within selected tim
 #                     'gkpct1','gkpct2','gkpct3','gkpct4','gkpct5','gkpct6','gkpct7','gkpct8','gkpct10',
                     'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
 ]]
-st.text(len(dfProspect))
+st.text(len(final))
 
 final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
 'fwdpct2': "npxG per 90",
