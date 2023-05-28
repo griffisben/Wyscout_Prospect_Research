@@ -126,7 +126,7 @@ if pos == 'Strikers':
     dfProspect = dfProspect[dfProspect['Main Position']=='CF']
 if pos == 'Centre-Backs':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
-st.text(len(dfProspect))
+
 ########## PROSPECT RESEARCH ##########
 #######################################
 
@@ -192,8 +192,6 @@ extra8 = 'Fouls suffered per 90'
 extra9 = 'npxG per shot'
 extra10 = 'Crosses per 90'
 
-df_pros = dfProspect
-
 dfProspect["midpct1"] = stats.rankdata(dfProspect[mid1], "average")/len(dfProspect[mid1])
 dfProspect["midpct2"] = stats.rankdata(dfProspect[mid2], "average")/len(dfProspect[mid2])
 dfProspect["midpct3"] = stats.rankdata(dfProspect[mid3], "average")/len(dfProspect[mid3])
@@ -256,6 +254,7 @@ final = dfProspect[['Player','Age','League','Position','Team within selected tim
 #                     'gkpct1','gkpct2','gkpct3','gkpct4','gkpct5','gkpct6','gkpct7','gkpct8','gkpct10',
                     'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
 ]]
+st.text(len(dfProspect))
 
 final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
 'fwdpct2': "npxG per 90",
