@@ -123,7 +123,7 @@ if pos == 'CBs & DMs':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB')) |
                            (dfProspect['Main Position'].str.contains('DMF'))]
 if pos == 'Strikers':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
+    dfProspect = dfProspect[dfProspect['Main Position']=='CF']
 if pos == 'Centre-Backs':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
 
