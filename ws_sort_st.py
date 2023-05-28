@@ -356,13 +356,13 @@ final = final[(final['Accurate short / medium passes, %']>=short) &
               (final['Accurate crosses, %']>=crosspct) &
               (final['Shot assists per 90']>=shotassist) &
               (final['xA per 90']>=xa) &
-              (final['xA per Shot Assist']>=xasa) &
+#               (final['xA per Shot Assist']>=xasa) &
               (final['Assists per 90']>=ast) &
               (final['Second assists per 90']>=ast2) &
               (final['1st, 2nd, 3rd assists']>=ast123) &
               (final['npxG per 90']>=npxg) &
               (final['Non-penalty goals per 90']>=npg) &
-#               (final['Goal conversion, %']>=gc) &
+              (final['Goal conversion, %']>=gc) &
               (final['npxG per shot']>=npxgshot) &
               (final['Shots per 90']>=shots) &
               (final['Touches in box per 90']>=boxtouches) &
