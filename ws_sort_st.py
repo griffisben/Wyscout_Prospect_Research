@@ -1054,6 +1054,7 @@ with st.expander('Metric Glossary'):
 with st.expander('Latest Data Updates'):
     st.write('''
     Allsvenskan: 5/25/23  \n
+    A-League Men: 5/25/23  \n
     Argentinian Primera División: DATA FINAL FOR 2022  \n
     Brasileirão: DATA FINAL FOR 2022  \n
     Chilean Primera División: DATA FINAL FOR 2022  \n
@@ -1072,8 +1073,11 @@ with st.expander('Latest Data Updates'):
     Malaysian Super League: 5/25/23  \n
     MLS: 5/25/23  \n
     Peruvian Primera División: DATA FINAL FOR 2022  \n
+    Qatari Stars League: DATA FINAL FOR 22-23  \n
+    Saudi Pro League: 5/25/23  \n
     Slovak Super Liga: 5/25/23  \n
     Thai League 1: 5/25/23  \n
+    UAE Pro League: DATA FINAL FOR 22-23  \n
     Uruguayan Primera División: DATA FINAL FOR 2022  \n
     Uzbek Super League: 5/25/23  \n
     Veikkausliiga: 5/25/23
