@@ -126,7 +126,7 @@ if pos == 'Strikers':
     dfProspect = dfProspect[dfProspect['Main Position']=='CF']
 if pos == 'Centre-Backs':
     dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
-
+st.text(pos)
 ########## PROSPECT RESEARCH ##########
 #######################################
 
