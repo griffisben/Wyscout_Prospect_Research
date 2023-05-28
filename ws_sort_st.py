@@ -307,7 +307,7 @@ final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
 final.Age = final.Age.astype(int)
 final.sort_values(by=['Age'], inplace=True)
 final = final[final['Age']<=maxage].reset_index(drop=True)
-final.fillna(0)
+final.fillna(0,inplace=True)
 
 ##################################################################################################
 
