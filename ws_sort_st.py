@@ -351,7 +351,8 @@ with st.sidebar:
     st.button("Reset Sliders", on_click=_update_slider, kwargs={"value": 0.0})
 
     if ['slider1','slider2','slider3','slider4','slider5','slider6','slider7','slider8','slider9','slider10','slider11','slider12','slider13','slider14','slider15','slider16','slider17','slider18','slider19','slider20','slider21','slider22','slider23','slider24','slider25','slider26','slider27','slider28','slider29','slider30','slider31','slider32','slider33'] not in st.session_state:
-        st.session_state["slider1"] = 0.0
+#         st.session_state["slider1"] = 0.0
+        pass
     
     short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0, key='slider1')
     long = st.slider('Long Pass Cmp %', 0.0, 1.0, 0.0, key='slider2')
