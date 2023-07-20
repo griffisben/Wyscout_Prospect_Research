@@ -1053,33 +1053,35 @@ with st.expander('Metric Glossary'):
     
 with st.expander('Latest Data Updates'):
     st.write('''
-    Allsvenskan: 5/25/23  \n
-    A-League Men: 5/25/23  \n
-    Argentinian Primera División: DATA FINAL FOR 2022  \n
-    Brasileirão: DATA FINAL FOR 2022  \n
-    Chilean Primera División: DATA FINAL FOR 2022  \n
-    Chinese Super League: DATA FINAL FOR 2022  \n
-    Czech Fortuna Liga: 5/25/23  \n
-    Ekstraklasa: 5/25/23  \n
-    Eliteserien: 5/25/23  \n
-    Estonian Meistriliiga: 5/25/23  \n
-    Hungarian NB I: 5/27/23  \n
+    Allsvenskan: 7/20/23  \n
+    A-League Men: 7/20/23  \n
+    Argentinian Primera División: 7/20/23  \n
+    Brasileirão: 7/20/23  \n
+    Chilean Primera División: 7/20/23  \n
+    Chinese Super League: 7/20/23  \n
+    Croatian 1. HNL: DATA FINAL FOR 22-23  \n
+    Czech Fortuna Liga: DATA FINAL FOR 22-23  \n
+    Ekstraklasa: DATA FINAL FOR 22-23  \n
+    Eliteserien: DATA FINAL FOR 22-23  \n
+    Estonian Meistriliiga: 7/20/23  \n
+    Hungarian NB I: DATA FINAL FOR 22-23  \n
     Indian Super League: DATA FINAL FOR 22-23  \n
     Indonesian Liga 1: DATA FINAL FOR 22-23  \n
-    J1, J2, J3: 5/25/23  \n
-    K League 1 & 2: 5/25/23  \n
-    Kazakh Premier League: 5/25/23  \n
-    Latvian Virsliga: 5/25/23  \n
-    Malaysian Super League: 5/25/23  \n
-    MLS: 5/25/23  \n
+    J1, J2, J3: 7/20/23  \n
+    K League 1 & 2: 7/20/23  \n
+    Kazakh Premier League: 7/20/23  \n
+    Latvian Virsliga: 7/20/23  \n
+    Malaysian Super League: 7/20/23  \n
+    MLS: 7/20/23  \n
     Peruvian Primera División: DATA FINAL FOR 2022  \n
     Qatari Stars League: DATA FINAL FOR 22-23  \n
-    Saudi Pro League: 5/25/23  \n
-    Slovak Super Liga: 5/25/23  \n
+    Saudi Pro League: DATA FINAL FOR 22-23  \n
+    Slovak Super Liga: DATA FINAL FOR 22-23  \n
+    Slovenian 1. SNL: DATA FINAL FOR 22-23  \n
     Thai League 1: 5/25/23  \n
     UAE Pro League: DATA FINAL FOR 22-23  \n
-    Uruguayan Primera División: DATA FINAL FOR 2022  \n
-    Uzbek Super League: 5/25/23  \n
-    Veikkausliiga: 5/25/23
+    Uruguayan Primera División: 7/20/23  \n
+    Uzbek Super League: 7/20/23  \n
+    Veikkausliiga: 7/20/23
     ''')
     
