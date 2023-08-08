@@ -494,6 +494,7 @@ try:
         #####################################################################################
         # Filter data
         dfProspect = df[df['Minutes played']>=mins].reset_index(drop=True)
+        raw_valsdf = dfProspect[(dfProspect['Player']==ws_name) & (dfProspect['Team within selected timeframe']==team) & (dfProspect['Age']==age)]
 
     #         if pos_buckets == 'single':
     #             dfProspect = dfProspect[dfProspect['Main Position'].str.contains(pos)]
@@ -709,7 +710,13 @@ try:
                                     'midpct12': "Tackles & Int\n(pAdj)",
                                       'defpct8': 'Aerial\nWin %'
                                      }, inplace=True)
-    #             print('Number of players comparing to:',len(dfProspect))
+            raw_vals = raw_valsdf[["Player",
+                               mid1, mid2, mid3, extra3,
+                               mid4,mid5,extra5, mid6, mid7,extra4,
+                                   fwd2,fwd1,fwd6,extra9,extra2,fwd11,
+                               fwd5,extra6,mid10,mid9,
+                                   def1,mid12,def8
+                              ]]
 
         if template == 'defensive':
             dfRadarMF = dfRadarMF[["Player",
@@ -737,7 +744,12 @@ try:
                                       'defpct5': "Cards",
                                       'extrapct8': 'Fouls Drawn'
                                      }, inplace=True)
-    #             print('Number of players comparing to:',len(dfProspect))
+            
+            raw_vals = raw_valsdf[["Player",
+                               def1, def2, def3, def6,def7,extra7,def8,
+                               def9,extra10,extra3, def10, def11,def12,fwd5,extra6,mid5,
+                               def4,def5,extra8,
+                              ]]
 
         if template == 'cb':
             dfRadarMF = dfRadarMF[["Player",
@@ -763,7 +775,11 @@ try:
                                       'defpct5': "Cards",
                                       'extrapct8': 'Fouls Drawn'
                                      }, inplace=True)
-    #             print('Number of players comparing to:',len(dfProspect))
+            raw_vals = raw_valsdf[["Player",
+                               def1, def2, def3, def6,def7,extra7,def8,
+                               def9, def10, def11,def12,fwd5,extra6,mid5,
+                               def4,def5,extra8,
+                              ]]
 
 
 
@@ -943,11 +959,11 @@ try:
 
             offset += size + PAD
 
-        for bar in ax.patches:
-            ax.annotate(format(bar.get_height()*100, '.0f'),
+        for i, bar in enumerate(ax.patches):
+            ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
                            (bar.get_x() + bar.get_width() / 2,
                             bar.get_height()-.1), ha='center', va='center',
-                           size=12, xytext=(0, 8),
+                           size=10, xytext=(0, 8),
                            textcoords='offset points',
                        bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
 
@@ -1049,39 +1065,5 @@ with st.expander('Metric Glossary'):
     Progressive Carry = A continuous ball control by one player attempting to draw the team significantly closer to the opponent goal. (see Wyscout's glossary for more info)  \n
     Progressive Pass = A forward pass that attempts to advance a team significantly closer to the opponent’s goal.  \n
     Defensive Duel = When a player attempts to dispossess an opposition player to stop an attack progressing.  \n
-    ''')
-    
-with st.expander('Latest Data Updates'):
-    st.write('''
-    Allsvenskan: 7/20/23  \n
-    A-League Men: 7/20/23  \n
-    Argentinian Primera División: 7/20/23  \n
-    Brasileirão: 7/20/23  \n
-    Chilean Primera División: 7/20/23  \n
-    Chinese Super League: 7/20/23  \n
-    Croatian 1. HNL: DATA FINAL FOR 22-23  \n
-    Czech Fortuna Liga: DATA FINAL FOR 22-23  \n
-    Ekstraklasa: DATA FINAL FOR 22-23  \n
-    Eliteserien: DATA FINAL FOR 22-23  \n
-    Estonian Meistriliiga: 7/20/23  \n
-    Hungarian NB I: DATA FINAL FOR 22-23  \n
-    Indian Super League: DATA FINAL FOR 22-23  \n
-    Indonesian Liga 1: DATA FINAL FOR 22-23  \n
-    J1, J2, J3: 7/20/23  \n
-    K League 1 & 2: 7/20/23  \n
-    Kazakh Premier League: 7/20/23  \n
-    Latvian Virsliga: 7/20/23  \n
-    Malaysian Super League: 7/20/23  \n
-    MLS: 7/20/23  \n
-    Peruvian Primera División: DATA FINAL FOR 2022  \n
-    Qatari Stars League: DATA FINAL FOR 22-23  \n
-    Saudi Pro League: DATA FINAL FOR 22-23  \n
-    Slovak Super Liga: DATA FINAL FOR 22-23  \n
-    Slovenian 1. SNL: DATA FINAL FOR 22-23  \n
-    Thai League 1: 5/25/23  \n
-    UAE Pro League: DATA FINAL FOR 22-23  \n
-    Uruguayan Primera División: 7/20/23  \n
-    Uzbek Super League: 7/20/23  \n
-    Veikkausliiga: 7/20/23
     ''')
     
