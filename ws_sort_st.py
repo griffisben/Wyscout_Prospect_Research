@@ -16,7 +16,7 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 st.title('Soccer Prospect Research & Radar Creation')
-st.subheader("All data from Wyscout (please see footer for each league's latest data update)")
+st.subheader("All data from Wyscout")
 st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)')
 
 with st.expander('Read App Details'):
@@ -985,7 +985,7 @@ try:
                     x=0.5,
                     y=.97)
 
-        plt.annotate("All values are per 90 minutes | %s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
+        plt.annotate("Bars are percentiles | Values shown are per 90' values\nAll values are per 90 minutes | %s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
                      xy = (0, -.05), xycoords='axes fraction',
                     ha='left', va='center',
                     fontsize=9, fontfamily="DejaVu Sans",
