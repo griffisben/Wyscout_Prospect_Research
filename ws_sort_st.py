@@ -437,7 +437,7 @@ st.header('Enter player name below to generate their radar (you can copy+paste f
 player = st.text_input("Player's Radar to Generate", "")
 page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
 
-try:
+# try:
     df = df[df['Minutes played']>=mins].reset_index(drop=True)
     df = df[df['League']==league].reset_index(drop=True)
     df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
@@ -1043,8 +1043,8 @@ try:
                  extra_text = xtratext,
                 )
     st.pyplot(radar_img.figure)
-except:
-    st.text('Please enter a valid name & age.')
+# except:
+#     st.text('Please enter a valid name & age.')
     
     
 with st.expander('Metric Glossary'):
