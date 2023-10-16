@@ -15,7 +15,8 @@ import plotly.figure_factory as ff
 from plotly.graph_objects import Layout
 def click_button():
         st.session_state.clicked = True
-
+def reset_button_click():
+        st.session_state.clicked = False
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 st.title('Player Scatter Plot Program')
@@ -73,6 +74,7 @@ with st.sidebar:
         flipY = yy
         xx = flipY
         yy = flipX
+        st.session_state.clicked = False
 
 ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
 date = lg_lookup[lg_lookup['League']==league].Date.values[0]
