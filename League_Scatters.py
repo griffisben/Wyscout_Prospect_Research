@@ -14,7 +14,7 @@ import plotly.express as px
 import plotly.figure_factory as ff
 from plotly.graph_objects import Layout
 def click_button():
-        st.session_state.clicked = True
+    st.session_state.clicked = True
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
@@ -73,7 +73,9 @@ with st.sidebar:
     if st.session_state.clicked:
         xx = flipY
         yy = flipX
-st.session_state.clicked = False
+        if 'clicked' in st.session_state:
+            st.session_state.clicked = False
+        
 
 ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
 date = lg_lookup[lg_lookup['League']==league].Date.values[0]
