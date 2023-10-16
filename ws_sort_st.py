@@ -471,6 +471,7 @@ minplay = int(gen['Minutes played'].values[0])
 
 def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
     df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+    df = df.fillna(0)
     df = df[df['League']==league].reset_index(drop=True)
     df = df.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
 #         if league == 'Latvian Virsliga':
@@ -678,7 +679,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     ######################################################################
 
     dfRadarMF = dfProspect[(dfProspect['Player']==ws_name) & (dfProspect['Team within selected timeframe']==team) & (dfProspect['Age']==age)].reset_index(drop=True)
-    dfRadarMF = dfRadarMF.fillna(0)
+    
     if template == 'attacking':
         dfRadarMF = dfRadarMF[["Player",
                                "midpct1","midpct2","midpct3",'extrapct3',
