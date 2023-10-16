@@ -73,7 +73,7 @@ with st.sidebar:
     if st.session_state.clicked:
         xx = flipY
         yy = flipX
-    st.session_state.clicked = False
+st.session_state.clicked = False
 
 ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
 date = lg_lookup[lg_lookup['League']==league].Date.values[0]
