@@ -65,13 +65,13 @@ with st.sidebar:
     xx = st.selectbox('X-Axis', (df.columns[5:len(df.columns)].tolist()))
     yy = st.selectbox('Y-Axis', (df.columns[5:len(df.columns)].tolist()))
     cc = st.selectbox('Point Color', (df.columns[5:len(df.columns)].tolist()))
+    flipX = xx
+    flipY = yy
     
     if 'clicked' not in st.session_state:
         st.session_state.clicked = False
     st.button('Swap X & Y Axes', on_click=click_button)
     if st.session_state.clicked:
-        flipX = xx
-        flipY = yy
         xx = flipY
         yy = flipX
         flipX = xx
