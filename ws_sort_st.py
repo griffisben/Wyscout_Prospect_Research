@@ -13,7 +13,9 @@ import matplotlib
 # from PIL import Image
 # from urllib.request import urlopen
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
-
+@st.cache_data()
+def read_csv(link):
+    return pd.read_csv(link)
 
 st.title('Soccer Prospect Research & Radar Creation')
 st.subheader("All data from Wyscout")
@@ -31,8 +33,8 @@ with st.expander('Read App Details'):
 
 ##################################################################
 
-lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
-df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
+df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
@@ -431,7 +433,7 @@ final
 ########################################################################################################
 ########################################################################################################
 
-df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
 
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
@@ -470,7 +472,7 @@ try:
 
 
     def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
-        df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+        df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
         df = df.fillna(0)
         df = df[df['League']==league].reset_index(drop=True)
         df = df.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
