@@ -15,6 +15,8 @@ import plotly.figure_factory as ff
 from plotly.graph_objects import Layout
 def click_button():
     st.session_state.clicked = True
+def reset_click_button():
+    st.session_state.clicked = False
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
@@ -73,8 +75,7 @@ with st.sidebar:
     if st.session_state.clicked:
         xx = flipY
         yy = flipX
-        st.write(st.session_state)
-        
+    st.button('Swap X & Y Axes Back', on_click=reset_click_button)
         
 
 ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
