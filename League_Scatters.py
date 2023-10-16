@@ -13,12 +13,13 @@ import matplotlib
 import plotly.express as px
 import plotly.figure_factory as ff
 from plotly.graph_objects import Layout
+def click_button():
+        st.session_state.clicked = True
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 st.title('Player Scatter Plot Program')
-st.subheader("All data from Wyscout (please see footer for each league's latest data update)")
-st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)')
+st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)\nAll data from Wyscout')
 
 with st.expander('Read App Details'):
     st.write('''
@@ -62,6 +63,16 @@ with st.sidebar:
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
     xx = st.selectbox('X-Axis', (df.columns[8:len(df.columns)].tolist()))
     yy = st.selectbox('Y-Axis', (df.columns[8:len(df.columns)].tolist()))
+    cc = st.selectbox('Point Color', (df.columns[8:len(df.columns)].tolist()))
+    
+    if 'clicked' not in st.session_state:
+        st.session_state.clicked = False
+    st.button('Swap X & Y Axes', on_click=click_button)
+    if st.session_state.clicked:
+        flipX = xx
+        flipY = yy
+        xx = flipY
+        yy = flipX
 
 ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
 date = lg_lookup[lg_lookup['League']==league].Date.values[0]
@@ -133,7 +144,7 @@ fig = px.scatter(
     dfProspect,
     x = xx,
     y = yy,
-    color = 'Age',
+    color = cc,
     color_continuous_scale = "RdYlGn_r",
     text = 'Player',
     hover_data=['Team', 'Age', 'Position', 'Minutes played'],
@@ -169,32 +180,4 @@ with st.expander('Metric Glossary'):
     Progressive Pass = A forward pass that attempts to advance a team significantly closer to the opponent’s goal.  \n
     Defensive Duel = When a player attempts to dispossess an opposition player to stop an attack progressing.  \n
     ''')
-    
-with st.expander('Latest Data Updates'):
-    st.write('''
-    Allsvenskan: 5/25/23  \n
-    Argentinian Primera División: DATA FINAL FOR 2022  \n
-    Brasileirão: DATA FINAL FOR 2022  \n
-    Chilean Primera División: DATA FINAL FOR 2022  \n
-    Chinese Super League: DATA FINAL FOR 2022  \n
-    Czech Fortuna Liga: 5/25/23  \n
-    Ekstraklasa: 5/25/23  \n
-    Eliteserien: 5/25/23  \n
-    Estonian Meistriliiga: 5/25/23  \n
-    Hungarian NB I: 5/27/23  \n
-    Indian Super League: DATA FINAL FOR 22-23  \n
-    Indonesian Liga 1: DATA FINAL FOR 22-23  \n
-    J1, J2, J3: 5/25/23  \n
-    K League 1 & 2: 5/25/23  \n
-    Kazakh Premier League: 5/25/23  \n
-    Latvian Virsliga: 5/25/23  \n
-    Malaysian Super League: 5/25/23  \n
-    MLS: 5/25/23  \n
-    Peruvian Primera División: DATA FINAL FOR 2022  \n
-    Slovak Super Liga: 5/25/23  \n
-    Thai League 1: 5/25/23  \n
-    Uruguayan Primera División: DATA FINAL FOR 2022  \n
-    Uzbek Super League: 5/25/23  \n
-    Veikkausliiga: 5/25/23
-    ''')
-    
+        
