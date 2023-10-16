@@ -74,8 +74,9 @@ with st.sidebar:
     if st.session_state.clicked:
         xx = flipY
         yy = flipX
-        flipX = xx
-        flipY = yy
+    else:
+        xx = flipX
+        yy = flipY
 reset_button_click()
 
 ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
