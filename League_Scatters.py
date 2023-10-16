@@ -77,7 +77,6 @@ with st.sidebar:
     else:
         xx = flipX
         yy = flipY
-reset_button_click()
 
 ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
 date = lg_lookup[lg_lookup['League']==league].Date.values[0]
