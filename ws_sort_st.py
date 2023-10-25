@@ -207,11 +207,12 @@ inverse_ranked_columns = [
     'defpct4','defpct5'
 ]
 
+dfProspect[ranked_columns] = 0.0
+dfProspect[inverse_ranked_columns] = 0.0
+
 for column in ranked_columns:
-    dfProspect[column] = 0.0
     dfProspect[column] = rank_column(dfProspect, column)
 for column in inverse_ranked_columns:
-    dfProspect[column] = 0.0
     dfProspect[column] = rank_column_inverse(dfProspect, column)
 
 
