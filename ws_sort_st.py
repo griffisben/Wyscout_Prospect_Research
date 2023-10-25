@@ -814,18 +814,21 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
                 fontsize=9, fontfamily="DejaVu Sans",
                 color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
                 ) 
+
     if club_image == 'y':
         ######## Club Image ########
         clubpath = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{team.replace(" ","%20")}.png'
         image = Image.open(urllib.request.urlopen(clubpath))
         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
         newax.imshow(image)
+        newax.axis('off')
 
         ######## League Logo Image ########
         l_path = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{league.replace(" ","%20")}%20Logo.png'
         image = Image.open(urllib.request.urlopen(l_path))
         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
         newax.imshow(image)
+        newax.axis('off')
 
     ax.set_facecolor('#fbf9f4')
     fig = plt.gcf()
