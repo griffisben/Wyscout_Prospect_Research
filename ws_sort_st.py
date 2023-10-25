@@ -416,9 +416,9 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
     df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
 
-    df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
-    df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
-    df1['Main Position'] = df1['Main Position'].replace('RAMF','RW')
+    df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
+    df['Main Position'] = df['Main Position'].replace('LAMF','LW')
+    df['Main Position'] = df['Main Position'].replace('RAMF','RW')
 
     #####################################################################################
     # Filter data
@@ -806,70 +806,70 @@ st.header('Enter player name below to generate their radar (you can copy+paste f
 player = st.text_input("Player's Radar to Generate", "")
 page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
 
-# try:
-df = df[df['Minutes played']>=mins].reset_index(drop=True)
-df = df[df['League']==league].reset_index(drop=True)
-df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
-df1 = df1.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
-df1['Age'] = df1['Age'].astype(int)
-df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
-df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
-df1['Main Position'] = df1['Main Position'].replace('RAMF','RW')
+try:
+    df = df[df['Minutes played']>=mins].reset_index(drop=True)
+    df = df[df['League']==league].reset_index(drop=True)
+    df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
+    df1 = df1.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
+    df1['Age'] = df1['Age'].astype(int)
+    df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
+    df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
+    df1['Main Position'] = df1['Main Position'].replace('RAMF','RW')
 
-a = df1['Main Position'].unique()
-a = list(set(a))
+    a = df1['Main Position'].unique()
+    a = list(set(a))
 
-ws_pos = ['LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB']
-pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
-       'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
-       'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
-       'Central Midfielders no CAM (DM, CM)',
-       'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
-template = ['attacking','attacking','defensive','defensive','attacking','defensive','defensive','attacking','attacking','cb','defensive','attacking','defensive','gk','defensive','attacking','attacking','attacking','attacking','cb','cb']
-compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs']
+    ws_pos = ['LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB']
+    pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
+           'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
+           'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
+           'Central Midfielders no CAM (DM, CM)',
+           'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
+    template = ['attacking','attacking','defensive','defensive','attacking','defensive','defensive','attacking','attacking','cb','defensive','attacking','defensive','gk','defensive','attacking','attacking','attacking','attacking','cb','cb']
+    compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs']
 
-gen = df1[(df1['Player']==player) & (df1['Age']==page)]
-ix = ws_pos.index(gen['Main Position'].values[0])
-minplay = int(gen['Minutes played'].values[0])
+    gen = df1[(df1['Player']==player) & (df1['Age']==page)]
+    ix = ws_pos.index(gen['Main Position'].values[0])
+    minplay = int(gen['Minutes played'].values[0])
 
-##########################################################################################
-
-
-#######################################################################################################
-#######################################################################################################
-#######################################################################################################
-#######################################################################################################
-ssn_ = lg_lookup[lg_lookup['League']==league].Season.values[0]
-xtratext = lg_lookup[lg_lookup['League']==league].Date.values[0]
-lgs_imgs = ['K League 1', 'K League 2', 'J1', 'J2', 'J3']
-if league in lgs_imgs:
-    club_image_prompt = 'y'
-else:
-    club_image_prompt = 'n'
+    ##########################################################################################
 
 
-radar_img = scout_report(
-             league = league,  ######
-             season = ssn_,  
-             xtra = ' current',  ######
-             template = template[ix],
-#                  pos_buckets = pos_buckets[ix],
-             pos = pos[ix],
-             player_pos = ws_pos[ix],
-             compares = compares[ix],
-             mins = mins,
-            minplay=minplay,
-             name = gen['Player'].values[0],
-             ws_name = gen['Player'].values[0],
-             team = gen['Team within selected timeframe'].values[0],
-             age = gen['Age'].values[0],
-             sig = 'Twitter: @BeGriffis',
-             club_image = club_image_prompt,
-             extra_text = xtratext,
-            )
-st.pyplot(radar_img.figure)
-# except:
-#     st.text('Please enter a valid name & age.')
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    ssn_ = lg_lookup[lg_lookup['League']==league].Season.values[0]
+    xtratext = lg_lookup[lg_lookup['League']==league].Date.values[0]
+    lgs_imgs = ['K League 1', 'K League 2', 'J1', 'J2', 'J3']
+    if league in lgs_imgs:
+        club_image_prompt = 'y'
+    else:
+        club_image_prompt = 'n'
+
+
+    radar_img = scout_report(
+                 league = league,  ######
+                 season = ssn_,  
+                 xtra = ' current',  ######
+                 template = template[ix],
+    #                  pos_buckets = pos_buckets[ix],
+                 pos = pos[ix],
+                 player_pos = ws_pos[ix],
+                 compares = compares[ix],
+                 mins = mins,
+                minplay=minplay,
+                 name = gen['Player'].values[0],
+                 ws_name = gen['Player'].values[0],
+                 team = gen['Team within selected timeframe'].values[0],
+                 age = gen['Age'].values[0],
+                 sig = 'Twitter: @BeGriffis',
+                 club_image = club_image_prompt,
+                 extra_text = xtratext,
+                )
+    st.pyplot(radar_img.figure)
+except:
+    st.text('Please enter a valid name & age.')
     
     
 with st.expander('Metric Glossary'):
