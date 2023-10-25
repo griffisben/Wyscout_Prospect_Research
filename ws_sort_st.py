@@ -206,14 +206,25 @@ ranked_columns = [
 inverse_ranked_columns = [
     'defpct4','defpct5'
 ]
+ranked_columns_r = [
+    mid1, mid2, mid3, mid4, mid5, mid6, mid7,
+    mid8, mid9, mid10, mid11, mid12,
+    fwd1, fwd2, fwd3, fwd4, fwd5, fwd6, fwd7,
+    fwd8, fwd9, fwd10, fwd11, fwd12,
+    def1,def2,def3,def6,def7,def8,def9,def10,
+    extra,extra2,extra3,extra4,extra5,extra6,extra7,extra8,extra9,extra10,
+]
+inverse_ranked_columns_r = [
+    def4,def5
+]
 
 dfProspect[ranked_columns] = 0.0
 dfProspect[inverse_ranked_columns] = 0.0
 
-for column in ranked_columns:
-    dfProspect[column] = rank_column(dfProspect, column)
-for column in inverse_ranked_columns:
-    dfProspect[column] = rank_column_inverse(dfProspect, column)
+for column, column_r in ranked_columns, ranked_columns_r:
+    dfProspect[column] = rank_column(dfProspect, column_r)
+for column, column_r in inverse_ranked_columns, inverse_ranked_columns_r:
+    dfProspect[column] = rank_column_inverse(dfProspect, column_r)
 
 
 final = dfProspect[['Player','Age','League','Position','Team within selected timeframe','Birth country', 'Contract expires',
@@ -501,14 +512,25 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     inverse_ranked_columns = [
         'defpct4','defpct5'
     ]
+    ranked_columns_r = [
+        mid1, mid2, mid3, mid4, mid5, mid6, mid7,
+        mid8, mid9, mid10, mid11, mid12,
+        fwd1, fwd2, fwd3, fwd4, fwd5, fwd6, fwd7,
+        fwd8, fwd9, fwd10, fwd11, fwd12,
+        def1,def2,def3,def6,def7,def8,def9,def10,
+        extra,extra2,extra3,extra4,extra5,extra6,extra7,extra8,extra9,extra10,
+    ]
+    inverse_ranked_columns_r = [
+        def4,def5
+    ]
     
     dfProspect[ranked_columns] = 0.0
     dfProspect[inverse_ranked_columns] = 0.0
 
-    for column in ranked_columns:
-        dfProspect[column] = rank_column(dfProspect, column)
-    for column in inverse_ranked_columns:
-        dfProspect[column] = rank_column_inverse(dfProspect, column)
+    for column, column_r in ranked_columns, ranked_columns_r:
+        dfProspect[column] = rank_column(dfProspect, column_r)
+    for column, column_r in inverse_ranked_columns, inverse_ranked_columns_r:
+        dfProspect[column] = rank_column_inverse(dfProspect, column_r)
 
     ######################################################################
 
