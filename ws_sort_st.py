@@ -221,9 +221,9 @@ inverse_ranked_columns_r = [
 dfProspect[ranked_columns] = 0.0
 dfProspect[inverse_ranked_columns] = 0.0
 
-for column, column_r in ranked_columns, ranked_columns_r:
+for column, column_r in zip(ranked_columns, ranked_columns_r):
     dfProspect[column] = rank_column(dfProspect, column_r)
-for column, column_r in inverse_ranked_columns, inverse_ranked_columns_r:
+for column, column_r in zip(inverse_ranked_columns, inverse_ranked_columns_r):
     dfProspect[column] = rank_column_inverse(dfProspect, column_r)
 
 
@@ -527,9 +527,9 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     dfProspect[ranked_columns] = 0.0
     dfProspect[inverse_ranked_columns] = 0.0
 
-    for column, column_r in ranked_columns, ranked_columns_r:
+    for column, column_r in zip(ranked_columns, ranked_columns_r):
         dfProspect[column] = rank_column(dfProspect, column_r)
-    for column, column_r in inverse_ranked_columns, inverse_ranked_columns_r:
+    for column, column_r in zip(inverse_ranked_columns, inverse_ranked_columns_r):
         dfProspect[column] = rank_column_inverse(dfProspect, column_r)
 
     ######################################################################
