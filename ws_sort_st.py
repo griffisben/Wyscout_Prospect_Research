@@ -409,6 +409,7 @@ final
 ########################################################################################################
 ########################################################################################################
 def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
+    plt.clf()
     df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
     df = df.fillna(0)
     df = df[df['League']==league].reset_index(drop=True)
