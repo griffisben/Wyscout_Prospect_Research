@@ -888,11 +888,11 @@ try:
     a = list(set(a))
 
     ws_pos = ['LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB']
-    pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
-           'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
-           'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
-           'Central Midfielders no CAM (DM, CM)',
-           'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
+#     pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
+#            'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
+#            'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
+#            'Central Midfielders no CAM (DM, CM)',
+#            'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
     template = ['attacking','attacking','defensive','defensive','attacking','defensive','defensive','attacking','attacking','cb','defensive','attacking','defensive','gk','defensive','attacking','attacking','attacking','attacking','cb','cb']
     compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs']
 
@@ -923,7 +923,8 @@ try:
                  xtra = ' current',  ######
                  template = template[ix],
     #                  pos_buckets = pos_buckets[ix],
-                 pos = pos[ix],
+#                  pos = pos[ix],
+        pos = pos,
                  player_pos = ws_pos[ix],
                  compares = compares[ix],
                  mins = mins,
