@@ -582,12 +582,33 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
             'extrapct8': 'Fouls Drawn'
         }
     }
+    if template == 'attacking':
+        raw_vals = raw_valsdf[["Player",
+                           mid1, mid2, mid3, extra3,
+                           mid4,mid5,extra5, mid6, mid7,extra4,
+                               fwd2,fwd1,fwd6,extra9,extra2,fwd11,
+                           fwd5,extra6,mid10,mid9,
+                               def1,mid12,def8
+                          ]]
+    if template == 'defensive':
+        raw_vals = raw_valsdf[["Player",
+                           def1, def2, def3, def6,def7,extra7,def8,
+                           def9,extra10,extra3, def10, def11,def12,fwd5,extra6,mid5,
+                           def4,def5,extra8,
+                          ]]
+
+    if template == 'cb':
+        raw_vals = raw_valsdf[["Player",
+                           def1, def2, def3, def6,def7,extra7,def8,
+                           def9, def10, def11,def12,fwd5,extra6,mid5,
+                           def4,def5,extra8,
+                          ]]
 
     if template in column_mapping:
         selected_columns = column_mapping[template]
         dfRadarMF = dfRadarMF[['Player'] + list(selected_columns.keys())]
         dfRadarMF.rename(columns=selected_columns, inplace=True)
-        raw_vals = raw_valsdf[['Player'] + list(selected_columns.values())]
+#         raw_vals = raw_valsdf[['Player'] + list(selected_columns.values())]
 
 
 
