@@ -642,18 +642,37 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
                         ws_name: 'Value',
                              'index': 'Group'})
 
-    group_mapping = {
-        'attacking': {4: 'Passing', 10: 'Creativity', 16: 'Shooting', 20: 'Ball Movement', 23: 'Defense'},
-        'defensive': {7: 'Defending', 16: 'Attacking', 19: 'Fouling'},
-        'cb': {7: 'Defending', 14: 'Attacking', 17: 'Fouling'},
-        'gk': {5: 'Traditional', 10: 'Modern'}
-    }
+    if template == 'attacking':
+        for i in range(len(df1)):
+            if df1['Group'][i] <= 4:
+                df1['Group'][i] = 'Passing'
+            elif df1['Group'][i] <= 10:
+                df1['Group'][i] = 'Creativity'
+            elif df1['Group'][i] <= 16:
+                df1['Group'][i] = 'Shooting'
+            elif df1['Group'][i] <= 20:
+                df1['Group'][i] = 'Ball Movement'
+            elif df1['Group'][i] <= 23:
+                df1['Group'][i] = 'Defense'
 
-    for i in range(len(df1)):
-        for threshold, category in group_mapping.get(template, {}).items():
-            st.write(df1['Group'][i])
-            if df1['Group'][i] <= int(threshold):
-                df1['Group'][i] = category
+    if template == 'defensive':
+        for i in range(len(df1)):
+            if df1['Group'][i] <= 7:
+                df1['Group'][i] = 'Defending'
+            elif df1['Group'][i] <= 16:
+                df1['Group'][i] = 'Attacking'
+            elif df1['Group'][i] <= 19:
+                df1['Group'][i] = 'Fouling'
+
+    if template == 'cb':
+        for i in range(len(df1)):
+            if df1['Group'][i] <= 7:
+                df1['Group'][i] = 'Defending'
+            elif df1['Group'][i] <= 14:
+                df1['Group'][i] = 'Attacking'
+            elif df1['Group'][i] <= 17:
+                df1['Group'][i] = 'Fouling'
+
 
     #####################################################################
 
