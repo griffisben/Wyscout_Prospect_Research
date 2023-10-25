@@ -651,6 +651,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
 
     for i in range(len(df1)):
         for threshold, category in group_mapping.get(template, {}).items():
+            print(threshold)
             if df1['Group'][i] <= threshold:
                 df1['Group'][i] = category
 
