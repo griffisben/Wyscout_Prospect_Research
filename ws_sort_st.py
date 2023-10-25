@@ -910,7 +910,7 @@ try:
     ssn_ = lg_lookup[lg_lookup['League']==league].Season.values[0]
     xtratext = lg_lookup[lg_lookup['League']==league].Date.values[0]
 
-    lgs_imgs = ['K League 1', 'K League 2', 'J1', 'J2', 'J3']
+    lgs_imgs = ['K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Chinese Super League', 'A-League Men']
     if league in lgs_imgs:
         club_image_prompt = 'y'
     else:
