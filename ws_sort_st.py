@@ -826,7 +826,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
         ######## League Logo Image ########
         l_path = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{league.replace(" ","%20")}%20Logo.png'
         image = Image.open(urllib.request.urlopen(l_path))
-        newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
+        newax = fig.add_axes([.76,.845,0.1,0.1], anchor='C', zorder=1)
         newax.imshow(image)
         newax.axis('off')
 
