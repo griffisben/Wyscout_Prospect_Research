@@ -170,8 +170,8 @@ def7 = "PAdj Interceptions"
 def8 = "Aerial duels won, %"
 def9 = "Accurate long passes, %"
 def10 = "1st, 2nd, 3rd assists"
-# def11 = "Progressive passes per 90"
-# def12 = "Progressive runs per 90"
+def11 = "Progressive passes per 90"
+def12 = "Progressive runs per 90"
 # #GOALKEEPER
 # gk1 = "Conceded goals per 90"
 # gk2 = "Prevented goals per 90"
@@ -200,7 +200,7 @@ ranked_columns = [
     'midpct8', 'midpct9', 'midpct10', 'midpct11', 'midpct12',
     'fwdpct1', 'fwdpct2', 'fwdpct3', 'fwdpct4', 'fwdpct5', 'fwdpct6', 'fwdpct7',
     'fwdpct8', 'fwdpct9', 'fwdpct10', 'fwdpct11', 'fwdpct12',
-    'defpct1','defpct2','defpct3','defpct6','defpct7','defpct8','defpct9','defpct10',
+    'defpct1','defpct2','defpct3','defpct6','defpct7','defpct8','defpct9','defpct10','defpct11','defpct12',
     'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
 ]
 inverse_ranked_columns = [
@@ -211,7 +211,7 @@ ranked_columns_r = [
     mid8, mid9, mid10, mid11, mid12,
     fwd1, fwd2, fwd3, fwd4, fwd5, fwd6, fwd7,
     fwd8, fwd9, fwd10, fwd11, fwd12,
-    def1,def2,def3,def6,def7,def8,def9,def10,
+    def1,def2,def3,def6,def7,def8,def9,def10,def11,def12,
     extra,extra2,extra3,extra4,extra5,extra6,extra7,extra8,extra9,extra10,
 ]
 inverse_ranked_columns_r = [
@@ -507,7 +507,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
         'midpct8', 'midpct9', 'midpct10', 'midpct11', 'midpct12',
         'fwdpct1', 'fwdpct2', 'fwdpct3', 'fwdpct4', 'fwdpct5', 'fwdpct6', 'fwdpct7',
         'fwdpct8', 'fwdpct9', 'fwdpct10', 'fwdpct11', 'fwdpct12',
-        'defpct1','defpct2','defpct3','defpct6','defpct7','defpct8','defpct9','defpct10',
+        'defpct1','defpct2','defpct3','defpct6','defpct7','defpct8','defpct9','defpct10','defpct11','defpct12',
         'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
     ]
     inverse_ranked_columns = [
@@ -518,7 +518,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
         mid8, mid9, mid10, mid11, mid12,
         fwd1, fwd2, fwd3, fwd4, fwd5, fwd6, fwd7,
         fwd8, fwd9, fwd10, fwd11, fwd12,
-        def1,def2,def3,def6,def7,def8,def9,def10,
+        def1,def2,def3,def6,def7,def8,def9,def10,def11,def12,
         extra,extra2,extra3,extra4,extra5,extra6,extra7,extra8,extra9,extra10,
     ]
     inverse_ranked_columns_r = [
