@@ -424,6 +424,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     # Filter data
     dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == league)].copy()
     dfProspect = filter_by_position(dfProspect, pos)
+    raw_valsdf = dfProspect[(dfProspect['Player']==ws_name) & (dfProspect['Team within selected timeframe']==team) & (dfProspect['Age']==age)]
 
     # FORWARD
     fwd1 = "Non-penalty goals per 90"
