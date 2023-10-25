@@ -488,9 +488,6 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     extra10 = 'Crosses per 90'
 
     df_pros = dfProspect
-    
-    dfProspect[ranked_columns] = 0.0
-    dfProspect[inverse_ranked_columns] = 0.0
 
     ranked_columns = [
         'midpct1', 'midpct2', 'midpct3', 'midpct4', 'midpct5', 'midpct6', 'midpct7',
@@ -503,6 +500,9 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     inverse_ranked_columns = [
         'defpct4','defpct5'
     ]
+    
+    dfProspect[ranked_columns] = 0.0
+    dfProspect[inverse_ranked_columns] = 0.0
 
     for column in ranked_columns:
         dfProspect[column] = rank_column(dfProspect, column)
