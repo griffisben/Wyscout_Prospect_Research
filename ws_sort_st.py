@@ -817,12 +817,14 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     if club_image == 'y':
         ######## Club Image ########
         clubpath = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{team.replace(" ","%20")}.png'
+        st.write(clubpath)
         image = Image.open(urllib.request.urlopen(clubpath))
         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
         newax.imshow(image)
 
         ######## League Logo Image ########
         l_path = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{league.replace(" ","%20")}.png'
+        st.write(l_path)
         image = Image.open(urllib.request.urlopen(l_path))
         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
         newax.imshow(image)
@@ -883,6 +885,7 @@ minplay = int(gen['Minutes played'].values[0])
 #######################################################################################################
 ssn_ = lg_lookup[lg_lookup['League']==league].Season.values[0]
 xtratext = lg_lookup[lg_lookup['League']==league].Date.values[0]
+
 lgs_imgs = ['K League 1', 'K League 2', 'J1', 'J2', 'J3']
 if league in lgs_imgs:
     club_image_prompt = 'y'
