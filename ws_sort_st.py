@@ -938,7 +938,7 @@ try:
                 )
     st.pyplot(radar_img.figure)
 except:
-    st.text("Please enter a valid name & age. Please check spelling as well as the position filters that they include your player's position.")
+    st.text("Please enter a valid name & age.  \nPlease check spelling as well as the position filters that they include your player's position.")
     
     
 with st.expander('Metric Glossary'):
