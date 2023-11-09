@@ -60,12 +60,14 @@ with st.sidebar:
 df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
 df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
 df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
+df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
 df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
 df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
 df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
 df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
 df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
 df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
+df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
 
 df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 
@@ -422,12 +424,14 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
     df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
     df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
+    df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
     df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
     df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
     df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
     df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
     df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
     df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
+    df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
 
     df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
     df['Main Position'] = df['Main Position'].replace('LAMF','LW')
