@@ -228,7 +228,7 @@ for column, column_r in zip(inverse_ranked_columns, inverse_ranked_columns_r):
     dfProspect[column] = rank_column_inverse(dfProspect, column_r)
 
 
-final = dfProspect[['Player','Age','League','Position','Team within selected timeframe','Birth country', 'Contract expires',
+final = dfProspect[['Player','Age','League','Position','Team within selected timeframe','Birth country',
 'fwdpct1','fwdpct2','fwdpct5','fwdpct6','fwdpct11','midpct1','midpct3','midpct4','midpct5','midpct6','midpct7','midpct8','midpct9','midpct10','midpct11','midpct12','defpct1','defpct2','defpct3','defpct4','defpct5','defpct6','defpct7','defpct8','defpct9','defpct10',
 #                     'gkpct1','gkpct2','gkpct3','gkpct4','gkpct5','gkpct6','gkpct7','gkpct8','gkpct10',
                     'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
