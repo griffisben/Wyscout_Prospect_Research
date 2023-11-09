@@ -32,7 +32,7 @@ with st.expander('Read App Details'):
     ''')
 
 lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
-df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
 df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 
@@ -63,9 +63,9 @@ with st.sidebar:
                                     'Central & Defensive Midfielders (DM, CM)', 'Central & Attacking Midfielders (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'Goalkeepers'))
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
-    xx = st.selectbox('X-Axis', (df.columns[5:len(df.columns)].tolist()))
-    yy = st.selectbox('Y-Axis', (df.columns[5:len(df.columns)].tolist()))
-    cc = st.selectbox('Point Color', (df.columns[5:len(df.columns)].tolist()))
+    xx = st.selectbox('X-Axis', (df.columns[18:len(df.columns)].tolist()))
+    yy = st.selectbox('Y-Axis', (df.columns[18:len(df.columns)].tolist()))
+    cc = st.selectbox('Point Color', (df.columns[18:len(df.columns)].tolist()))
     flipX = xx
     flipY = yy
     

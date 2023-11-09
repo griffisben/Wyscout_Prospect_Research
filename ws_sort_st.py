@@ -39,7 +39,7 @@ with st.expander('Read App Details'):
 ##################################################################
 
 lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
-df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
 df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
@@ -410,7 +410,7 @@ final
 ########################################################################################################
 def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
     plt.clf()
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
     df = df.fillna(0)
     df = df[df['League']==league].reset_index(drop=True)
     df = df.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
@@ -839,19 +839,25 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
                 ) 
 
     if club_image == 'y':
+#         ######## Club Image ########
+#         clubpath = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{team.replace(" ","%20")}.png'
+#         image = Image.open(urllib.request.urlopen(clubpath))
+#         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
+#         newax.imshow(image)
+#         newax.axis('off')
         ######## Club Image ########
-        clubpath = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{team.replace(" ","%20")}.png'
+        clubpath = raw_valsdf['Team logo'].values[0]
         image = Image.open(urllib.request.urlopen(clubpath))
         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
         newax.imshow(image)
         newax.axis('off')
 
-        ######## League Logo Image ########
-        l_path = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{league.replace(" ","%20")}%20Logo.png'
-        image = Image.open(urllib.request.urlopen(l_path))
-        newax = fig.add_axes([.76,.845,0.1,0.1], anchor='C', zorder=1)
-        newax.imshow(image)
-        newax.axis('off')
+#         ######## League Logo Image ########
+#         l_path = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{league.replace(" ","%20")}%20Logo.png'
+#         image = Image.open(urllib.request.urlopen(l_path))
+#         newax = fig.add_axes([.76,.845,0.1,0.1], anchor='C', zorder=1)
+#         newax.imshow(image)
+#         newax.axis('off')
 
     ax.set_facecolor('#fbf9f4')
     fig = plt.gcf()
@@ -868,7 +874,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
 ########################################################################################
 
 
-df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Japan_Korea_2022_WS.csv')
+df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
 
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
@@ -888,11 +894,11 @@ try:
     a = list(set(a))
 
     ws_pos = ['LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB']
-    pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
-           'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
-           'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
-           'Central Midfielders no CAM (DM, CM)',
-           'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
+#     pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
+#            'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
+#            'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
+#            'Central Midfielders no CAM (DM, CM)',
+#            'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
     template = ['attacking','attacking','defensive','defensive','attacking','defensive','defensive','attacking','attacking','cb','defensive','attacking','defensive','gk','defensive','attacking','attacking','attacking','attacking','cb','cb']
     compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs']
 
@@ -923,7 +929,8 @@ try:
                  xtra = ' current',  ######
                  template = template[ix],
     #                  pos_buckets = pos_buckets[ix],
-                 pos = pos[ix],
+#                  pos = pos[ix],
+                pos = pos,
                  player_pos = ws_pos[ix],
                  compares = compares[ix],
                  mins = mins,
@@ -938,7 +945,7 @@ try:
                 )
     st.pyplot(radar_img.figure)
 except:
-    st.text('Please enter a valid name & age. Please check spelling as well.')
+    st.text("Please enter a valid name & age. Please check spelling as well as the position filters that they include your player's position.")
     
     
 with st.expander('Metric Glossary'):
