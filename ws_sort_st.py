@@ -916,13 +916,6 @@ try:
     ssn_ = lg_lookup[lg_lookup['League']==league].Season.values[0]
     xtratext = lg_lookup[lg_lookup['League']==league].Date.values[0]
 
-    lgs_imgs = ['K League 1', 'K League 2', 'J1', 'J2', 'J3', 'Chinese Super League', 'A-League Men']
-    if league in lgs_imgs:
-        club_image_prompt = 'y'
-    else:
-        club_image_prompt = 'n'
-
-
     radar_img = scout_report(
                  league = league,  ######
                  season = ssn_,  
@@ -940,7 +933,7 @@ try:
                  team = gen['Team within selected timeframe'].values[0],
                  age = gen['Age'].values[0],
                  sig = 'Twitter: @BeGriffis',
-                 club_image = club_image_prompt,
+                 club_image = 'y',
                  extra_text = xtratext,
                 )
     st.pyplot(radar_img.figure)
