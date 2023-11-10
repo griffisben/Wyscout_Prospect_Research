@@ -50,9 +50,9 @@ df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
 df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 df.rename(columns={'Team':'xxxTeam', 'Team within selected timeframe':'Team'})
 
-df['Main Position'] = ''
-for i in range(len(df)):
-    df['Main Position'][i] = df['Position'][i].split()[0]
+df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
+df['Main Position'] = df['Main Position'].replace('LAMF','LW')
+df['Main Position'] = df['Main Position'].replace('RAMF','RW')
 
 
 with st.sidebar:
