@@ -59,9 +59,9 @@ with st.sidebar:
     st.header('Choose Basic Options')
     league = st.selectbox('League', (lg_lookup.League.tolist()))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
-                                    'Forwards no ST (AM, W)', 'Wingers', 'Midfielders (DM, CM, CAM)',
-                                    'Central & Defensive Midfielders (DM, CM)', 'Central & Attacking Midfielders (CM, CAM)', 'Fullbacks (FBs/WBs)',
-                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'Goalkeepers'))
+                                    'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
+                                    'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
+                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs', 'Goalkeepers'))
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
     xx = st.selectbox('X-Axis', ['Age']+(df.columns[18:len(df.columns)].tolist()))
     yy = st.selectbox('Y-Axis', ['Age']+(df.columns[18:len(df.columns)].tolist()))
@@ -132,6 +132,11 @@ def filter_by_position(df, position):
     cb = ["CB"]
     if position == "Centre-Backs":
         return df[df['Main Position'].str.contains('|'.join(cb), na=False)]
+    
+    gk = ["GK"]
+    if position == "Goalkeepers":
+        return df[df['Main Position'].str.contains('|'.join(gk), na=False)]
+
     else:
         return df
 
