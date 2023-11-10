@@ -110,7 +110,7 @@ def filter_by_position(df, position):
 
     fbs = ["LB", "RB", "WB"]
     if position == "Fullbacks (FBs/WBs)":
-        return df[df['Main Position'].str.contains('|'.join(fbs)), na=False]
+        return df[df['Main Position'].str.contains('|'.join(fbs), na=False)]
 
     defs = ["LB", "RB", "WB", "CB", "DMF"]
     if position == "Defenders (CB, FB/WB, DM)":
