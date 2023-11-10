@@ -84,65 +84,59 @@ ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
 date = lg_lookup[lg_lookup['League']==league].Date.values[0]
     
 # Filter data
-dfProspect = df[(df['Minutes played']>=mins) & (df['League']==league)].copy()
+def filter_by_position(df, position):
+    fw = ["CF", "RW", "LW", "AMF"]
+    if position == "Forwards (AM, W, CF)":
+        return df[df['Main Position'].str.contains('|'.join(fw), na=False)]
+    
+    stw = ["CF", "RW", "LW", "LAMF", "RAMF"]
+    if position == "Strikers and Wingers":
+        return df[df['Main Position'].str.contains('|'.join(stw), na=False)]
+    
+    fwns = ["RW", "LW", "AMF"]
+    if position == "Forwards no ST (AM, W)":
+        return df[df['Main Position'].str.contains('|'.join(fwns), na=False)]
+    
+    wing = ["RW", "LW", "WF", "LAMF", "RAMF"]
+    if position == "Wingers":
+        return df[df['Main Position'].str.contains('|'.join(wing), na=False)]
 
+    mids = ["DMF", "CMF", "AMF"]
+    if position == "Central Midfielders (DM, CM, CAM)":
+        return df[df['Main Position'].str.contains('|'.join(mids), na=False)]
 
-if pos == 'Forwards (AM, W, CF)':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF')) |
-                           (dfProspect['Main Position'].str.contains('RW')) |
-                           (dfProspect['Main Position'].str.contains('LW')) |
-                           (dfProspect['Main Position'].str.contains('AMF'))]
-if pos == 'Strikers and Wingers':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF')) |
-                           (dfProspect['Main Position'].str.contains('RW')) |
-                           (dfProspect['Main Position'].str.contains('LW'))]
-if pos == 'Forwards no ST (AM, W)':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('AMF')) |
-                           (dfProspect['Main Position'].str.contains('RW')) |
-                           (dfProspect['Main Position'].str.contains('LW')) |
-#                                (dfProspect['Main Position'].str.contains('LAMF')) |
-                           (dfProspect['Main Position'].str.contains('AMF'))]
-if pos == 'Wingers':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('WF')) |
-                           (dfProspect['Main Position'].str.contains('LAMF')) |
-                           (dfProspect['Main Position'].str.contains('RAMF')) |
-                           (dfProspect['Main Position'].str.contains('LW')) |
-                           (dfProspect['Main Position'].str.contains('RW'))]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('WB')]
-if pos == 'Midfielders (DM, CM, CAM)':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
-                           (dfProspect['Main Position'].str.contains('DMF')) |
-                           (dfProspect['Main Position'].str.contains('AMF'))]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('RAMF')]
-if pos == 'Central & Defensive Midfielders (DM, CM)':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
-                           (dfProspect['Main Position'].str.contains('DMF'))]
-if pos == 'Central & Attacking Midfielders (CM, CAM)':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CMF')) |
-                           (dfProspect['Main Position'].str.contains('AMF'))]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('LAMF')]
-    dfProspect = dfProspect[~dfProspect['Main Position'].str.contains('RAMF')]
+    cms = ["CMF", "AMF"]
+    if position == "Central Midfielders no DM (CM, CAM)":
+        return df[df['Main Position'].str.contains('|'.join(cms), na=False)]
 
-if pos == 'Fullbacks (FBs/WBs)':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('LB')) |
-                           (dfProspect['Main Position'].str.contains('RB')) |
-                           (dfProspect['Main Position'].str.contains('WB'))]
-if pos == 'Defenders (CB, FB/WB, DM)':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('LB')) |
-                           (dfProspect['Main Position'].str.contains('RB')) |
-                           (dfProspect['Main Position'].str.contains('WB')) |
-                           (dfProspect['Main Position'].str.contains('CB')) |
-                           (dfProspect['Main Position'].str.contains('LCB')) |
-                           (dfProspect['Main Position'].str.contains('RCB')) |
-                           (dfProspect['Main Position'].str.contains('DMF'))]
-if pos == 'Centre-Backs':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CB'))]
+    dms = ["CMF", "DMF"]
+    if position == "Central Midfielders no CAM (DM, CM)":
+        return df[df['Main Position'].str.contains('|'.join(dms), na=False)]
 
-if pos == 'Strikers':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('CF'))]
-if pos == 'Goalkeepers':
-    dfProspect = dfProspect[(dfProspect['Main Position'].str.contains('GK'))]
+    fbs = ["LB", "RB", "WB"]
+    if position == "Fullbacks (FBs/WBs)":
+        return df[df['Main Position'].str.contains('|'.join(fbs), na=False)]
+
+    defs = ["LB", "RB", "WB", "CB", "DMF"]
+    if position == "Defenders (CB, FB/WB, DM)":
+        return df[df['Main Position'].str.contains('|'.join(defs), na=False)]
+
+    cbdm = ["CB", "DMF"]
+    if position == "CBs & DMs":
+        return df[df['Main Position'].str.contains('|'.join(cbdm), na=False)]
+
+    cf = ["CF"]
+    if position == "Strikers":
+        return df[df['Main Position'].str.contains('|'.join(cf), na=False)]
+
+    cb = ["CB"]
+    if position == "Centre-Backs":
+        return df[df['Main Position'].str.contains('|'.join(cb), na=False)]
+    else:
+        return df
+
+dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == league)].copy()
+dfProspect = filter_by_position(dfProspect, pos)
 
 
 
