@@ -82,31 +82,31 @@ df.fillna(0,inplace=True)
 def filter_by_position(df, position):
     fw = ["CF", "RW", "LW", "AMF"]
     if position == "Forwards (AM, W, CF)":
-        return df[df['Main Position'].str.contains('|'.join(fw))]
+        return df[df['Main Position'].str.contains('|'.join(fw), na=False)]
     
     stw = ["CF", "RW", "LW", "LAMF", "RAMF"]
     if position == "Strikers and Wingers":
-        return df[df['Main Position'].str.contains('|'.join(stw))]
+        return df[df['Main Position'].str.contains('|'.join(stw), na=False)]
     
     fwns = ["RW", "LW", "AMF"]
     if position == "Forwards no ST (AM, W)":
-        return df[df['Main Position'].str.contains('|'.join(fwns))]
+        return df[df['Main Position'].str.contains('|'.join(fwns), na=False)]
     
     wing = ["RW", "LW", "WF", "LAMF", "RAMF"]
     if position == "Wingers":
-        return df[df['Main Position'].str.contains('|'.join(wing))]
+        return df[df['Main Position'].str.contains('|'.join(wing), na=False)]
 
     mids = ["DMF", "CMF", "AMF"]
     if position == "Central Midfielders (DM, CM, CAM)":
-        return df[df['Main Position'].str.contains('|'.join(mids))]
+        return df[df['Main Position'].str.contains('|'.join(mids), na=False)]
 
     cms = ["CMF", "AMF"]
     if position == "Central Midfielders no DM (CM, CAM)":
-        return df[df['Main Position'].str.contains('|'.join(cms))]
+        return df[df['Main Position'].str.contains('|'.join(cms), na=False)]
 
     dms = ["CMF", "DMF"]
     if position == "Central Midfielders no CAM (DM, CM)":
-        return df[df['Main Position'].str.contains('|'.join(dms))]
+        return df[df['Main Position'].str.contains('|'.join(dms), na=False)]
 
     fbs = ["LB", "RB", "WB"]
     if position == "Fullbacks (FBs/WBs)":
@@ -114,19 +114,19 @@ def filter_by_position(df, position):
 
     defs = ["LB", "RB", "WB", "CB", "DMF"]
     if position == "Defenders (CB, FB/WB, DM)":
-        return df[df['Main Position'].str.contains('|'.join(defs))]
+        return df[df['Main Position'].str.contains('|'.join(defs), na=False)]
 
     cbdm = ["CB", "DMF"]
     if position == "CBs & DMs":
-        return df[df['Main Position'].str.contains('|'.join(cbdm))]
+        return df[df['Main Position'].str.contains('|'.join(cbdm), na=False)]
 
     cf = ["CF"]
     if position == "Strikers":
-        return df[df['Main Position'].str.contains('|'.join(cf))]
+        return df[df['Main Position'].str.contains('|'.join(cf), na=False)]
 
     cb = ["CB"]
     if position == "Centre-Backs":
-        return df[df['Main Position'].str.contains('|'.join(cb))]
+        return df[df['Main Position'].str.contains('|'.join(cb), na=False)]
     else:
         return df
 
