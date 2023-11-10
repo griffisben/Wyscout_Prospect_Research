@@ -131,7 +131,6 @@ def filter_by_position(df, position):
         return df
 
 dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == league)].copy()
-st.write(dfProspect)
 dfProspect = filter_by_position(dfProspect, pos)
 
 ########## PROSPECT RESEARCH ##########
