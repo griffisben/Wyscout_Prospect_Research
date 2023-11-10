@@ -74,6 +74,7 @@ df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).res
 df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
 df['Main Position'] = df['Main Position'].replace('LAMF','LW')
 df['Main Position'] = df['Main Position'].replace('RAMF','RW')
+df = df.dropna(subset=['Main Position']).reset_index(drop=True)
 df.fillna(0,inplace=True)
 
 #############################################################################################################################
