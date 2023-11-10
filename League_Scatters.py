@@ -63,8 +63,8 @@ with st.sidebar:
                                     'Central & Defensive Midfielders (DM, CM)', 'Central & Attacking Midfielders (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'Goalkeepers'))
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
-    xx = st.selectbox('X-Axis', (df.columns[18:len(df.columns)].tolist()))
-    yy = st.selectbox('Y-Axis', (df.columns[18:len(df.columns)].tolist()))
+    xx = st.selectbox('X-Axis', (df.columns[18:len(df.columns)].tolist())+['Age'])
+    yy = st.selectbox('Y-Axis', (df.columns[18:len(df.columns)].tolist())+['Age'])
     cc = st.selectbox('Point Color', (df.columns[18:len(df.columns)].tolist()))
     flipX = xx
     flipY = yy
