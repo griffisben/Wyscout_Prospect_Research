@@ -51,6 +51,7 @@ with st.sidebar:
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs'))
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
     maxage = st.slider('Max Age', min(df.Age.astype(int)), max(df.Age.astype(int)), 25)
+    callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
 
 
 #####################################################################
@@ -74,6 +75,12 @@ df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).res
 df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
 df['Main Position'] = df['Main Position'].replace('LAMF','LW')
 df['Main Position'] = df['Main Position'].replace('RAMF','RW')
+df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
+df['Main Position'] = df['Main Position'].replace('RCB3','RCB')
+df['Main Position'] = df['Main Position'].replace('LCB5','LCB')
+df['Main Position'] = df['Main Position'].replace('RCB5','RCB')
+df['Main Position'] = df['Main Position'].replace('LB5','LB')
+df['Main Position'] = df['Main Position'].replace('RB5','RB')
 df.fillna(0,inplace=True)
 
 #############################################################################################################################
@@ -436,6 +443,12 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
     df['Main Position'] = df['Main Position'].replace('LAMF','LW')
     df['Main Position'] = df['Main Position'].replace('RAMF','RW')
+    df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
+    df['Main Position'] = df['Main Position'].replace('RCB3','RCB')
+    df['Main Position'] = df['Main Position'].replace('LCB5','LCB')
+    df['Main Position'] = df['Main Position'].replace('RCB5','RCB')
+    df['Main Position'] = df['Main Position'].replace('LB5','LB')
+    df['Main Position'] = df['Main Position'].replace('RB5','RB')
 
     #####################################################################################
     # Filter data
@@ -810,13 +823,24 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
 
         offset += size + PAD
 
-    for i, bar in enumerate(ax.patches):
-        ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
-                       (bar.get_x() + bar.get_width() / 2,
-                        bar.get_height()-.1), ha='center', va='center',
-                       size=10, xytext=(0, 8),
-                       textcoords='offset points',
-                   bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
+    if callout == 'Per 90':
+        callout_text = "per 90'"
+        for i, bar in enumerate(ax.patches):
+            ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
+                           (bar.get_x() + bar.get_width() / 2,
+                            bar.get_height()-.1), ha='center', va='center',
+                           size=10, xytext=(0, 8),
+                           textcoords='offset points',
+                       bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
+    if callout == 'Percentile':
+        callout_text = 'percentile'
+        for bar in ax.patches:
+            ax.annotate(format(bar.get_height()*100, '.0f'),
+                           (bar.get_x() + bar.get_width() / 2,
+                            bar.get_height()-.1), ha='center', va='center',
+                           size=12, xytext=(0, 8),
+                           textcoords='offset points',
+                       bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
 
 
     PAD = 0.02
@@ -836,7 +860,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
                 x=0.5,
                 y=.97)
 
-    plt.annotate("Bars are percentiles | Values shown are per 90' values\nAll values are per 90 minutes | %s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
+    plt.annotate(f"Bars are percentiles | Values shown are {callout_text} values\nAll values are per 90 minutes | %s\nCompared to %s %s, %i+ mins\nData: Wyscout | %s\nSample Size: %i players" %(extra_text, league, compares, mins, sig, len(dfProspect)),
                  xy = (0, -.075), xycoords='axes fraction',
                 ha='left', va='center',
                 fontsize=9, fontfamily="DejaVu Sans",
