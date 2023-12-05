@@ -825,6 +825,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
 
     if callout == 'Per 90':
         callout_text = "per 90'"
+        title_note = ' & Per 90 Values'
         for i, bar in enumerate(ax.patches):
             ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
                            (bar.get_x() + bar.get_width() / 2,
@@ -834,6 +835,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
                        bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
     if callout == 'Percentile':
         callout_text = 'percentile'
+        title_note = ''
         for bar in ax.patches:
             ax.annotate(format(bar.get_height()*100, '.0f'),
                            (bar.get_x() + bar.get_width() / 2,
@@ -851,8 +853,7 @@ def scout_report(league, season, xtra, template, pos, player_pos, mins, minplay,
     ax.text(0.15, 0.8 + PAD, "80", size=10, color='#4A2E19')
     ax.text(0.15, 1 + PAD, "100", size=10, color='#4A2E19')
 
-    plt.suptitle('%s (%i, %s, %i mins.), %s\n%s %s Percentile Rankings'
-                 %(name, age, player_pos, minplay, team, season, league),
+    plt.suptitle(f'{name} ({age}, {plauer_pos}, {minplay} mins.), {team}\n{season} {league} Percentile Rankings{title_note}',
                  fontsize=17,
                  fontfamily="DejaVu Sans",
                 color="#4A2E19", #4A2E19
