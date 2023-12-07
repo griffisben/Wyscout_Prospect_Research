@@ -916,12 +916,11 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
 if gender == 'Men':
     df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
 if gender == 'Women':
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
+    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
 
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
 page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
-st.write(df)
 # try:
 df = df[df['Minutes played']>=mins].reset_index(drop=True)
 df = df[df['League']==league].reset_index(drop=True)
