@@ -78,8 +78,9 @@ df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
 df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
 
 df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
-
+df = df.dropna(subset=['Position']).reset_index(drop=True)
 df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
+df = df.dropna(subset=['Main Position']).reset_index(drop=True)
 df['Main Position'] = df['Main Position'].replace('LAMF','LW')
 df['Main Position'] = df['Main Position'].replace('RAMF','RW')
 df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
