@@ -926,12 +926,10 @@ page = st.number_input("Age of the player to generate (to guarantee the correct 
 df = df[df['Minutes played']>=mins].reset_index(drop=True)
 df = df[df['League']==league].reset_index(drop=True)
 df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
+st.write(df1)
 df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
 df1['Age'] = df1['Age'].astype(int)
-
-st.write(df1)
-
 df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
 df1 = df1.dropna(subset=['Main Position']).reset_index(drop=True)
 df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
