@@ -921,12 +921,11 @@ if gender == 'Women':
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
 page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
-
+st.write(df)
 # try:
 df = df[df['Minutes played']>=mins].reset_index(drop=True)
 df = df[df['League']==league].reset_index(drop=True)
 df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
-st.write(df1)
 df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
 df1['Age'] = df1['Age'].astype(int)
