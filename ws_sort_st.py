@@ -434,10 +434,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
     df = df.fillna(0)
     df = df[df['League']==league].reset_index(drop=True)
-    df = df.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
-#         if league == 'Latvian Virsliga':
-#             df.replace({'Valmiera / BSS': 'Valmiera',
-#                        'Metta / LU': 'Metta'}, inplace=True)
+    df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 
     df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
     df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
@@ -451,7 +448,9 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
     df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
 
+    df = df.dropna(subset=['Position']).reset_index(drop=True)
     df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
+    df = df.dropna(subset=['Main Position']).reset_index(drop=True)
     df['Main Position'] = df['Main Position'].replace('LAMF','LW')
     df['Main Position'] = df['Main Position'].replace('RAMF','RW')
     df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
