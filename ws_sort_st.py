@@ -46,7 +46,7 @@ if gender == 'Men':
     df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
 if gender == 'Women':
     lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_women.csv')
+    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
 df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
@@ -430,7 +430,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     if gender == 'Men':
         df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
     if gender == 'Women':
-        df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_women.csv')
+        df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
     df = df.fillna(0)
     df = df[df['League']==league].reset_index(drop=True)
     df = df.dropna(subset=['Age', 'Position', 'Team within selected timeframe',]).reset_index(drop=True)
