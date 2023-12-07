@@ -930,7 +930,7 @@ df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).r
 df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
 df1['Age'] = df1['Age'].astype(int)
 df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
-df1 = df1.dropna(subset=['Main Position']).reset_index(drop=True)
+df1 = df1.dropna(subset=['Main Position'])
 df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
 df1['Main Position'] = df1['Main Position'].replace('RAMF','RW')
 df1['Main Position'] = df1['Main Position'].replace('LCB3','LCB')
