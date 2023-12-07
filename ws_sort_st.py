@@ -929,6 +929,9 @@ df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minute
 df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
 df1['Age'] = df1['Age'].astype(int)
+
+st.write(df1)
+
 df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
 df1 = df1.dropna(subset=['Main Position']).reset_index(drop=True)
 df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
@@ -953,7 +956,6 @@ ws_pos = ['LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF'
 template = ['attacking','attacking','defensive','defensive','attacking','attacking','attacking','attacking','attacking','cb','defensive','attacking','defensive','gk','attacking','attacking','attacking','attacking','attacking','cb','cb','cb','cb','defensive','defensive','defensive','defensive']
 compares = ['Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs','Center Backs','Center Backs','Fullbacks','Fullbacks','Fullbacks','Fullbacks']
 
-st.write(df1)
 gen = df1[(df1['Player']==player) & (df1['Age']==page)]
 ix = ws_pos.index(gen['Main Position'].values[0])
 minplay = int(gen['Minutes played'].values[0])
