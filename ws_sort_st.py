@@ -752,7 +752,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         padding = .05
 
         # Iterate over angles, values, and labels, to add all of them.
-        for angle, value, label, in zip(angles, values, labels):
+        for angle, value, label, text_col in zip(angles, values, labels, text_colors):
             angle = angle
 
             # Obtain text rotation and alignment
