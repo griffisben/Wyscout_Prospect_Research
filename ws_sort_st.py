@@ -11,6 +11,7 @@ import warnings
 warnings.filterwarnings('ignore')
 import matplotlib
 from PIL import Image
+from highlight_text import fig_text
 import urllib.request
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 @st.cache_data()
@@ -59,6 +60,7 @@ with st.sidebar:
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
     maxage = st.slider('Max Age', min(df.Age.astype(int)), max(df.Age.astype(int)), 25)
     callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
+    bar_colors = st.selectbox('Bar Color Scheme', ('Metric Groups', 'Benchmarking Percentiles'))
 
 
 #####################################################################
@@ -426,7 +428,7 @@ final
 ########################################################################################################
 ########################################################################################################
 ########################################################################################################
-def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, club_image, extra_text):
+def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, extra_text):
     plt.clf()
     if gender == 'Men':
         df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
@@ -744,7 +746,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         return rotation, alignment
 
 
-    def add_labels(angles, values, labels, offset, ax):
+    def add_labels(angles, values, labels, offset, ax, text_colors):
 
         # This is the space between the end of the bar and the label
         padding = .05
@@ -764,6 +766,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                 ha=alignment, 
                 va="center", 
                 rotation=rotation,
+                color=text_col,
             )
 
 
@@ -814,7 +817,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         edgecolor="#4A2E19", linewidth=1
     )
 
-    add_labels(ANGLES[IDXS], VALUES, LABELS, OFFSET, ax)
+#     add_labels(ANGLES[IDXS], VALUES, LABELS, OFFSET, ax)
 
     offset = 0 
     for group, size in zip(GROUPS_SIZE, GROUPS_SIZE): #replace first GROUPS SIZE with ['Passing', 'Creativity'] etc if needed
@@ -832,27 +835,88 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         ax.plot(x2, [1] * 50, color="#bebebe", lw=0.8)
 
         offset += size + PAD
-
-    if callout == 'Per 90':
-        callout_text = "per 90'"
-        title_note = ' & Per 90 Values'
+        
+        text_cs = []
+        text_inv_cs = []
         for i, bar in enumerate(ax.patches):
-            ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
-                           (bar.get_x() + bar.get_width() / 2,
-                            bar.get_height()-.1), ha='center', va='center',
-                           size=10, xytext=(0, 8),
-                           textcoords='offset points',
-                       bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
-    if callout == 'Percentile':
-        callout_text = 'percentile'
-        title_note = ''
-        for bar in ax.patches:
-            ax.annotate(format(bar.get_height()*100, '.0f'),
-                           (bar.get_x() + bar.get_width() / 2,
-                            bar.get_height()-.1), ha='center', va='center',
-                           size=12, xytext=(0, 8),
-                           textcoords='offset points',
-                       bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
+            pc = 1-bar.get_height()
+            if pc <= .1:  # Elite
+                if bar_colors == 'Benchmarking Percentiles':
+                    bar.set_color('#d9e3f6')
+                    bar.set_edgecolor('#01349b')
+                text_color = '#01349b'
+                inv_color = '#d9e3f6'
+                text_cs+=[text_color]
+                text_inv_cs+=[inv_color]
+            elif .1 < pc <= .35:  # Above Avg
+                if bar_colors == 'Benchmarking Percentiles':
+                    bar.set_color('#d9f0e3')
+                    bar.set_edgecolor('#007f35')
+                text_color = '#007f35'
+                inv_color = '#d9f0e3'
+                text_cs+=[text_color]
+                text_inv_cs+=[inv_color]
+            elif .35 < pc <= .66:  # Avg
+                if bar_colors == 'Benchmarking Percentiles':
+                    bar.set_color('#fff2d9')
+                    bar.set_edgecolor('#9b6700')
+                text_color = '#9b6700'
+                inv_color = '#fff2d9'
+                text_cs+=[text_color]
+                text_inv_cs+=[inv_color]
+            elif pc > .66:  #Below Avg
+                if bar_colors == 'Benchmarking Percentiles':
+                    bar.set_color('#fddbde')
+                    bar.set_edgecolor('#b60918')
+                text_color = '#b60918'
+                inv_color = '#fddbde'
+                text_cs+=[text_color]
+                text_inv_cs+=[inv_color]
+
+
+    if bar_colors == 'Metric Groups':
+        if callout == 'Per 90':
+            callout_text = "per 90'"
+            title_note = ' & Per 90 Values'
+            for i, bar in enumerate(ax.patches):
+                ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
+                               (bar.get_x() + bar.get_width() / 2,
+                                bar.get_height()-.1), ha='center', va='center',
+                               size=10, xytext=(0, 8),
+                               textcoords='offset points',
+                           bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
+        if callout == 'Percentile':
+            callout_text = 'percentile'
+            title_note = ''
+            for bar in ax.patches:
+                ax.annotate(format(bar.get_height()*100, '.0f'),
+                               (bar.get_x() + bar.get_width() / 2,
+                                bar.get_height()-.1), ha='center', va='center',
+                               size=12, xytext=(0, 8),
+                               textcoords='offset points',
+                           bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
+                
+    if bar_colors == 'Benchmarking Percentiles':
+        if callout == 'Per 90':
+            callout_text = "per 90'"
+            title_note = ' & Per 90 Values'
+            for i, bar in enumerate(ax.patches):
+                ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
+                               (bar.get_x() + bar.get_width() / 2,
+                                bar.get_height()-.1), ha='center', va='center',
+                               size=10, xytext=(0, 8),
+                               textcoords='offset points', color=inv_color
+                           bbox=dict(boxstyle="round", fc=text_color, ec="black", lw=1))
+        if callout == 'Percentile':
+            callout_text = 'percentile'
+            title_note = ''
+            for bar in ax.patches:
+                ax.annotate(format(bar.get_height()*100, '.0f'),
+                               (bar.get_x() + bar.get_width() / 2,
+                                bar.get_height()-.1), ha='center', va='center',
+                               size=12, xytext=(0, 8),
+                               textcoords='offset points', color=inv_color
+                           bbox=dict(boxstyle="round", fc=text_color, ec="black", lw=1))
 
 
     PAD = 0.02
@@ -878,32 +942,29 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                 color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
                 ) 
 
-    if club_image == 'y':
-#         ######## Club Image ########
-#         clubpath = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{team.replace(" ","%20")}.png'
-#         image = Image.open(urllib.request.urlopen(clubpath))
-#         newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
-#         newax.imshow(image)
-#         newax.axis('off')
-        ######## Club Image ########
-        clubpath = raw_valsdf['Team logo'].values[0]
-        image = Image.open(urllib.request.urlopen(clubpath))
-        newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
-        newax.imshow(image)
-        newax.axis('off')
-
-#         ######## League Logo Image ########
-#         l_path = f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Club%20Images/{league.replace(" ","%20")}/{league.replace(" ","%20")}%20Logo.png'
-#         image = Image.open(urllib.request.urlopen(l_path))
-#         newax = fig.add_axes([.76,.845,0.1,0.1], anchor='C', zorder=1)
-#         newax.imshow(image)
-#         newax.axis('off')
+    clubpath = raw_valsdf['Team logo'].values[0]
+    image = Image.open(urllib.request.urlopen(clubpath))
+    newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
+    newax.imshow(image)
+    newax.axis('off')
 
     ax.set_facecolor('#fbf9f4')
     fig = plt.gcf()
     fig.patch.set_facecolor('#fbf9f4')
 #     ax.set_facecolor('#fbf9f4')
     fig.set_size_inches(12, (12*.9)) #length, height
+    
+    fig_text(
+    0.13, 0.165, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 33%)>", color="#4A2E19",
+    highlight_textprops=[{"color": '#01349b'},
+                         {'color' : '#007f35'},
+                         {"color" : '#9b6700'},
+                         {'color' : '#b60918'},
+#                          {'color' : 'cornflowerblue'}
+                        ],
+    size=10, fig=fig, ha='left',va='center'
+    )
+
 
 
     return fig
@@ -984,7 +1045,6 @@ try:
                  team = gen['Team within selected timeframe'].values[0],
                  age = gen['Age'].values[0],
                  sig = 'Twitter: @BeGriffis',
-                 club_image = 'y',
                  extra_text = xtratext,
                 )
     st.pyplot(radar_img.figure)

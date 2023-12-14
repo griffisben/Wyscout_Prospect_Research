@@ -6,3 +6,4 @@ scipy
 statistics
 streamlit
 plotly
+highlight_text
