@@ -923,7 +923,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     fig.set_size_inches(12, (12*.9)) #length, height
     
     fig_text(
-        0.88, 0.045, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 33%)>", color="#4A2E19",
+        0.88, 0.045, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 35%)>", color="#4A2E19",
         highlight_textprops=[{"color": '#01349b'},
                              {'color' : '#007f35'},
                              {"color" : '#9b6700'},
