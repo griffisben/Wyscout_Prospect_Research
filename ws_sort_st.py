@@ -905,18 +905,18 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                                (bar.get_x() + bar.get_width() / 2,
                                 bar.get_height()-.1), ha='center', va='center',
                                size=10, xytext=(0, 8),
-                               textcoords='offset points', color=text_inv_cs[i],
-                           bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
+                               textcoords='offset points', color=text_inv_cs,
+                           bbox=dict(boxstyle="round", fc=text_cs, ec="black", lw=1))
         if callout == 'Percentile':
             callout_text = 'percentile'
             title_note = ''
-            for i, bar in enumerate(ax.patches):
+            for bar in ax.patches:
                 ax.annotate(format(bar.get_height()*100, '.0f'),
                                (bar.get_x() + bar.get_width() / 2,
                                 bar.get_height()-.1), ha='center', va='center',
                                size=12, xytext=(0, 8),
-                               textcoords='offset points', color=text_inv_cs[i],
-                           bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
+                               textcoords='offset points', color=text_inv_cs,
+                           bbox=dict(boxstyle="round", fc=text_cs, ec="black", lw=1))
 
     add_labels(ANGLES[IDXS], VALUES, LABELS, OFFSET, ax, text_cs)
 
