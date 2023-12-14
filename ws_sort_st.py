@@ -905,7 +905,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                                (bar.get_x() + bar.get_width() / 2,
                                 bar.get_height()-.1), ha='center', va='center',
                                size=10, xytext=(0, 8),
-                               textcoords='offset points', color=inv_color
+                               textcoords='offset points', color=inv_color,
                            bbox=dict(boxstyle="round", fc=text_color, ec="black", lw=1))
         if callout == 'Percentile':
             callout_text = 'percentile'
@@ -915,7 +915,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                                (bar.get_x() + bar.get_width() / 2,
                                 bar.get_height()-.1), ha='center', va='center',
                                size=12, xytext=(0, 8),
-                               textcoords='offset points', color=inv_color
+                               textcoords='offset points', color=inv_color,
                            bbox=dict(boxstyle="round", fc=text_color, ec="black", lw=1))
 
 
