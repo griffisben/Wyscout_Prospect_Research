@@ -870,11 +870,17 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
 
     for i, bar in enumerate(ax.patches):
         if bar_colors == 'Metric Groups':
-            value_format = f'{round(raw_vals.iloc[0][i+1], 2)}'
+            if callout == 'Per 90':
+                value_format = f'{round(raw_vals.iloc[0][i+1], 2)}'
+            else:
+                value_format = format(bar.get_height() * 100, '.0f')
             color = 'black'
             face = 'white'
         elif bar_colors == 'Benchmarking Percentiles':
-            value_format = format(bar.get_height() * 100, '.0f')
+            if callout == 'Per 90':
+                value_format = f'{round(raw_vals.iloc[0][i+1], 2)}'
+            else:
+                value_format = format(bar.get_height() * 100, '.0f')
             color = text_inv_cs[i]
             face = text_cs[i]
 
