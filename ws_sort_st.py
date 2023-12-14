@@ -836,8 +836,8 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
 
         offset += size + PAD
         
-        text_cs = []
-        text_inv_cs = []
+    text_cs = []
+    text_inv_cs = []
 
     for i, bar in enumerate(ax.patches):
         pc = 1 - bar.get_height()
@@ -857,51 +857,77 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
 
         text_cs.append(color[0])
         text_inv_cs.append(color[1])
+        
+    ####
+    callout_text = ''
+    title_note = ''
 
+    if callout == 'Per 90':
+        callout_text = "per 90'"
+        title_note = ' & Per 90 Values'
+    elif callout == 'Percentile':
+        callout_text = 'percentile'
 
-    if bar_colors == 'Metric Groups':
-        if callout == 'Per 90':
-            callout_text = "per 90'"
-            title_note = ' & Per 90 Values'
-            for i, bar in enumerate(ax.patches):
-                ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
-                               (bar.get_x() + bar.get_width() / 2,
-                                bar.get_height()-.1), ha='center', va='center',
-                               size=10, xytext=(0, 8),
-                               textcoords='offset points',
-                           bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
-        if callout == 'Percentile':
-            callout_text = 'percentile'
-            title_note = ''
-            for bar in ax.patches:
-                ax.annotate(format(bar.get_height()*100, '.0f'),
-                               (bar.get_x() + bar.get_width() / 2,
-                                bar.get_height()-.1), ha='center', va='center',
-                               size=12, xytext=(0, 8),
-                               textcoords='offset points',
-                           bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
+    for i, bar in enumerate(ax.patches):
+        if bar_colors == 'Metric Groups':
+            value_format = f'{round(raw_vals.iloc[0][i+1], 2)}'
+            color = 'black'
+            face = 'white'
+        elif bar_colors == 'Benchmarking Percentiles':
+            value_format = format(bar.get_height() * 100, '.0f')
+            color = text_inv_cs[i]
+            face = text_cs[i]
+
+        ax.annotate(value_format,
+                    (bar.get_x() + bar.get_width() / 2, bar.get_height() - 0.1),
+                    ha='center', va='center', size=10, xytext=(0, 8),
+                    textcoords='offset points', color=color,
+                    bbox=dict(boxstyle="round", fc=face, ec="black", lw=1))
+    ####
+
+#     if bar_colors == 'Metric Groups':
+#         if callout == 'Per 90':
+#             callout_text = "per 90'"
+#             title_note = ' & Per 90 Values'
+#             for i, bar in enumerate(ax.patches):
+#                 ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
+#                                (bar.get_x() + bar.get_width() / 2,
+#                                 bar.get_height()-.1), ha='center', va='center',
+#                                size=10, xytext=(0, 8),
+#                                textcoords='offset points',
+#                            bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
+#         if callout == 'Percentile':
+#             callout_text = 'percentile'
+#             title_note = ''
+#             for bar in ax.patches:
+#                 ax.annotate(format(bar.get_height()*100, '.0f'),
+#                                (bar.get_x() + bar.get_width() / 2,
+#                                 bar.get_height()-.1), ha='center', va='center',
+#                                size=12, xytext=(0, 8),
+#                                textcoords='offset points',
+#                            bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
                 
-    if bar_colors == 'Benchmarking Percentiles':
-        if callout == 'Per 90':
-            callout_text = "per 90'"
-            title_note = ' & Per 90 Values'
-            for i, bar in enumerate(ax.patches):
-                ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
-                               (bar.get_x() + bar.get_width() / 2,
-                                bar.get_height()-.1), ha='center', va='center',
-                               size=10, xytext=(0, 8),
-                               textcoords='offset points', color=text_inv_cs[i],
-                           bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
-        if callout == 'Percentile':
-            callout_text = 'percentile'
-            title_note = ''
-            for i, bar in enumerate(ax.patches):
-                ax.annotate(format(bar.get_height()*100, '.0f'),
-                               (bar.get_x() + bar.get_width() / 2,
-                                bar.get_height()-.1), ha='center', va='center',
-                               size=12, xytext=(0, 8),
-                               textcoords='offset points', color=text_inv_cs[i],
-                           bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
+#     if bar_colors == 'Benchmarking Percentiles':
+#         if callout == 'Per 90':
+#             callout_text = "per 90'"
+#             title_note = ' & Per 90 Values'
+#             for i, bar in enumerate(ax.patches):
+#                 ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
+#                                (bar.get_x() + bar.get_width() / 2,
+#                                 bar.get_height()-.1), ha='center', va='center',
+#                                size=10, xytext=(0, 8),
+#                                textcoords='offset points', color=text_inv_cs[i],
+#                            bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
+#         if callout == 'Percentile':
+#             callout_text = 'percentile'
+#             title_note = ''
+#             for i, bar in enumerate(ax.patches):
+#                 ax.annotate(format(bar.get_height()*100, '.0f'),
+#                                (bar.get_x() + bar.get_width() / 2,
+#                                 bar.get_height()-.1), ha='center', va='center',
+#                                size=12, xytext=(0, 8),
+#                                textcoords='offset points', color=text_inv_cs[i],
+#                            bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
 
     add_labels(ANGLES[IDXS], VALUES, LABELS, OFFSET, ax, text_cs)
 
@@ -941,14 +967,14 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     fig.set_size_inches(12, (12*.9)) #length, height
     
     fig_text(
-    0.88, 0.0, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 33%)>", color="#4A2E19",
-    highlight_textprops=[{"color": '#01349b'},
-                         {'color' : '#007f35'},
-                         {"color" : '#9b6700'},
-                         {'color' : '#b60918'},
-#                          {'color' : 'cornflowerblue'}
-                        ],
-    size=10, fig=fig, ha='right',va='center'
+        0.88, 0.04, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 33%)>", color="#4A2E19",
+        highlight_textprops=[{"color": '#01349b'},
+                             {'color' : '#007f35'},
+                             {"color" : '#9b6700'},
+                             {'color' : '#b60918'},
+    #                          {'color' : 'cornflowerblue'}
+                            ],
+        size=10, fig=fig, ha='right',va='center'
     )
 
 
