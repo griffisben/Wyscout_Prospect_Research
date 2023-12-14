@@ -838,40 +838,25 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         
         text_cs = []
         text_inv_cs = []
-        for i, bar in enumerate(ax.patches):
-            pc = 1-bar.get_height()
-            if pc <= .1:  # Elite
-                if bar_colors == 'Benchmarking Percentiles':
-                    bar.set_color('#d9e3f6')
-                    bar.set_edgecolor('#01349b')
-                text_color = '#01349b'
-                inv_color = '#d9e3f6'
-                text_cs+=[text_color]
-                text_inv_cs+=[inv_color]
-            elif .1 < pc <= .35:  # Above Avg
-                if bar_colors == 'Benchmarking Percentiles':
-                    bar.set_color('#d9f0e3')
-                    bar.set_edgecolor('#007f35')
-                text_color = '#007f35'
-                inv_color = '#d9f0e3'
-                text_cs+=[text_color]
-                text_inv_cs+=[inv_color]
-            elif .35 < pc <= .66:  # Avg
-                if bar_colors == 'Benchmarking Percentiles':
-                    bar.set_color('#fff2d9')
-                    bar.set_edgecolor('#9b6700')
-                text_color = '#9b6700'
-                inv_color = '#fff2d9'
-                text_cs+=[text_color]
-                text_inv_cs+=[inv_color]
-            elif pc > .66:  #Below Avg
-                if bar_colors == 'Benchmarking Percentiles':
-                    bar.set_color('#fddbde')
-                    bar.set_edgecolor('#b60918')
-                text_color = '#b60918'
-                inv_color = '#fddbde'
-                text_cs+=[text_color]
-                text_inv_cs+=[inv_color]
+
+    for i, bar in enumerate(ax.patches):
+        pc = 1 - bar.get_height()
+
+        if pc <= 0.1:
+            color = ('#01349b', '#d9e3f6')  # Elite
+        elif 0.1 < pc <= 0.35:
+            color = ('#007f35', '#d9f0e3')  # Above Avg
+        elif 0.35 < pc <= 0.66:
+            color = ('#9b6700', '#fff2d9')  # Avg
+        else:
+            color = ('#b60918', '#fddbde')  # Below Avg
+
+        if bar_colors == 'Benchmarking Percentiles':
+            bar.set_color(color[1])
+            bar.set_edgecolor(color[0])
+
+        text_cs.append(color[0])
+        text_inv_cs.append(color[1])
 
 
     if bar_colors == 'Metric Groups':
