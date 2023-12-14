@@ -905,19 +905,20 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                                (bar.get_x() + bar.get_width() / 2,
                                 bar.get_height()-.1), ha='center', va='center',
                                size=10, xytext=(0, 8),
-                               textcoords='offset points', color=inv_color,
-                           bbox=dict(boxstyle="round", fc=text_color, ec="black", lw=1))
+                               textcoords='offset points', color=text_inv_cs[i],
+                           bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
         if callout == 'Percentile':
             callout_text = 'percentile'
             title_note = ''
-            for bar in ax.patches:
+            for i, bar in enumerate(ax.patches):
                 ax.annotate(format(bar.get_height()*100, '.0f'),
                                (bar.get_x() + bar.get_width() / 2,
                                 bar.get_height()-.1), ha='center', va='center',
                                size=12, xytext=(0, 8),
-                               textcoords='offset points', color=inv_color,
-                           bbox=dict(boxstyle="round", fc=text_color, ec="black", lw=1))
+                               textcoords='offset points', color=text_inv_cs[i],
+                           bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
 
+    add_labels(ANGLES[IDXS], VALUES, LABELS, OFFSET, ax, text_cs)
 
     PAD = 0.02
     ax.text(0.15, 0 + PAD, "0", size=10, color='#4A2E19')
@@ -955,14 +956,14 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     fig.set_size_inches(12, (12*.9)) #length, height
     
     fig_text(
-    0.13, 0.165, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 33%)>", color="#4A2E19",
+    0.88, 0.0, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 33%)>", color="#4A2E19",
     highlight_textprops=[{"color": '#01349b'},
                          {'color' : '#007f35'},
                          {"color" : '#9b6700'},
                          {'color' : '#b60918'},
 #                          {'color' : 'cornflowerblue'}
                         ],
-    size=10, fig=fig, ha='left',va='center'
+    size=10, fig=fig, ha='right',va='center'
     )
 
 
