@@ -817,8 +817,6 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         edgecolor="#4A2E19", linewidth=1
     )
 
-#     add_labels(ANGLES[IDXS], VALUES, LABELS, OFFSET, ax)
-
     offset = 0 
     for group, size in zip(GROUPS_SIZE, GROUPS_SIZE): #replace first GROUPS SIZE with ['Passing', 'Creativity'] etc if needed
         # Add line below bars
@@ -838,7 +836,6 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         
     text_cs = []
     text_inv_cs = []
-
     for i, bar in enumerate(ax.patches):
         pc = 1 - bar.get_height()
 
@@ -858,7 +855,6 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         text_cs.append(color[0])
         text_inv_cs.append(color[1])
         
-    ####
     callout_text = ''
     title_note = ''
 
@@ -889,51 +885,6 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                     ha='center', va='center', size=10, xytext=(0, 8),
                     textcoords='offset points', color=color,
                     bbox=dict(boxstyle="round", fc=face, ec="black", lw=1))
-    ####
-
-#     if bar_colors == 'Metric Groups':
-#         if callout == 'Per 90':
-#             callout_text = "per 90'"
-#             title_note = ' & Per 90 Values'
-#             for i, bar in enumerate(ax.patches):
-#                 ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
-#                                (bar.get_x() + bar.get_width() / 2,
-#                                 bar.get_height()-.1), ha='center', va='center',
-#                                size=10, xytext=(0, 8),
-#                                textcoords='offset points',
-#                            bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
-#         if callout == 'Percentile':
-#             callout_text = 'percentile'
-#             title_note = ''
-#             for bar in ax.patches:
-#                 ax.annotate(format(bar.get_height()*100, '.0f'),
-#                                (bar.get_x() + bar.get_width() / 2,
-#                                 bar.get_height()-.1), ha='center', va='center',
-#                                size=12, xytext=(0, 8),
-#                                textcoords='offset points',
-#                            bbox=dict(boxstyle="round", fc='white', ec="black", lw=1))
-                
-#     if bar_colors == 'Benchmarking Percentiles':
-#         if callout == 'Per 90':
-#             callout_text = "per 90'"
-#             title_note = ' & Per 90 Values'
-#             for i, bar in enumerate(ax.patches):
-#                 ax.annotate(f'{round(raw_vals.iloc[0][i+1],2)}',
-#                                (bar.get_x() + bar.get_width() / 2,
-#                                 bar.get_height()-.1), ha='center', va='center',
-#                                size=10, xytext=(0, 8),
-#                                textcoords='offset points', color=text_inv_cs[i],
-#                            bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
-#         if callout == 'Percentile':
-#             callout_text = 'percentile'
-#             title_note = ''
-#             for i, bar in enumerate(ax.patches):
-#                 ax.annotate(format(bar.get_height()*100, '.0f'),
-#                                (bar.get_x() + bar.get_width() / 2,
-#                                 bar.get_height()-.1), ha='center', va='center',
-#                                size=12, xytext=(0, 8),
-#                                textcoords='offset points', color=text_inv_cs[i],
-#                            bbox=dict(boxstyle="round", fc=text_cs[i], ec="black", lw=1))
 
     add_labels(ANGLES[IDXS], VALUES, LABELS, OFFSET, ax, text_cs)
 
@@ -969,16 +920,14 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     ax.set_facecolor('#fbf9f4')
     fig = plt.gcf()
     fig.patch.set_facecolor('#fbf9f4')
-#     ax.set_facecolor('#fbf9f4')
     fig.set_size_inches(12, (12*.9)) #length, height
     
     fig_text(
-        0.88, 0.04, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 33%)>", color="#4A2E19",
+        0.88, 0.045, "<Elite (Top 10%)>\n<Above Average (11-35%)>\n<Average (36-66%)>\n<Below Average (Bottom 33%)>", color="#4A2E19",
         highlight_textprops=[{"color": '#01349b'},
                              {'color' : '#007f35'},
                              {"color" : '#9b6700'},
                              {'color' : '#b60918'},
-    #                          {'color' : 'cornflowerblue'}
                             ],
         size=10, fig=fig, ha='right',va='center'
     )
@@ -1000,74 +949,74 @@ if gender == 'Women':
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
 page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
-# try:
-df = df[df['Minutes played']>=mins].reset_index(drop=True)
-df = df[df['League']==league].reset_index(drop=True)
-df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
-df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
-df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
-df1['Age'] = df1['Age'].astype(int)
-df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
-df1 = df1.dropna(subset=['Main Position']).reset_index(drop=True)
-df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
-df1['Main Position'] = df1['Main Position'].replace('RAMF','RW')
-df1['Main Position'] = df1['Main Position'].replace('LCB3','LCB')
-df1['Main Position'] = df1['Main Position'].replace('RCB3','RCB')
-df1['Main Position'] = df1['Main Position'].replace('LCB5','LCB')
-df1['Main Position'] = df1['Main Position'].replace('RCB5','RCB')
-df1['Main Position'] = df1['Main Position'].replace('LB5','LB')
-df1['Main Position'] = df1['Main Position'].replace('RB5','RB')
+try:
+    df = df[df['Minutes played']>=mins].reset_index(drop=True)
+    df = df[df['League']==league].reset_index(drop=True)
+    df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
+    df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
+    df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
+    df1['Age'] = df1['Age'].astype(int)
+    df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
+    df1 = df1.dropna(subset=['Main Position']).reset_index(drop=True)
+    df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
+    df1['Main Position'] = df1['Main Position'].replace('RAMF','RW')
+    df1['Main Position'] = df1['Main Position'].replace('LCB3','LCB')
+    df1['Main Position'] = df1['Main Position'].replace('RCB3','RCB')
+    df1['Main Position'] = df1['Main Position'].replace('LCB5','LCB')
+    df1['Main Position'] = df1['Main Position'].replace('RCB5','RCB')
+    df1['Main Position'] = df1['Main Position'].replace('LB5','LB')
+    df1['Main Position'] = df1['Main Position'].replace('RB5','RB')
 
 
-a = df1['Main Position'].unique()
-a = list(set(a))
+    a = df1['Main Position'].unique()
+    a = list(set(a))
 
-ws_pos = ['LCMF3','RCMF3','LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB','RCB3','LCB3','RB5','RWB5','LB5','LWB5']
-#     pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
-#            'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
-#            'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
-#            'Central Midfielders no CAM (DM, CM)',
-#            'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
-template = ['attacking','attacking','attacking','attacking','defensive','defensive','attacking','attacking','attacking','attacking','attacking','cb','defensive','attacking','defensive','gk','attacking','attacking','attacking','attacking','attacking','cb','cb','cb','cb','defensive','defensive','defensive','defensive']
-compares = ['Central Midfielders','Central Midfielders','Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs','Center Backs','Center Backs','Fullbacks','Fullbacks','Fullbacks','Fullbacks']
+    ws_pos = ['LCMF3','RCMF3','LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB','RCB3','LCB3','RB5','RWB5','LB5','LWB5']
+    #     pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
+    #            'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
+    #            'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
+    #            'Central Midfielders no CAM (DM, CM)',
+    #            'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
+    template = ['attacking','attacking','attacking','attacking','defensive','defensive','attacking','attacking','attacking','attacking','attacking','cb','defensive','attacking','defensive','gk','attacking','attacking','attacking','attacking','attacking','cb','cb','cb','cb','defensive','defensive','defensive','defensive']
+    compares = ['Central Midfielders','Central Midfielders','Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs','Center Backs','Center Backs','Fullbacks','Fullbacks','Fullbacks','Fullbacks']
 
-gen = df1[(df1['Player']==player) & (df1['Age']==page)]
-ix = ws_pos.index(gen['Main Position'].values[0])
-minplay = int(gen['Minutes played'].values[0])
+    gen = df1[(df1['Player']==player) & (df1['Age']==page)]
+    ix = ws_pos.index(gen['Main Position'].values[0])
+    minplay = int(gen['Minutes played'].values[0])
 
-##########################################################################################
+    ##########################################################################################
 
 
-#######################################################################################################
-#######################################################################################################
-#######################################################################################################
-#######################################################################################################
-ssn_ = lg_lookup[lg_lookup['League']==league].Season.values[0]
-xtratext = lg_lookup[lg_lookup['League']==league].Date.values[0]
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    ssn_ = lg_lookup[lg_lookup['League']==league].Season.values[0]
+    xtratext = lg_lookup[lg_lookup['League']==league].Date.values[0]
 
-radar_img = scout_report(
-            gender = gender,
-             league = league,  ######
-             season = ssn_,  
-             xtra = ' current',  ######
-             template = template[ix],
-#                  pos_buckets = pos_buckets[ix],
-#                  pos = pos[ix],
-            pos = pos,
-             player_pos = ws_pos[ix],
-             compares = compares[ix],
-             mins = mins,
-            minplay=minplay,
-             name = gen['Player'].values[0],
-             ws_name = gen['Player'].values[0],
-             team = gen['Team within selected timeframe'].values[0],
-             age = gen['Age'].values[0],
-             sig = 'Twitter: @BeGriffis',
-             extra_text = xtratext,
-            )
-st.pyplot(radar_img.figure)
-# except:
-#     st.text("Please enter a valid name & age.  \nPlease check spelling as well as the position filters that they include your player's position.")
+    radar_img = scout_report(
+                gender = gender,
+                 league = league,  ######
+                 season = ssn_,  
+                 xtra = ' current',  ######
+                 template = template[ix],
+    #                  pos_buckets = pos_buckets[ix],
+    #                  pos = pos[ix],
+                pos = pos,
+                 player_pos = ws_pos[ix],
+                 compares = compares[ix],
+                 mins = mins,
+                minplay=minplay,
+                 name = gen['Player'].values[0],
+                 ws_name = gen['Player'].values[0],
+                 team = gen['Team within selected timeframe'].values[0],
+                 age = gen['Age'].values[0],
+                 sig = 'Twitter: @BeGriffis',
+                 extra_text = xtratext,
+                )
+    st.pyplot(radar_img.figure)
+except:
+    st.text("Please enter a valid name & age.  \nPlease check spelling as well as the position filters that they include your player's position.")
     
     
 with st.expander('Metric Glossary'):
