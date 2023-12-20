@@ -14,7 +14,7 @@ from PIL import Image
 from highlight_text import fig_text
 import urllib.request
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
-@st.cache_data()
+@st.cache_data(ttl=6*60*60)
 def read_csv(link):
     return pd.read_csv(link)
 
@@ -22,6 +22,8 @@ def rank_column(df, column_name):
     return stats.rankdata(df[column_name], "average") / len(df[column_name])
 def rank_column_inverse(df, column_name):
     return 1-stats.rankdata(df[column_name], "average") / len(df[column_name])
+
+plt.clf()
 
 st.title('Soccer Prospect Research & Radar Creation')
 st.subheader("All data from Wyscout")
@@ -34,7 +36,13 @@ with st.expander('Read App Details'):
     These will determine the sample size of players that percentile ratings will generate for.
     Then, use the metric filters on the sidebar to pass minimum percentile ranking thresholds.
     Players not meeting all of these criteria will be filtered out.
-    Finally, you can type or copy+paste any of the player names into the textbox below to generate their radar chart.
+    Finally, you can type or copy+paste any of the player names into the textbox below to generate their radar chart.  \n  \n
+    1) Choose your gender, league, positions, and minimum minutes from the filters on the left  \n
+    2) Set the max age of the players to be displayed in the table (this will not impact the sample)  \n
+    3) Choose the data labels son the bars, as well as the bar colors  \n
+    4) You can choose to add any percentile filters for metrics, and this will update the table (again, not the sample)  \n
+    5) To create a radar, enter the exact name & age in the text boxes below  \n
+    NOTE: the player you want a radar for doesn't need to be in the table (as in, maybe they don't hit the metric filters you've set), but they do need to meet the sample criteria of gender, league, position, and minimum minutes played.
     ''')
 
 ##################################################################
@@ -312,39 +320,8 @@ final.fillna(0,inplace=True)
 with st.sidebar:
     st.header('Minimum Percentile Filters')
     def _update_slider(value):
-        st.session_state["slider1"] = value
-        st.session_state["slider2"] = value
-        st.session_state["slider3"] = value
-        st.session_state["slider4"] = value
-        st.session_state["slider5"] = value
-        st.session_state["slider6"] = value
-        st.session_state["slider7"] = value
-        st.session_state["slider8"] = value
-        st.session_state["slider9"] = value
-        st.session_state["slider10"] = value
-        st.session_state["slider11"] = value
-        st.session_state["slider12"] = value
-        st.session_state["slider13"] = value
-        st.session_state["slider14"] = value
-        st.session_state["slider15"] = value
-        st.session_state["slider16"] = value
-        st.session_state["slider17"] = value
-        st.session_state["slider18"] = value
-        st.session_state["slider19"] = value
-        st.session_state["slider20"] = value
-        st.session_state["slider21"] = value
-        st.session_state["slider22"] = value
-        st.session_state["slider23"] = value
-        st.session_state["slider24"] = value
-        st.session_state["slider25"] = value
-        st.session_state["slider26"] = value
-        st.session_state["slider27"] = value
-        st.session_state["slider28"] = value
-        st.session_state["slider29"] = value
-        st.session_state["slider30"] = value
-        st.session_state["slider31"] = value
-        st.session_state["slider32"] = value
-        st.session_state["slider33"] = value
+        for i in range(1, 34):
+            st.session_state[f"slider{i}"] = value
 
     st.button("Reset Sliders", on_click=_update_slider, kwargs={"value": 0.0})
 
@@ -453,14 +430,18 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     df = df.dropna(subset=['Position']).reset_index(drop=True)
     df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
     df = df.dropna(subset=['Main Position']).reset_index(drop=True)
-    df['Main Position'] = df['Main Position'].replace('LAMF','LW')
-    df['Main Position'] = df['Main Position'].replace('RAMF','RW')
-    df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
-    df['Main Position'] = df['Main Position'].replace('RCB3','RCB')
-    df['Main Position'] = df['Main Position'].replace('LCB5','LCB')
-    df['Main Position'] = df['Main Position'].replace('RCB5','RCB')
-    df['Main Position'] = df['Main Position'].replace('LB5','LB')
-    df['Main Position'] = df['Main Position'].replace('RB5','RB')
+    position_replacements = {
+        'LAMF': 'LW',
+        'RAMF': 'RW',
+        'LCB3': 'LCB',
+        'RCB3': 'RCB',
+        'LCB5': 'LCB',
+        'RCB5': 'RCB',
+        'LB5': 'LB',
+        'RB5': 'RB'
+    }
+
+    df['Main Position'] = df['Main Position'].replace(position_replacements)
 
     #####################################################################################
     # Filter data
@@ -695,36 +676,49 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                         ws_name: 'Value',
                              'index': 'Group'})
 
-    if template == 'attacking':
-        for i in range(len(df1)):
-            if df1['Group'][i] <= 4:
-                df1['Group'][i] = 'Passing'
-            elif df1['Group'][i] <= 10:
-                df1['Group'][i] = 'Creativity'
-            elif df1['Group'][i] <= 16:
-                df1['Group'][i] = 'Shooting'
-            elif df1['Group'][i] <= 20:
-                df1['Group'][i] = 'Ball Movement'
-            elif df1['Group'][i] <= 23:
-                df1['Group'][i] = 'Defense'
+#     if template == 'attacking':
+#         for i in range(len(df1)):
+#             if df1['Group'][i] <= 4:
+#                 df1['Group'][i] = 'Passing'
+#             elif df1['Group'][i] <= 10:
+#                 df1['Group'][i] = 'Creativity'
+#             elif df1['Group'][i] <= 16:
+#                 df1['Group'][i] = 'Shooting'
+#             elif df1['Group'][i] <= 20:
+#                 df1['Group'][i] = 'Ball Movement'
+#             elif df1['Group'][i] <= 23:
+#                 df1['Group'][i] = 'Defense'
 
-    if template == 'defensive':
-        for i in range(len(df1)):
-            if df1['Group'][i] <= 7:
-                df1['Group'][i] = 'Defending'
-            elif df1['Group'][i] <= 16:
-                df1['Group'][i] = 'Attacking'
-            elif df1['Group'][i] <= 19:
-                df1['Group'][i] = 'Fouling'
+#     if template == 'defensive':
+#         for i in range(len(df1)):
+#             if df1['Group'][i] <= 7:
+#                 df1['Group'][i] = 'Defending'
+#             elif df1['Group'][i] <= 16:
+#                 df1['Group'][i] = 'Attacking'
+#             elif df1['Group'][i] <= 19:
+#                 df1['Group'][i] = 'Fouling'
 
-    if template == 'cb':
+#     if template == 'cb':
+#         for i in range(len(df1)):
+#             if df1['Group'][i] <= 7:
+#                 df1['Group'][i] = 'Defending'
+#             elif df1['Group'][i] <= 14:
+#                 df1['Group'][i] = 'Attacking'
+#             elif df1['Group'][i] <= 17:
+#                 df1['Group'][i] = 'Fouling'
+    templates = {
+        'attacking': {4: 'Passing', 10: 'Creativity', 16: 'Shooting', 20: 'Ball Movement', 23: 'Defense'},
+        'defensive': {7: 'Defending', 16: 'Attacking', 19: 'Fouling'},
+        'cb': {7: 'Defending', 14: 'Attacking', 17: 'Fouling'}
+    }
+
+    if template in templates:
         for i in range(len(df1)):
-            if df1['Group'][i] <= 7:
-                df1['Group'][i] = 'Defending'
-            elif df1['Group'][i] <= 14:
-                df1['Group'][i] = 'Attacking'
-            elif df1['Group'][i] <= 17:
-                df1['Group'][i] = 'Fouling'
+            for threshold, category in templates[template].items():
+                if df1['Group'][i] <= threshold:
+                    df1['Group'][i] = category
+                    break  # Exit the loop once the condition is met
+
 
 
     #####################################################################
@@ -818,7 +812,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     )
 
     offset = 0 
-    for group, size in zip(GROUPS_SIZE, GROUPS_SIZE): #replace first GROUPS SIZE with ['Passing', 'Creativity'] etc if needed
+    for group, size in zip(GROUPS_SIZE, GROUPS_SIZE):
         # Add line below bars
         x1 = np.linspace(ANGLES[offset + PAD], ANGLES[offset + size + PAD - 1], num=50)
         ax.plot(x1, [-.02] * 50, color="#4A2E19")
@@ -836,9 +830,26 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         
     text_cs = []
     text_inv_cs = []
-    for i, bar in enumerate(ax.patches):
-        pc = 1 - bar.get_height()
+#     for i, bar in enumerate(ax.patches):
+#         pc = 1 - bar.get_height()
 
+#         if pc <= 0.1:
+#             color = ('#01349b', '#d9e3f6')  # Elite
+#         elif 0.1 < pc <= 0.35:
+#             color = ('#007f35', '#d9f0e3')  # Above Avg
+#         elif 0.35 < pc <= 0.66:
+#             color = ('#9b6700', '#fff2d9')  # Avg
+#         else:
+#             color = ('#b60918', '#fddbde')  # Below Avg
+
+#         if bar_colors == 'Benchmarking Percentiles':
+#             bar.set_color(color[1])
+#             bar.set_edgecolor(color[0])
+
+#         text_cs.append(color[0])
+#         text_inv_cs.append(color[1])
+#####
+    def get_color(pc, bar_colors):
         if pc <= 0.1:
             color = ('#01349b', '#d9e3f6')  # Elite
         elif 0.1 < pc <= 0.35:
@@ -848,12 +859,19 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
         else:
             color = ('#b60918', '#fddbde')  # Below Avg
 
-        if bar_colors == 'Benchmarking Percentiles':
-            bar.set_color(color[1])
-            bar.set_edgecolor(color[0])
+        return color[1] if bar_colors == 'Benchmarking Percentiles' else color[0]
 
-        text_cs.append(color[0])
-        text_inv_cs.append(color[1])
+    text_cs = [get_color(1 - bar.get_height(), bar_colors) for bar in ax.patches]
+    text_inv_cs = [get_color(1 - bar.get_height(), bar_colors) for _ in ax.patches]
+
+    for i, bar in enumerate(ax.patches):
+        pc = 1 - bar.get_height()
+        color = get_color(pc, bar_colors)
+
+        if bar_colors == 'Benchmarking Percentiles':
+            bar.set_color(color)
+            bar.set_edgecolor(color)
+#####
         
     callout_text = ''
     title_note = ''
@@ -958,25 +976,24 @@ try:
     df1['Age'] = df1['Age'].astype(int)
     df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
     df1 = df1.dropna(subset=['Main Position']).reset_index(drop=True)
-    df1['Main Position'] = df1['Main Position'].replace('LAMF','LW')
-    df1['Main Position'] = df1['Main Position'].replace('RAMF','RW')
-    df1['Main Position'] = df1['Main Position'].replace('LCB3','LCB')
-    df1['Main Position'] = df1['Main Position'].replace('RCB3','RCB')
-    df1['Main Position'] = df1['Main Position'].replace('LCB5','LCB')
-    df1['Main Position'] = df1['Main Position'].replace('RCB5','RCB')
-    df1['Main Position'] = df1['Main Position'].replace('LB5','LB')
-    df1['Main Position'] = df1['Main Position'].replace('RB5','RB')
+    position_replacements = {
+        'LAMF': 'LW',
+        'RAMF': 'RW',
+        'LCB3': 'LCB',
+        'RCB3': 'RCB',
+        'LCB5': 'LCB',
+        'RCB5': 'RCB',
+        'LB5': 'LB',
+        'RB5': 'RB'
+    }
+
+    df1['Main Position'] = df1['Main Position'].replace(position_replacements)
 
 
     a = df1['Main Position'].unique()
     a = list(set(a))
 
     ws_pos = ['LCMF3','RCMF3','LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB','RCB3','LCB3','RB5','RWB5','LB5','LWB5']
-    #     pos = ['Wingers','Wingers','Fullbacks (FBs/WBs)','Fullbacks (FBs/WBs)','Central Midfielders (DM, CM, CAM)',
-    #            'Central Midfielders no CAM (DM, CM)','Central Midfielders no CAM (DM, CM)',
-    #            'Wingers','Central Midfielders no DM (CM, CAM)','Centre-Backs','Fullbacks (FBs/WBs)','Strikers','Fullbacks (FBs/WBs)','GK',
-    #            'Central Midfielders no CAM (DM, CM)',
-    #            'Central Midfielders (DM, CM, CAM)','Wingers','Wingers','Wingers','Centre-Backs','Centre-Backs']
     template = ['attacking','attacking','attacking','attacking','defensive','defensive','attacking','attacking','attacking','attacking','attacking','cb','defensive','attacking','defensive','gk','attacking','attacking','attacking','attacking','attacking','cb','cb','cb','cb','defensive','defensive','defensive','defensive']
     compares = ['Central Midfielders','Central Midfielders','Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs','Center Backs','Center Backs','Fullbacks','Fullbacks','Fullbacks','Fullbacks']
 
@@ -996,12 +1013,10 @@ try:
 
     radar_img = scout_report(
                 gender = gender,
-                 league = league,  ######
+                 league = league,
                  season = ssn_,  
-                 xtra = ' current',  ######
+                 xtra = ' current',
                  template = template[ix],
-    #                  pos_buckets = pos_buckets[ix],
-    #                  pos = pos[ix],
                 pos = pos,
                  player_pos = ws_pos[ix],
                  compares = compares[ix],
