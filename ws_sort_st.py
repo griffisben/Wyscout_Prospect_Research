@@ -23,8 +23,6 @@ def rank_column(df, column_name):
 def rank_column_inverse(df, column_name):
     return 1-stats.rankdata(df[column_name], "average") / len(df[column_name])
 
-plt.clf()
-
 st.title('Soccer Prospect Research & Radar Creation')
 st.subheader("All data from Wyscout")
 st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)')
@@ -676,48 +674,36 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                         ws_name: 'Value',
                              'index': 'Group'})
 
-#     if template == 'attacking':
-#         for i in range(len(df1)):
-#             if df1['Group'][i] <= 4:
-#                 df1['Group'][i] = 'Passing'
-#             elif df1['Group'][i] <= 10:
-#                 df1['Group'][i] = 'Creativity'
-#             elif df1['Group'][i] <= 16:
-#                 df1['Group'][i] = 'Shooting'
-#             elif df1['Group'][i] <= 20:
-#                 df1['Group'][i] = 'Ball Movement'
-#             elif df1['Group'][i] <= 23:
-#                 df1['Group'][i] = 'Defense'
-
-#     if template == 'defensive':
-#         for i in range(len(df1)):
-#             if df1['Group'][i] <= 7:
-#                 df1['Group'][i] = 'Defending'
-#             elif df1['Group'][i] <= 16:
-#                 df1['Group'][i] = 'Attacking'
-#             elif df1['Group'][i] <= 19:
-#                 df1['Group'][i] = 'Fouling'
-
-#     if template == 'cb':
-#         for i in range(len(df1)):
-#             if df1['Group'][i] <= 7:
-#                 df1['Group'][i] = 'Defending'
-#             elif df1['Group'][i] <= 14:
-#                 df1['Group'][i] = 'Attacking'
-#             elif df1['Group'][i] <= 17:
-#                 df1['Group'][i] = 'Fouling'
-    templates = {
-        'attacking': {4: 'Passing', 10: 'Creativity', 16: 'Shooting', 20: 'Ball Movement', 23: 'Defense'},
-        'defensive': {7: 'Defending', 16: 'Attacking', 19: 'Fouling'},
-        'cb': {7: 'Defending', 14: 'Attacking', 17: 'Fouling'}
-    }
-
-    if template in templates:
+    if template == 'attacking':
         for i in range(len(df1)):
-            for threshold, category in templates[template].items():
-                if df1['Group'][i] <= threshold:
-                    df1['Group'][i] = category
-                    break  # Exit the loop once the condition is met
+            if df1['Group'][i] <= 4:
+                df1['Group'][i] = 'Passing'
+            elif df1['Group'][i] <= 10:
+                df1['Group'][i] = 'Creativity'
+            elif df1['Group'][i] <= 16:
+                df1['Group'][i] = 'Shooting'
+            elif df1['Group'][i] <= 20:
+                df1['Group'][i] = 'Ball Movement'
+            elif df1['Group'][i] <= 23:
+                df1['Group'][i] = 'Defense'
+
+    if template == 'defensive':
+        for i in range(len(df1)):
+            if df1['Group'][i] <= 7:
+                df1['Group'][i] = 'Defending'
+            elif df1['Group'][i] <= 16:
+                df1['Group'][i] = 'Attacking'
+            elif df1['Group'][i] <= 19:
+                df1['Group'][i] = 'Fouling'
+
+    if template == 'cb':
+        for i in range(len(df1)):
+            if df1['Group'][i] <= 7:
+                df1['Group'][i] = 'Defending'
+            elif df1['Group'][i] <= 14:
+                df1['Group'][i] = 'Attacking'
+            elif df1['Group'][i] <= 17:
+                df1['Group'][i] = 'Fouling'
 
 
 
