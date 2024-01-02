@@ -991,7 +991,7 @@ try:
                  sig = 'Twitter: @BeGriffis',
                  extra_text = xtratext,
                 )
-    st.pyplot(radar_img.figure)
+    st.image(radar_img.figure)
 except:
     st.text("Please enter a valid name & age.  \nPlease check spelling as well as the position filters that they include your player's position.")
     
