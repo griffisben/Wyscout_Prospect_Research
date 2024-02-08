@@ -19,6 +19,7 @@ def reset_click_button():
     st.session_state.clicked = False
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
+colorscales = px.colors.named_colorscales()
 
 st.title('Player Scatter Plot Program')
 st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)\nAll data from Wyscout')
@@ -65,15 +66,19 @@ df['Main Position'] = df['Main Position'].replace('RAMF','RW')
 
 with st.sidebar:
     st.header('Choose Basic Options')
-    league = st.selectbox('League', (lg_lookup.League.tolist()))
+    lg_season = st.selectbox('Season', (['2023','23-24']))
+    lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
+    league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                     'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                     'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs', 'Goalkeepers'))
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
-    xx = st.selectbox('X-Axis', ['Age']+(df.columns[18:len(df.columns)].tolist()))
-    yy = st.selectbox('Y-Axis', ['Age']+(df.columns[18:len(df.columns)].tolist()))
-    cc = st.selectbox('Point Color', ['Age']+(df.columns[18:len(df.columns)].tolist()))
+    xx = st.selectbox('X-Axis Variable', ['Age']+(df.columns[18:len(df.columns)].tolist()))
+    yy = st.selectbox('Y-Axis Variable', ['Age']+(df.columns[18:len(df.columns)].tolist()))
+    cc = st.selectbox('Point Color Variable', ['Age']+(df.columns[18:len(df.columns)].tolist()))
+    cscale = st.selectbox('Point Colorscale', colorscales, index=78)
+    
     flipX = xx
     flipY = yy
     
@@ -88,8 +93,8 @@ with st.sidebar:
     st.button('Swap X & Y Axes Back', on_click=reset_click_button)
         
 
-ssn = lg_lookup[lg_lookup['League']==league].Season.values[0]
-date = lg_lookup[lg_lookup['League']==league].Date.values[0]
+ssn = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Season.values[0]
+date = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Date.values[0]
     
 # Filter data
 def filter_by_position(df, position):
@@ -158,7 +163,7 @@ fig = px.scatter(
     x = xx,
     y = yy,
     color = cc,
-    color_continuous_scale = "RdYlGn_r",
+    color_continuous_scale = cscale,
     text = 'Player',
     hover_data=['Team', 'Age', 'Position', 'Minutes played'],
     hover_name = 'Player',
