@@ -58,6 +58,11 @@ df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).rese
 
 with st.sidebar:
     st.header('Choose Basic Options')
+    with st.expander('Read App Details'):
+        st.write('''
+        Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off.
+        ''')
+
     lg_season = st.selectbox('Season', (['23-24','2023','22-23','2022','21-22']))
     lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
     league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
