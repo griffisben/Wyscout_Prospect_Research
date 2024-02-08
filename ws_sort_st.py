@@ -58,7 +58,7 @@ df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).rese
 
 with st.sidebar:
     st.header('Choose Basic Options')
-    with st.expander('Read App Details'):
+    with st.expander('Note on Seasons'):
         st.write('''
         Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off.
         ''')
