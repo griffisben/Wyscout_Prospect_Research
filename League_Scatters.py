@@ -91,6 +91,7 @@ with st.sidebar:
     if 'clicked' not in st.session_state:
         st.session_state.clicked = False
     st.button('Swap X & Y Axes Back', on_click=reset_click_button)
+full_league_name = f"{league} {lg_season}"
         
 
 ssn = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Season.values[0]
@@ -153,7 +154,7 @@ def filter_by_position(df, position):
     else:
         return df
 
-dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == league)].copy()
+dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == full_league_name)].copy()
 dfProspect = filter_by_position(dfProspect, pos)
 
 
