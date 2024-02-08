@@ -60,7 +60,7 @@ with st.sidebar:
     st.header('Choose Basic Options')
     with st.expander('Note on Seasons'):
         st.write('''
-        Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off.
+        Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
         ''')
 
     lg_season = st.selectbox('Season', (['23-24','2023','22-23','2022','21-22']))
