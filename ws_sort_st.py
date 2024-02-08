@@ -101,6 +101,8 @@ df['Main Position'] = df['Main Position'].replace('LB5','LB')
 df['Main Position'] = df['Main Position'].replace('RB5','RB')
 df.fillna(0,inplace=True)
 
+st.write(len(df))
+
 #############################################################################################################################
 
 # Filter data
@@ -156,7 +158,6 @@ def filter_by_position(df, position):
         return df
 
 dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == f"{league} {lg_season}")].copy()
-st.write(len(dfProspect))
 dfProspect = filter_by_position(dfProspect, pos)
 
 ########## PROSPECT RESEARCH ##########
