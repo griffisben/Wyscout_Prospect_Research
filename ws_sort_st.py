@@ -69,7 +69,7 @@ with st.sidebar:
     maxage = st.slider('Max Age', min(df.Age.astype(int)), max(df.Age.astype(int)), 25)
     callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
     bar_colors = st.selectbox('Bar Color Scheme', ('Metric Groups', 'Benchmarking Percentiles'))
-
+full_league_name = f"{league} {lg_season}"
 
 #####################################################################
 
@@ -100,8 +100,6 @@ df['Main Position'] = df['Main Position'].replace('RCB5','RCB')
 df['Main Position'] = df['Main Position'].replace('LB5','LB')
 df['Main Position'] = df['Main Position'].replace('RB5','RB')
 df.fillna(0,inplace=True)
-
-st.write(len(df))
 
 #############################################################################################################################
 
@@ -157,7 +155,7 @@ def filter_by_position(df, position):
     else:
         return df
 
-dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == f"{league} {lg_season}")].copy()
+dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == full_league_name)].copy()
 dfProspect = filter_by_position(dfProspect, pos)
 
 ########## PROSPECT RESEARCH ##########
@@ -414,7 +412,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     if gender == 'Women':
         df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
     df = df.fillna(0)
-    df = df[df['League']==f"{league} {lg_season}"].reset_index(drop=True)
+    df = df[df['League']==full_league_name].reset_index(drop=True)
     df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 
     df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
@@ -447,7 +445,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
 
     #####################################################################################
     # Filter data
-    dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == f"{league} {lg_season}")].copy()
+    dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == full_league_name)].copy()
     dfProspect = filter_by_position(dfProspect, pos)
     raw_valsdf = dfProspect[(dfProspect['Player']==ws_name) & (dfProspect['Team within selected timeframe']==team) & (dfProspect['Age']==age)]
 
@@ -935,7 +933,7 @@ player = st.text_input("Player's Radar to Generate", "")
 page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
 try:
     df = df[df['Minutes played']>=mins].reset_index(drop=True)
-    df = df[df['League']==f"{league} {lg_season}"].reset_index(drop=True)
+    df = df[df['League']==full_league_name].reset_index(drop=True)
     df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
     df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
     df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
