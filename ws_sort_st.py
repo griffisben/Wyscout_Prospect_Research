@@ -156,6 +156,7 @@ def filter_by_position(df, position):
         return df
 
 dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == f"{league} {lg_season}")].copy()
+st.write(len(dfProspect))
 dfProspect = filter_by_position(dfProspect, pos)
 
 ########## PROSPECT RESEARCH ##########
