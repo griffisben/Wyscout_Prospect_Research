@@ -1013,6 +1013,7 @@ try:
     xtratext = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Date.values[0]
 
     radar_img = scout_report(
+                data_frame = df,
                 gender = gender,
                  league = league,
                  season = ssn_,  
