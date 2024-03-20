@@ -675,7 +675,7 @@ with st.sidebar:
                                         'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                         'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs'))
         mins = st.number_input('Minimum Minutes Played', 400, 2000, 900)
-        maxage = st.slider('Max Age', min(df_basic.Age.astype(int)), 45, 25)
+        maxage = st.slider('Max Age', 16, 45, 25)
         callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
         bar_colors = st.selectbox('Bar Color Scheme', ('Metric Groups', 'Benchmarking Percentiles'))
         submitted = st.form_submit_button("Submit Options")
@@ -968,6 +968,8 @@ st.header('Enter player name below to generate their radar (you can copy+paste f
 with st.form('Radar Generation'):
     player = st.text_input("Player's Radar to Generate", "")
     page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
+    submitted = st.form_submit_button("Generate Radar")
+
     try:
         dfxxx = df_basic[df_basic['Minutes played']>=mins].copy().reset_index(drop=True)
         dfxxx = dfxxx[dfxxx['League']==full_league_name].reset_index(drop=True)
@@ -1034,7 +1036,6 @@ with st.form('Radar Generation'):
         st.pyplot(radar_img.figure)
     except:
         st.text("Please enter a valid name & age.  \nPlease check spelling as well as the position filters that they include your player's position.")
-    submitted = st.form_submit_button("Generate Radar")
 
     
 with st.expander('Metric Glossary'):
