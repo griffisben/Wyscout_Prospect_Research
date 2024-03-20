@@ -19,6 +19,7 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 def read_csv(link):
     df = pd.read_csv(link)
+    st.write(df.shape)
     df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
     df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
     df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
