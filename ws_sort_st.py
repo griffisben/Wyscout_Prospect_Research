@@ -15,100 +15,56 @@ from highlight_text import fig_text
 import urllib.request
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 @st.cache_data(ttl=6*60*60)
+
+
 def read_csv(link):
     return pd.read_csv(link)
+
+def _update_slider(value):
+    for i in range(1, 34):
+        st.session_state[f"slider{i}"] = value
 
 def rank_column(df, column_name):
     return stats.rankdata(df[column_name], "average") / len(df[column_name])
 def rank_column_inverse(df, column_name):
     return 1-stats.rankdata(df[column_name], "average") / len(df[column_name])
 
-st.title('Soccer Prospect Research & Radar Creation')
-st.subheader("All data from Wyscout")
-st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)')
+def get_label_rotation(angle, offset):
+    # Rotation must be specified in degrees :(
+    rotation = np.rad2deg(angle + offset)+90
+    if angle <= np.pi/2:
+        alignment = "center"
+        rotation = rotation + 180
+    elif 4.3 < angle < np.pi*2:  # 4.71239 is 270 degrees
+        alignment = "center"
+        rotation = rotation - 180
+    else: 
+        alignment = "center"
+    return rotation, alignment
 
-with st.expander('Read App Details'):
-    st.write('''
-    This app helps you find players that meet specific criteria.
-    First, choose a league, position, minimum minutes threshold, and maximum age.
-    These will determine the sample size of players that percentile ratings will generate for.
-    Then, use the metric filters on the sidebar to pass minimum percentile ranking thresholds.
-    Players not meeting all of these criteria will be filtered out.
-    Finally, you can type or copy+paste any of the player names into the textbox below to generate their radar chart.  \n  \n
-    1) Choose your gender, league, positions, and minimum minutes from the filters on the left  \n
-    2) Set the max age of the players to be displayed in the table (this will not impact the sample)  \n
-    3) Choose the data labels son the bars, as well as the bar colors  \n
-    4) You can choose to add any percentile filters for metrics, and this will update the table (again, not the sample)  \n
-    5) To create a radar, enter the exact name & age in the text boxes below  \n
-    NOTE: the player you want a radar for doesn't need to be in the table (as in, maybe they don't hit the metric filters you've set), but they do need to meet the sample criteria of gender, league, position, and minimum minutes played.
-    ''')
 
-##################################################################
-with st.sidebar:
-    st.header('Choose Gender')
-    gender = st.selectbox('Gender', ('Men','Women'))
+def add_labels(angles, values, labels, offset, ax, text_colors):
 
-if gender == 'Men':
-    lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
-if gender == 'Women':
-    lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
-df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
+    # This is the space between the end of the bar and the label
+    padding = .05
 
-with st.sidebar:
-    st.header('Choose Basic Options')
-    with st.expander('Note on Seasons'):
-        st.write('''
-        Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
-        ''')
+    # Iterate over angles, values, and labels, to add all of them.
+    for angle, value, label, text_col in zip(angles, values, labels, text_colors):
+        angle = angle
 
-    lg_season = st.selectbox('Season', (['23-24','2023','22-23','2022','21-22']))
-    lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
-    league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
-    pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
-                                    'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
-                                    'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
-                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs'))
-    mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
-    maxage = st.slider('Max Age', min(df.Age.astype(int)), max(df.Age.astype(int)), 25)
-    callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
-    bar_colors = st.selectbox('Bar Color Scheme', ('Metric Groups', 'Benchmarking Percentiles'))
-full_league_name = f"{league} {lg_season}"
+        # Obtain text rotation and alignment
+        rotation, alignment = get_label_rotation(angle, offset)
 
-#####################################################################
-
-############################################################################
-
-df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
-df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
-df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
-df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
-df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
-df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
-df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
-df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
-df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
-df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
-df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
-
-df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
-df = df.dropna(subset=['Position']).reset_index(drop=True)
-df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
-df = df.dropna(subset=['Main Position']).reset_index(drop=True)
-df['Main Position'] = df['Main Position'].replace('LAMF','LW')
-df['Main Position'] = df['Main Position'].replace('RAMF','RW')
-df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
-df['Main Position'] = df['Main Position'].replace('RCB3','RCB')
-df['Main Position'] = df['Main Position'].replace('LCB5','LCB')
-df['Main Position'] = df['Main Position'].replace('RCB5','RCB')
-df['Main Position'] = df['Main Position'].replace('LB5','LB')
-df['Main Position'] = df['Main Position'].replace('RB5','RB')
-df.fillna(0,inplace=True)
-
-#############################################################################################################################
-
-# Filter data
+        # And finally add the text
+        ax.text(
+            x=angle, 
+            y=1.05,
+            s=label, 
+            ha=alignment, 
+            va="center", 
+            rotation=rotation,
+            color=text_col,
+        )
 def filter_by_position(df, position):
     fw = ["CF", "RW", "LW", "AMF"]
     if position == "Forwards (AM, W, CF)":
@@ -160,256 +116,6 @@ def filter_by_position(df, position):
     else:
         return df
 
-dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == full_league_name)].copy()
-dfProspect = filter_by_position(dfProspect, pos)
-
-########## PROSPECT RESEARCH ##########
-#######################################
-
-# FORWARD
-fwd1 = "Non-penalty goals per 90"
-fwd2 = "npxG per 90"
-fwd3 = "Assists per 90"
-fwd4 = "xA per 90"
-fwd5 = "Successful dribbles, %"
-fwd6 = "Goal conversion, %"
-fwd7 = "Shot assists per 90"
-fwd8 = "Second assists per 90"
-fwd9 = "Progressive runs per 90"
-fwd10 = "Progressive passes per 90"
-fwd11 = "Touches in box per 90"
-fwd12 = "Aerial duels won, %"
-# MIDFIELD
-mid1 = "Accurate short / medium passes, %"
-mid2 = "Accurate long passes, %"
-mid3 = "Accurate smart passes, %"
-mid4 = "Shot assists per 90"
-mid5 = "xA per 90"
-mid6 = "Assists per 90"
-mid7 = "Second assists per 90"
-mid8 = "Third assists per 90"
-mid9 = "Progressive passes per 90"
-mid10 = "Progressive runs per 90"
-mid11 = "Duels won, %"
-mid12 = "pAdj Tkl+Int per 90"
-#DEFENDER
-def1 = "Successful defensive actions per 90"
-def2 = "PAdj Sliding tackles"
-def3 = "Defensive duels won, %"
-def4 = "Fouls per 90"
-def5 = "Cards per 90"
-def6 = "Shots blocked per 90"
-def7 = "PAdj Interceptions"
-def8 = "Aerial duels won, %"
-def9 = "Accurate long passes, %"
-def10 = "1st, 2nd, 3rd assists"
-def11 = "Progressive passes per 90"
-def12 = "Progressive runs per 90"
-# #GOALKEEPER
-# gk1 = "Conceded goals per 90"
-# gk2 = "Prevented goals per 90"
-# gk3 = "Shots against per 90"
-# gk4 = "Save rate, %"
-# gk5 = "Clean sheets, %"
-# gk6 = "Exits per 90"
-# gk7 = "Aerial duels per 90"
-# gk8 = "Passes per 90"
-# gk9 = "Accurate long passes, %"
-# gk10 = "Average long pass length, m"
-#EXTRA
-extra = "Accurate passes, %"
-extra2 = 'Shots per 90'
-extra3 = 'Accurate crosses, %'
-extra4 = 'Smart passes per 90'
-extra5 = 'xA per Shot Assist'
-extra6 = 'Accelerations per 90'
-extra7 = 'Aerial duels won per 90'
-extra8 = 'Fouls suffered per 90'
-extra9 = 'npxG per shot'
-extra10 = 'Crosses per 90'
-
-ranked_columns = [
-    'midpct1', 'midpct2', 'midpct3', 'midpct4', 'midpct5', 'midpct6', 'midpct7',
-    'midpct8', 'midpct9', 'midpct10', 'midpct11', 'midpct12',
-    'fwdpct1', 'fwdpct2', 'fwdpct3', 'fwdpct4', 'fwdpct5', 'fwdpct6', 'fwdpct7',
-    'fwdpct8', 'fwdpct9', 'fwdpct10', 'fwdpct11', 'fwdpct12',
-    'defpct1','defpct2','defpct3','defpct6','defpct7','defpct8','defpct9','defpct10','defpct11','defpct12',
-    'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
-]
-inverse_ranked_columns = [
-    'defpct4','defpct5'
-]
-ranked_columns_r = [
-    mid1, mid2, mid3, mid4, mid5, mid6, mid7,
-    mid8, mid9, mid10, mid11, mid12,
-    fwd1, fwd2, fwd3, fwd4, fwd5, fwd6, fwd7,
-    fwd8, fwd9, fwd10, fwd11, fwd12,
-    def1,def2,def3,def6,def7,def8,def9,def10,def11,def12,
-    extra,extra2,extra3,extra4,extra5,extra6,extra7,extra8,extra9,extra10,
-]
-inverse_ranked_columns_r = [
-    def4,def5
-]
-
-dfProspect[ranked_columns] = 0.0
-dfProspect[inverse_ranked_columns] = 0.0
-
-for column, column_r in zip(ranked_columns, ranked_columns_r):
-    dfProspect[column] = rank_column(dfProspect, column_r)
-for column, column_r in zip(inverse_ranked_columns, inverse_ranked_columns_r):
-    dfProspect[column] = rank_column_inverse(dfProspect, column_r)
-
-
-final = dfProspect[['Player','Age','League','Position','Team within selected timeframe','Birth country',
-'fwdpct1','fwdpct2','fwdpct5','fwdpct6','fwdpct11','midpct1','midpct3','midpct4','midpct5','midpct6','midpct7','midpct8','midpct9','midpct10','midpct11','midpct12','defpct1','defpct2','defpct3','defpct4','defpct5','defpct6','defpct7','defpct8','defpct9','defpct10',
-#                     'gkpct1','gkpct2','gkpct3','gkpct4','gkpct5','gkpct6','gkpct7','gkpct8','gkpct10',
-                    'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
-]]
-
-final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
-'fwdpct2': "npxG per 90",
-'fwdpct5': "Successful dribbles, %",
-'fwdpct6': "Goal conversion, %",
-'fwdpct11': "Touches in box per 90",
-'midpct1': "Accurate short / medium passes, %",
-'midpct3': "Accurate smart passes, %",
-'midpct4': "Shot assists per 90",
-'midpct5': "xA per 90",
-'midpct6': "Assists per 90",
-'midpct7': "Second assists per 90",
-'midpct8': "Third assists per 90",
-'midpct9': "Progressive passes per 90",
-'midpct10': "Progressive runs per 90",
-'midpct11': "Duels won, %",
-'midpct12': "pAdj Tkl+Int per 90",
-'defpct1': "Successful defensive actions per 90",
-'defpct2': "PAdj Sliding tackles",
-'defpct3': "Defensive duels won, %",
-'defpct4': "Fouls per 90",
-'defpct5': "Cards per 90",
-'defpct6': "Shots blocked per 90",
-'defpct7': "PAdj Interceptions",
-'defpct8': "Aerial duels won, %",
-'defpct9': "Accurate long passes, %",
-'defpct10': "1st, 2nd, 3rd assists",
-# 'gkpct1': "Conceded goals per 90",
-# 'gkpct2': "Prevented goals per 90",
-# 'gkpct3': "Shots against per 90",
-# 'gkpct4': "Save rate, %",
-# 'gkpct5': "Clean sheets, %",
-# 'gkpct6': "Exits per 90",
-# 'gkpct7': "Aerial duels per 90",
-# 'gkpct8': "Passes per 90",
-# 'gkpct10': "Average long pass length, m",
-'extrapct': "Accurate passes, %",
-'extrapct2': "Shots per 90",
-'extrapct3': "Accurate crosses, %",
-'extrapct4': "Smart passes per 90",
-'extrapct5': "xA per Shot Assist",
-'extrapct6': "Accelerations per 90",
-'extrapct7': "Aerial duels won per 90",
-'extrapct8': "Fouls suffered per 90",
-'extrapct9': "npxG per shot",
-'extrapct10': "Crosses per 90",
-'Team within selected timeframe': 'Team',
-}, inplace=True)
-
-
-final.Age = final.Age.astype(int)
-final.sort_values(by=['Age'], inplace=True)
-final = final[final['Age']<=maxage].reset_index(drop=True)
-final.fillna(0,inplace=True)
-
-##################################################################################################
-
-with st.sidebar:
-    st.header('Minimum Percentile Filters')
-    def _update_slider(value):
-        for i in range(1, 34):
-            st.session_state[f"slider{i}"] = value
-
-    st.button("Reset Sliders", on_click=_update_slider, kwargs={"value": 0.0})
-
-    if ['slider1','slider2','slider3','slider4','slider5','slider6','slider7','slider8','slider9','slider10','slider11','slider12','slider13','slider14','slider15','slider16','slider17','slider18','slider19','slider20','slider21','slider22','slider23','slider24','slider25','slider26','slider27','slider28','slider29','slider30','slider31','slider32','slider33'] not in st.session_state:
-        pass
-    
-    short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0, key='slider1')
-    long = st.slider('Long Pass Cmp %', 0.0, 1.0, 0.0, key='slider2')
-    smartpct = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.0, key='slider3')
-    smart = st.slider('Smart Passes per 90', 0.0, 1.0, 0.0, key='slider4')
-    crosspct = st.slider('Cross Cmp %', 0.0, 1.0, 0.0, key='slider5')
-    crosses = st.slider('Crosses per 90', 0.0, 1.0, 0.0, key='slider6')
-    shotassist = st.slider('Shot Assists per 90', 0.0, 1.0, 0.0, key='slider7')
-    xa = st.slider('xA per 90', 0.0, 1.0, 0.0, key='slider8')
-    xasa = st.slider('xA per Shot Assist', 0.0, 1.0, 0.0, key='slider9')
-    ast = st.slider('Assists per 90', 0.0, 1.0, 0.0, key='slider10')
-    ast2 = st.slider('Second Assists per 90', 0.0, 1.0, 0.0, key='slider11')
-    ast123 = st.slider('1st, 2nd, & 3rd Assists', 0.0, 1.0, 0.0, key='slider12')
-    npxg = st.slider('npxG per 90', 0.0, 1.0, 0.0, key='slider13')
-    npg = st.slider('Non-Pen Goals per 90', 0.0, 1.0, 0.0, key='slider14')
-    gc = st.slider('Goals per Shot on Target', 0.0, 1.0, 0.0, key='slider15')
-    npxgshot = st.slider('npxG per shot', 0.0, 1.0, 0.0, key='slider16')
-    shots = st.slider('Shots per 90', 0.0, 1.0, 0.0, key='slider17')
-    boxtouches = st.slider('Touches in Penalty Box per 90', 0.0, 1.0, 0.0, key='slider18')
-    drib = st.slider('Dribble Success %', 0.0, 1.0, 0.0, key='slider19')
-    accel = st.slider('Accelerations per 90', 0.0, 1.0, 0.0, key='slider20')
-    progcarry = st.slider('Progressive Carries per 90', 0.0, 1.0, 0.0, key='slider21')
-    progpass = st.slider('Progressive Passes per 90', 0.0, 1.0, 0.0, key='slider22')
-    aerial = st.slider('Aerial Win %', 0.0, 1.0, 0.0, key='slider23')
-    aerialswon = st.slider('Aerials Won per 90', 0.0, 1.0, 0.0, key='slider24')
-    defduels = st.slider('Defensive Duels Success %', 0.0, 1.0, 0.0, key='slider25')
-    defend = st.slider('Successful Defensive Actions per 90', 0.0, 1.0, 0.0, key='slider26')
-    tklint = st.slider('Tackles & Interceptions per 90', 0.0, 1.0, 0.0, key='slider27')
-    tkl = st.slider('Sliding Tackles per 90', 0.0, 1.0, 0.0, key='slider28')
-    intercept = st.slider('Interceptions per 90', 0.0, 1.0, 0.0, key='slider29')
-    shotblock = st.slider('Shots Blocked per 90', 0.0, 1.0, 0.0, key='slider30')
-    foul = st.slider('Fouls Committed per 90', 0.0, 1.0, 0.0, key='slider31')
-    fouldraw = st.slider('Fouls Drawn per 90', 0.0, 1.0, 0.0, key='slider32')
-    cards = st.slider('Cards per 90', 0.0, 1.0, 0.0, key='slider33')
-
-
-
-final = final[(final['Accurate short / medium passes, %']>=short) &
-             (final['Accurate long passes, %']>=long) &
-              (final['Smart passes per 90']>=smart) &
-             (final['Accurate smart passes, %']>=smartpct) &
-              (final['Crosses per 90']>=crosses) &
-              (final['Accurate crosses, %']>=crosspct) &
-              (final['Shot assists per 90']>=shotassist) &
-              (final['xA per 90']>=xa) &
-              (final['xA per Shot Assist']>=xasa) &
-              (final['Assists per 90']>=ast) &
-              (final['Second assists per 90']>=ast2) &
-              (final['1st, 2nd, 3rd assists']>=ast123) &
-              (final['npxG per 90']>=npxg) &
-              (final['Non-penalty goals per 90']>=npg) &
-              (final['Goal conversion, %']>=gc) &
-              (final['npxG per shot']>=npxgshot) &
-              (final['Shots per 90']>=shots) &
-              (final['Touches in box per 90']>=boxtouches) &
-              (final['Successful dribbles, %']>=drib) &
-              (final['Accelerations per 90']>=accel) &
-              (final['Progressive runs per 90']>=progcarry) &
-              (final['Progressive passes per 90']>=progpass) &
-              (final['Successful defensive actions per 90']>=defend) &
-              (final['Defensive duels won, %']>=defduels) &
-              (final['pAdj Tkl+Int per 90']>=tklint) &
-              (final['PAdj Sliding tackles']>=tkl) &
-              (final['PAdj Interceptions']>=intercept) &
-              (final['Aerial duels won, %']>=aerial) &
-              (final['Aerial duels won per 90']>=aerialswon) &
-              (final['Shots blocked per 90']>=shotblock) &
-              (final['Fouls per 90']>=foul) &
-              (final['Fouls suffered per 90']>=fouldraw) &
-              (final['Cards per 90']>=cards)
-             ].reset_index(drop=True)
-
-final
-
-
-########################################################################################################
-########################################################################################################
-########################################################################################################
 def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, extra_text):
     plt.clf()
     if gender == 'Men':
@@ -719,43 +425,7 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
     ### This link below is where I base a lot of my radar code off of
     ### https://www.python-graph-gallery.com/circular-barplot-with-groups
 
-    def get_label_rotation(angle, offset):
-        # Rotation must be specified in degrees :(
-        rotation = np.rad2deg(angle + offset)+90
-        if angle <= np.pi/2:
-            alignment = "center"
-            rotation = rotation + 180
-        elif 4.3 < angle < np.pi*2:  # 4.71239 is 270 degrees
-            alignment = "center"
-            rotation = rotation - 180
-        else: 
-            alignment = "center"
-        return rotation, alignment
-
-
-    def add_labels(angles, values, labels, offset, ax, text_colors):
-
-        # This is the space between the end of the bar and the label
-        padding = .05
-
-        # Iterate over angles, values, and labels, to add all of them.
-        for angle, value, label, text_col in zip(angles, values, labels, text_colors):
-            angle = angle
-
-            # Obtain text rotation and alignment
-            rotation, alignment = get_label_rotation(angle, offset)
-
-            # And finally add the text
-            ax.text(
-                x=angle, 
-                y=1.05,
-                s=label, 
-                ha=alignment, 
-                va="center", 
-                rotation=rotation,
-                color=text_col,
-            )
-
+    #### I DEFINED THE LABEL AND ROTATION HERE
 
 
     # Grab the group values
@@ -922,11 +592,345 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
 
 
     return fig
-########################################################################################
-########################################################################################
-########################################################################################
-########################################################################################
-########################################################################################
+#####################################################################################################################################
+#####################################################################################################################################
+
+
+st.title('Soccer Prospect Research & Radar Creation')
+st.subheader("All data from Wyscout")
+st.subheader('Created by Ben Griffis (Twitter: @BeGriffis)')
+
+with st.expander('Read App Details'):
+    st.write('''
+    This app helps you find players that meet specific criteria.
+    First, choose a league, position, minimum minutes threshold, and maximum age.
+    These will determine the sample size of players that percentile ratings will generate for.
+    Then, use the metric filters on the sidebar to pass minimum percentile ranking thresholds.
+    Players not meeting all of these criteria will be filtered out.
+    Finally, you can type or copy+paste any of the player names into the textbox below to generate their radar chart.  \n  \n
+    1) Choose your gender, league, positions, and minimum minutes from the filters on the left  \n
+    2) Set the max age of the players to be displayed in the table (this will not impact the sample)  \n
+    3) Choose the data labels son the bars, as well as the bar colors  \n
+    4) You can choose to add any percentile filters for metrics, and this will update the table (again, not the sample)  \n
+    5) To create a radar, enter the exact name & age in the text boxes below  \n
+    NOTE: the player you want a radar for doesn't need to be in the table (as in, maybe they don't hit the metric filters you've set), but they do need to meet the sample criteria of gender, league, position, and minimum minutes played.
+    ''')
+
+##################################################################
+with st.sidebar:
+    st.header('Choose Gender')
+    gender = st.selectbox('Gender', ('Men','Women'))
+
+if gender == 'Men':
+    lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
+    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
+if gender == 'Women':
+    lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
+    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
+df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
+
+with st.sidebar:
+    st.header('Choose Basic Options')
+    with st.expander('Note on Seasons'):
+        st.write('''
+        Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
+        ''')
+
+    lg_season = st.selectbox('Season', (['23-24','2024','2023','22-23','2022','21-22']))
+    lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
+    league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
+    pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
+                                    'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
+                                    'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
+                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs'))
+    mins = st.number_input('Minimum Minutes Played', 400, 2000, 900)
+    maxage = st.slider('Max Age', min(df.Age.astype(int)), 45, 25)
+    callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
+    bar_colors = st.selectbox('Bar Color Scheme', ('Metric Groups', 'Benchmarking Percentiles'))
+full_league_name = f"{league} {lg_season}"
+
+#####################################################################
+
+############################################################################
+
+df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
+df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
+df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
+df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
+df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
+df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
+df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
+df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
+df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
+df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
+df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
+
+df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
+df = df.dropna(subset=['Position']).reset_index(drop=True)
+df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
+df = df.dropna(subset=['Main Position']).reset_index(drop=True)
+df['Main Position'] = df['Main Position'].replace('LAMF','LW')
+df['Main Position'] = df['Main Position'].replace('RAMF','RW')
+df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
+df['Main Position'] = df['Main Position'].replace('RCB3','RCB')
+df['Main Position'] = df['Main Position'].replace('LCB5','LCB')
+df['Main Position'] = df['Main Position'].replace('RCB5','RCB')
+df['Main Position'] = df['Main Position'].replace('LB5','LB')
+df['Main Position'] = df['Main Position'].replace('RB5','RB')
+df.fillna(0,inplace=True)
+
+#############################################################################################################################
+
+# Filter data
+
+dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == full_league_name)].copy()
+dfProspect = filter_by_position(dfProspect, pos)
+
+########## PROSPECT RESEARCH ##########
+#######################################
+
+# FORWARD
+fwd1 = "Non-penalty goals per 90"
+fwd2 = "npxG per 90"
+fwd3 = "Assists per 90"
+fwd4 = "xA per 90"
+fwd5 = "Successful dribbles, %"
+fwd6 = "Goal conversion, %"
+fwd7 = "Shot assists per 90"
+fwd8 = "Second assists per 90"
+fwd9 = "Progressive runs per 90"
+fwd10 = "Progressive passes per 90"
+fwd11 = "Touches in box per 90"
+fwd12 = "Aerial duels won, %"
+# MIDFIELD
+mid1 = "Accurate short / medium passes, %"
+mid2 = "Accurate long passes, %"
+mid3 = "Accurate smart passes, %"
+mid4 = "Shot assists per 90"
+mid5 = "xA per 90"
+mid6 = "Assists per 90"
+mid7 = "Second assists per 90"
+mid8 = "Third assists per 90"
+mid9 = "Progressive passes per 90"
+mid10 = "Progressive runs per 90"
+mid11 = "Duels won, %"
+mid12 = "pAdj Tkl+Int per 90"
+#DEFENDER
+def1 = "Successful defensive actions per 90"
+def2 = "PAdj Sliding tackles"
+def3 = "Defensive duels won, %"
+def4 = "Fouls per 90"
+def5 = "Cards per 90"
+def6 = "Shots blocked per 90"
+def7 = "PAdj Interceptions"
+def8 = "Aerial duels won, %"
+def9 = "Accurate long passes, %"
+def10 = "1st, 2nd, 3rd assists"
+def11 = "Progressive passes per 90"
+def12 = "Progressive runs per 90"
+# #GOALKEEPER
+# gk1 = "Conceded goals per 90"
+# gk2 = "Prevented goals per 90"
+# gk3 = "Shots against per 90"
+# gk4 = "Save rate, %"
+# gk5 = "Clean sheets, %"
+# gk6 = "Exits per 90"
+# gk7 = "Aerial duels per 90"
+# gk8 = "Passes per 90"
+# gk9 = "Accurate long passes, %"
+# gk10 = "Average long pass length, m"
+#EXTRA
+extra = "Accurate passes, %"
+extra2 = 'Shots per 90'
+extra3 = 'Accurate crosses, %'
+extra4 = 'Smart passes per 90'
+extra5 = 'xA per Shot Assist'
+extra6 = 'Accelerations per 90'
+extra7 = 'Aerial duels won per 90'
+extra8 = 'Fouls suffered per 90'
+extra9 = 'npxG per shot'
+extra10 = 'Crosses per 90'
+
+ranked_columns = [
+    'midpct1', 'midpct2', 'midpct3', 'midpct4', 'midpct5', 'midpct6', 'midpct7',
+    'midpct8', 'midpct9', 'midpct10', 'midpct11', 'midpct12',
+    'fwdpct1', 'fwdpct2', 'fwdpct3', 'fwdpct4', 'fwdpct5', 'fwdpct6', 'fwdpct7',
+    'fwdpct8', 'fwdpct9', 'fwdpct10', 'fwdpct11', 'fwdpct12',
+    'defpct1','defpct2','defpct3','defpct6','defpct7','defpct8','defpct9','defpct10','defpct11','defpct12',
+    'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
+]
+inverse_ranked_columns = [
+    'defpct4','defpct5'
+]
+ranked_columns_r = [
+    mid1, mid2, mid3, mid4, mid5, mid6, mid7,
+    mid8, mid9, mid10, mid11, mid12,
+    fwd1, fwd2, fwd3, fwd4, fwd5, fwd6, fwd7,
+    fwd8, fwd9, fwd10, fwd11, fwd12,
+    def1,def2,def3,def6,def7,def8,def9,def10,def11,def12,
+    extra,extra2,extra3,extra4,extra5,extra6,extra7,extra8,extra9,extra10,
+]
+inverse_ranked_columns_r = [
+    def4,def5
+]
+
+dfProspect[ranked_columns] = 0.0
+dfProspect[inverse_ranked_columns] = 0.0
+
+for column, column_r in zip(ranked_columns, ranked_columns_r):
+    dfProspect[column] = rank_column(dfProspect, column_r)
+for column, column_r in zip(inverse_ranked_columns, inverse_ranked_columns_r):
+    dfProspect[column] = rank_column_inverse(dfProspect, column_r)
+
+
+final = dfProspect[['Player','Age','League','Position','Team within selected timeframe','Birth country',
+'fwdpct1','fwdpct2','fwdpct5','fwdpct6','fwdpct11','midpct1','midpct3','midpct4','midpct5','midpct6','midpct7','midpct8','midpct9','midpct10','midpct11','midpct12','defpct1','defpct2','defpct3','defpct4','defpct5','defpct6','defpct7','defpct8','defpct9','defpct10',
+#                     'gkpct1','gkpct2','gkpct3','gkpct4','gkpct5','gkpct6','gkpct7','gkpct8','gkpct10',
+                    'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
+]]
+
+final.rename(columns={'fwdpct1': "Non-penalty goals per 90",
+'fwdpct2': "npxG per 90",
+'fwdpct5': "Successful dribbles, %",
+'fwdpct6': "Goal conversion, %",
+'fwdpct11': "Touches in box per 90",
+'midpct1': "Accurate short / medium passes, %",
+'midpct3': "Accurate smart passes, %",
+'midpct4': "Shot assists per 90",
+'midpct5': "xA per 90",
+'midpct6': "Assists per 90",
+'midpct7': "Second assists per 90",
+'midpct8': "Third assists per 90",
+'midpct9': "Progressive passes per 90",
+'midpct10': "Progressive runs per 90",
+'midpct11': "Duels won, %",
+'midpct12': "pAdj Tkl+Int per 90",
+'defpct1': "Successful defensive actions per 90",
+'defpct2': "PAdj Sliding tackles",
+'defpct3': "Defensive duels won, %",
+'defpct4': "Fouls per 90",
+'defpct5': "Cards per 90",
+'defpct6': "Shots blocked per 90",
+'defpct7': "PAdj Interceptions",
+'defpct8': "Aerial duels won, %",
+'defpct9': "Accurate long passes, %",
+'defpct10': "1st, 2nd, 3rd assists",
+# 'gkpct1': "Conceded goals per 90",
+# 'gkpct2': "Prevented goals per 90",
+# 'gkpct3': "Shots against per 90",
+# 'gkpct4': "Save rate, %",
+# 'gkpct5': "Clean sheets, %",
+# 'gkpct6': "Exits per 90",
+# 'gkpct7': "Aerial duels per 90",
+# 'gkpct8': "Passes per 90",
+# 'gkpct10': "Average long pass length, m",
+'extrapct': "Accurate passes, %",
+'extrapct2': "Shots per 90",
+'extrapct3': "Accurate crosses, %",
+'extrapct4': "Smart passes per 90",
+'extrapct5': "xA per Shot Assist",
+'extrapct6': "Accelerations per 90",
+'extrapct7': "Aerial duels won per 90",
+'extrapct8': "Fouls suffered per 90",
+'extrapct9': "npxG per shot",
+'extrapct10': "Crosses per 90",
+'Team within selected timeframe': 'Team',
+}, inplace=True)
+
+
+final.Age = final.Age.astype(int)
+final.sort_values(by=['Age'], inplace=True)
+final = final[final['Age']<=maxage].reset_index(drop=True)
+final.fillna(0,inplace=True)
+
+##################################################################################################
+
+with st.sidebar:
+    st.header('Minimum Percentile Filters')
+    st.button("Reset Sliders", on_click=_update_slider, kwargs={"value": 0.0})
+
+    if ['slider1','slider2','slider3','slider4','slider5','slider6','slider7','slider8','slider9','slider10','slider11','slider12','slider13','slider14','slider15','slider16','slider17','slider18','slider19','slider20','slider21','slider22','slider23','slider24','slider25','slider26','slider27','slider28','slider29','slider30','slider31','slider32','slider33'] not in st.session_state:
+        pass
+    
+    short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0, key='slider1')
+    long = st.slider('Long Pass Cmp %', 0.0, 1.0, 0.0, key='slider2')
+    smartpct = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.0, key='slider3')
+    smart = st.slider('Smart Passes per 90', 0.0, 1.0, 0.0, key='slider4')
+    crosspct = st.slider('Cross Cmp %', 0.0, 1.0, 0.0, key='slider5')
+    crosses = st.slider('Crosses per 90', 0.0, 1.0, 0.0, key='slider6')
+    shotassist = st.slider('Shot Assists per 90', 0.0, 1.0, 0.0, key='slider7')
+    xa = st.slider('xA per 90', 0.0, 1.0, 0.0, key='slider8')
+    xasa = st.slider('xA per Shot Assist', 0.0, 1.0, 0.0, key='slider9')
+    ast = st.slider('Assists per 90', 0.0, 1.0, 0.0, key='slider10')
+    ast2 = st.slider('Second Assists per 90', 0.0, 1.0, 0.0, key='slider11')
+    ast123 = st.slider('1st, 2nd, & 3rd Assists', 0.0, 1.0, 0.0, key='slider12')
+    npxg = st.slider('npxG per 90', 0.0, 1.0, 0.0, key='slider13')
+    npg = st.slider('Non-Pen Goals per 90', 0.0, 1.0, 0.0, key='slider14')
+    gc = st.slider('Goals per Shot on Target', 0.0, 1.0, 0.0, key='slider15')
+    npxgshot = st.slider('npxG per shot', 0.0, 1.0, 0.0, key='slider16')
+    shots = st.slider('Shots per 90', 0.0, 1.0, 0.0, key='slider17')
+    boxtouches = st.slider('Touches in Penalty Box per 90', 0.0, 1.0, 0.0, key='slider18')
+    drib = st.slider('Dribble Success %', 0.0, 1.0, 0.0, key='slider19')
+    accel = st.slider('Accelerations per 90', 0.0, 1.0, 0.0, key='slider20')
+    progcarry = st.slider('Progressive Carries per 90', 0.0, 1.0, 0.0, key='slider21')
+    progpass = st.slider('Progressive Passes per 90', 0.0, 1.0, 0.0, key='slider22')
+    aerial = st.slider('Aerial Win %', 0.0, 1.0, 0.0, key='slider23')
+    aerialswon = st.slider('Aerials Won per 90', 0.0, 1.0, 0.0, key='slider24')
+    defduels = st.slider('Defensive Duels Success %', 0.0, 1.0, 0.0, key='slider25')
+    defend = st.slider('Successful Defensive Actions per 90', 0.0, 1.0, 0.0, key='slider26')
+    tklint = st.slider('Tackles & Interceptions per 90', 0.0, 1.0, 0.0, key='slider27')
+    tkl = st.slider('Sliding Tackles per 90', 0.0, 1.0, 0.0, key='slider28')
+    intercept = st.slider('Interceptions per 90', 0.0, 1.0, 0.0, key='slider29')
+    shotblock = st.slider('Shots Blocked per 90', 0.0, 1.0, 0.0, key='slider30')
+    foul = st.slider('Fouls Committed per 90', 0.0, 1.0, 0.0, key='slider31')
+    fouldraw = st.slider('Fouls Drawn per 90', 0.0, 1.0, 0.0, key='slider32')
+    cards = st.slider('Cards per 90', 0.0, 1.0, 0.0, key='slider33')
+
+
+
+final = final[(final['Accurate short / medium passes, %']>=short) &
+             (final['Accurate long passes, %']>=long) &
+              (final['Smart passes per 90']>=smart) &
+             (final['Accurate smart passes, %']>=smartpct) &
+              (final['Crosses per 90']>=crosses) &
+              (final['Accurate crosses, %']>=crosspct) &
+              (final['Shot assists per 90']>=shotassist) &
+              (final['xA per 90']>=xa) &
+              (final['xA per Shot Assist']>=xasa) &
+              (final['Assists per 90']>=ast) &
+              (final['Second assists per 90']>=ast2) &
+              (final['1st, 2nd, 3rd assists']>=ast123) &
+              (final['npxG per 90']>=npxg) &
+              (final['Non-penalty goals per 90']>=npg) &
+              (final['Goal conversion, %']>=gc) &
+              (final['npxG per shot']>=npxgshot) &
+              (final['Shots per 90']>=shots) &
+              (final['Touches in box per 90']>=boxtouches) &
+              (final['Successful dribbles, %']>=drib) &
+              (final['Accelerations per 90']>=accel) &
+              (final['Progressive runs per 90']>=progcarry) &
+              (final['Progressive passes per 90']>=progpass) &
+              (final['Successful defensive actions per 90']>=defend) &
+              (final['Defensive duels won, %']>=defduels) &
+              (final['pAdj Tkl+Int per 90']>=tklint) &
+              (final['PAdj Sliding tackles']>=tkl) &
+              (final['PAdj Interceptions']>=intercept) &
+              (final['Aerial duels won, %']>=aerial) &
+              (final['Aerial duels won per 90']>=aerialswon) &
+              (final['Shots blocked per 90']>=shotblock) &
+              (final['Fouls per 90']>=foul) &
+              (final['Fouls suffered per 90']>=fouldraw) &
+              (final['Cards per 90']>=cards)
+             ].reset_index(drop=True)
+
+final
+
+
+########################################################################################################
+"""
+This is where main program function definition was
+"""
+########################################################################################################
 
 if gender == 'Men':
     df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
