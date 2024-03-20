@@ -18,7 +18,37 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 def read_csv(link):
-    return pd.read_csv(link)
+    df = pd.read_csv(link)
+    df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
+    df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
+    df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
+    df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
+    df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
+    df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
+    df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
+    df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
+    df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
+    df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
+    df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
+    
+    df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
+    df = df.dropna(subset=['Position']).reset_index(drop=True)
+    df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
+    df = df.dropna(subset=['Main Position']).reset_index(drop=True)
+    position_replacements = {
+        'LAMF': 'LW',
+        'RAMF': 'RW',
+        'LCB3': 'LCB',
+        'RCB3': 'RCB',
+        'LCB5': 'LCB',
+        'RCB5': 'RCB',
+        'LB5': 'LB',
+        'RB5': 'RB'
+    }
+    df['Main Position'] = df['Main Position'].replace(position_replacements)
+    df.fillna(0,inplace=True)
+    return df
+
 
 def _update_slider(value):
     for i in range(1, 34):
@@ -116,47 +146,44 @@ def filter_by_position(df, position):
     else:
         return df
 
-def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, extra_text):
+def scout_report(data_frame, gender, league, season, xtra, template, pos, player_pos, mins, minplay, compares, name, ws_name, team, age, sig, extra_text):
     plt.clf()
-    if gender == 'Men':
-        df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
-    if gender == 'Women':
-        df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
-    df = df.fillna(0)
+    df = data_frame
+    # df = df.fillna(0)
     df = df[df['League']==full_league_name].reset_index(drop=True)
-    df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
+    # df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
 
-    df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
-    df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
-    df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
-    df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
-    df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
-    df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
-    df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
-    df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
-    df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
-    df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
-    df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
+    # df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
+    # df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
+    # df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
+    # df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
+    # df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
+    # df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
+    # df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
+    # df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
+    # df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
+    # df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
+    # df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
 
-    df = df.dropna(subset=['Position']).reset_index(drop=True)
-    df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
-    df = df.dropna(subset=['Main Position']).reset_index(drop=True)
-    position_replacements = {
-        'LAMF': 'LW',
-        'RAMF': 'RW',
-        'LCB3': 'LCB',
-        'RCB3': 'RCB',
-        'LCB5': 'LCB',
-        'RCB5': 'RCB',
-        'LB5': 'LB',
-        'RB5': 'RB'
-    }
+    # df = df.dropna(subset=['Position']).reset_index(drop=True)
+    # df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
+    # df = df.dropna(subset=['Main Position']).reset_index(drop=True)
+    # position_replacements = {
+    #     'LAMF': 'LW',
+    #     'RAMF': 'RW',
+    #     'LCB3': 'LCB',
+    #     'RCB3': 'RCB',
+    #     'LCB5': 'LCB',
+    #     'RCB5': 'RCB',
+    #     'LB5': 'LB',
+    #     'RB5': 'RB'
+    # }
 
-    df['Main Position'] = df['Main Position'].replace(position_replacements)
+    # df['Main Position'] = df['Main Position'].replace(position_replacements)
 
     #####################################################################################
     # Filter data
-    dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == full_league_name)].copy()
+    dfProspect = df[(df['Minutes played'] >= mins)].copy()
     dfProspect = filter_by_position(dfProspect, pos)
     raw_valsdf = dfProspect[(dfProspect['Player']==ws_name) & (dfProspect['Team within selected timeframe']==team) & (dfProspect['Age']==age)]
 
@@ -568,11 +595,12 @@ def scout_report(gender, league, season, xtra, template, pos, player_pos, mins, 
                 color="#4A2E19", fontweight="regular", fontname="DejaVu Sans",
                 ) 
 
-    # clubpath = raw_valsdf['Team logo'].values[0]
-    # image = Image.open(urllib.request.urlopen(clubpath))
-    # newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
-    # newax.imshow(image)
-    # newax.axis('off')
+    if season in ['23-24','2024']:
+        clubpath = raw_valsdf['Team logo'].values[0]
+        image = Image.open(urllib.request.urlopen(clubpath))
+        newax = fig.add_axes([.44,.43,0.15,0.15], anchor='C', zorder=1)
+        newax.imshow(image)
+        newax.axis('off')
 
     ax.set_facecolor('#fbf9f4')
     fig = plt.gcf()
@@ -653,31 +681,31 @@ full_league_name = f"{league} {lg_season}"
 
 ############################################################################
 
-df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
-df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
-df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
-df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
-df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
-df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
-df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
-df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
-df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
-df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
-df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
+# df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
+# df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
+# df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
+# df['xA per Shot Assist'] = [0 if df['Shot assists per 90'][i]==0 else df['xA per 90'][i] / df['Shot assists per 90'][i] for i in range(len(df))]
+# df['Aerial duels won per 90'] = df['Aerial duels per 90'] * (df['Aerial duels won, %']/100)
+# df['Cards per 90'] = df['Yellow cards per 90'] + df['Red cards per 90']
+# df['Clean sheets, %'] = df['Clean sheets'] / df['Matches played']
+# df['npxG'] = df['xG'] - (.76 * df['Penalties taken'])
+# df['npxG per 90'] = df['npxG'] / (df['Minutes played'] / 90)
+# df['npxG per shot'] = df['npxG'] / (df['Shots'] - df['Penalties taken'])
+# df['npxG per shot'] = [0 if df['Shots'][i]==0 else df['npxG'][i] / (df['Shots'][i] - df['Penalties taken'][i]) for i in range(len(df))]
 
-df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
-df = df.dropna(subset=['Position']).reset_index(drop=True)
-df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
-df = df.dropna(subset=['Main Position']).reset_index(drop=True)
-df['Main Position'] = df['Main Position'].replace('LAMF','LW')
-df['Main Position'] = df['Main Position'].replace('RAMF','RW')
-df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
-df['Main Position'] = df['Main Position'].replace('RCB3','RCB')
-df['Main Position'] = df['Main Position'].replace('LCB5','LCB')
-df['Main Position'] = df['Main Position'].replace('RCB5','RCB')
-df['Main Position'] = df['Main Position'].replace('LB5','LB')
-df['Main Position'] = df['Main Position'].replace('RB5','RB')
-df.fillna(0,inplace=True)
+# df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
+# df = df.dropna(subset=['Position']).reset_index(drop=True)
+# df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
+# df = df.dropna(subset=['Main Position']).reset_index(drop=True)
+# df['Main Position'] = df['Main Position'].replace('LAMF','LW')
+# df['Main Position'] = df['Main Position'].replace('RAMF','RW')
+# df['Main Position'] = df['Main Position'].replace('LCB3','LCB')
+# df['Main Position'] = df['Main Position'].replace('RCB3','RCB')
+# df['Main Position'] = df['Main Position'].replace('LCB5','LCB')
+# df['Main Position'] = df['Main Position'].replace('RCB5','RCB')
+# df['Main Position'] = df['Main Position'].replace('LB5','LB')
+# df['Main Position'] = df['Main Position'].replace('RB5','RB')
+# df.fillna(0,inplace=True)
 
 #############################################################################################################################
 
