@@ -660,23 +660,26 @@ if gender == 'Women':
 df_basic = df_basic.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
-    st.header('Choose Basic Options')
-    with st.expander('Note on Seasons'):
-        st.write('''
-        Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
-        ''')
+    with st.form('Choose Basic Options'):
+        st.header('Choose Basic Options')
+        with st.expander('Note on Seasons'):
+            st.write('''
+            Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
+            ''')
+    
+        lg_season = st.selectbox('Season', (['23-24','2024','2023','22-23','2022','21-22']))
+        lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
+        league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
+        pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
+                                        'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
+                                        'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
+                                        'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs'))
+        mins = st.number_input('Minimum Minutes Played', 400, 2000, 900)
+        maxage = st.slider('Max Age', min(df_basic.Age.astype(int)), 45, 25)
+        callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
+        bar_colors = st.selectbox('Bar Color Scheme', ('Metric Groups', 'Benchmarking Percentiles'))
+        submitted = st.form_submit_button("Submit Options")
 
-    lg_season = st.selectbox('Season', (['23-24','2024','2023','22-23','2022','21-22']))
-    lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
-    league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
-    pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
-                                    'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
-                                    'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
-                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs'))
-    mins = st.number_input('Minimum Minutes Played', 400, 2000, 900)
-    maxage = st.slider('Max Age', min(df_basic.Age.astype(int)), 45, 25)
-    callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
-    bar_colors = st.selectbox('Bar Color Scheme', ('Metric Groups', 'Benchmarking Percentiles'))
 full_league_name = f"{league} {lg_season}"
 
 #####################################################################
@@ -876,45 +879,47 @@ final.fillna(0,inplace=True)
 ##################################################################################################
 
 with st.sidebar:
-    st.header('Minimum Percentile Filters')
-    st.button("Reset Sliders", on_click=_update_slider, kwargs={"value": 0.0})
-
-    if ['slider1','slider2','slider3','slider4','slider5','slider6','slider7','slider8','slider9','slider10','slider11','slider12','slider13','slider14','slider15','slider16','slider17','slider18','slider19','slider20','slider21','slider22','slider23','slider24','slider25','slider26','slider27','slider28','slider29','slider30','slider31','slider32','slider33'] not in st.session_state:
-        pass
+    with st.form('Minimum Percentile Filters'):
+        st.header('Minimum Percentile Filters')
+        st.button("Reset Sliders", on_click=_update_slider, kwargs={"value": 0.0})
     
-    short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0, key='slider1')
-    long = st.slider('Long Pass Cmp %', 0.0, 1.0, 0.0, key='slider2')
-    smartpct = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.0, key='slider3')
-    smart = st.slider('Smart Passes per 90', 0.0, 1.0, 0.0, key='slider4')
-    crosspct = st.slider('Cross Cmp %', 0.0, 1.0, 0.0, key='slider5')
-    crosses = st.slider('Crosses per 90', 0.0, 1.0, 0.0, key='slider6')
-    shotassist = st.slider('Shot Assists per 90', 0.0, 1.0, 0.0, key='slider7')
-    xa = st.slider('xA per 90', 0.0, 1.0, 0.0, key='slider8')
-    xasa = st.slider('xA per Shot Assist', 0.0, 1.0, 0.0, key='slider9')
-    ast = st.slider('Assists per 90', 0.0, 1.0, 0.0, key='slider10')
-    ast2 = st.slider('Second Assists per 90', 0.0, 1.0, 0.0, key='slider11')
-    ast123 = st.slider('1st, 2nd, & 3rd Assists', 0.0, 1.0, 0.0, key='slider12')
-    npxg = st.slider('npxG per 90', 0.0, 1.0, 0.0, key='slider13')
-    npg = st.slider('Non-Pen Goals per 90', 0.0, 1.0, 0.0, key='slider14')
-    gc = st.slider('Goals per Shot on Target', 0.0, 1.0, 0.0, key='slider15')
-    npxgshot = st.slider('npxG per shot', 0.0, 1.0, 0.0, key='slider16')
-    shots = st.slider('Shots per 90', 0.0, 1.0, 0.0, key='slider17')
-    boxtouches = st.slider('Touches in Penalty Box per 90', 0.0, 1.0, 0.0, key='slider18')
-    drib = st.slider('Dribble Success %', 0.0, 1.0, 0.0, key='slider19')
-    accel = st.slider('Accelerations per 90', 0.0, 1.0, 0.0, key='slider20')
-    progcarry = st.slider('Progressive Carries per 90', 0.0, 1.0, 0.0, key='slider21')
-    progpass = st.slider('Progressive Passes per 90', 0.0, 1.0, 0.0, key='slider22')
-    aerial = st.slider('Aerial Win %', 0.0, 1.0, 0.0, key='slider23')
-    aerialswon = st.slider('Aerials Won per 90', 0.0, 1.0, 0.0, key='slider24')
-    defduels = st.slider('Defensive Duels Success %', 0.0, 1.0, 0.0, key='slider25')
-    defend = st.slider('Successful Defensive Actions per 90', 0.0, 1.0, 0.0, key='slider26')
-    tklint = st.slider('Tackles & Interceptions per 90', 0.0, 1.0, 0.0, key='slider27')
-    tkl = st.slider('Sliding Tackles per 90', 0.0, 1.0, 0.0, key='slider28')
-    intercept = st.slider('Interceptions per 90', 0.0, 1.0, 0.0, key='slider29')
-    shotblock = st.slider('Shots Blocked per 90', 0.0, 1.0, 0.0, key='slider30')
-    foul = st.slider('Fouls Committed per 90', 0.0, 1.0, 0.0, key='slider31')
-    fouldraw = st.slider('Fouls Drawn per 90', 0.0, 1.0, 0.0, key='slider32')
-    cards = st.slider('Cards per 90', 0.0, 1.0, 0.0, key='slider33')
+        if ['slider1','slider2','slider3','slider4','slider5','slider6','slider7','slider8','slider9','slider10','slider11','slider12','slider13','slider14','slider15','slider16','slider17','slider18','slider19','slider20','slider21','slider22','slider23','slider24','slider25','slider26','slider27','slider28','slider29','slider30','slider31','slider32','slider33'] not in st.session_state:
+            pass
+        
+        short = st.slider('Short & Medium Pass Cmp %', 0.0, 1.0, 0.0, key='slider1')
+        long = st.slider('Long Pass Cmp %', 0.0, 1.0, 0.0, key='slider2')
+        smartpct = st.slider('Smart Pass Cmp %', 0.0, 1.0, 0.0, key='slider3')
+        smart = st.slider('Smart Passes per 90', 0.0, 1.0, 0.0, key='slider4')
+        crosspct = st.slider('Cross Cmp %', 0.0, 1.0, 0.0, key='slider5')
+        crosses = st.slider('Crosses per 90', 0.0, 1.0, 0.0, key='slider6')
+        shotassist = st.slider('Shot Assists per 90', 0.0, 1.0, 0.0, key='slider7')
+        xa = st.slider('xA per 90', 0.0, 1.0, 0.0, key='slider8')
+        xasa = st.slider('xA per Shot Assist', 0.0, 1.0, 0.0, key='slider9')
+        ast = st.slider('Assists per 90', 0.0, 1.0, 0.0, key='slider10')
+        ast2 = st.slider('Second Assists per 90', 0.0, 1.0, 0.0, key='slider11')
+        ast123 = st.slider('1st, 2nd, & 3rd Assists', 0.0, 1.0, 0.0, key='slider12')
+        npxg = st.slider('npxG per 90', 0.0, 1.0, 0.0, key='slider13')
+        npg = st.slider('Non-Pen Goals per 90', 0.0, 1.0, 0.0, key='slider14')
+        gc = st.slider('Goals per Shot on Target', 0.0, 1.0, 0.0, key='slider15')
+        npxgshot = st.slider('npxG per shot', 0.0, 1.0, 0.0, key='slider16')
+        shots = st.slider('Shots per 90', 0.0, 1.0, 0.0, key='slider17')
+        boxtouches = st.slider('Touches in Penalty Box per 90', 0.0, 1.0, 0.0, key='slider18')
+        drib = st.slider('Dribble Success %', 0.0, 1.0, 0.0, key='slider19')
+        accel = st.slider('Accelerations per 90', 0.0, 1.0, 0.0, key='slider20')
+        progcarry = st.slider('Progressive Carries per 90', 0.0, 1.0, 0.0, key='slider21')
+        progpass = st.slider('Progressive Passes per 90', 0.0, 1.0, 0.0, key='slider22')
+        aerial = st.slider('Aerial Win %', 0.0, 1.0, 0.0, key='slider23')
+        aerialswon = st.slider('Aerials Won per 90', 0.0, 1.0, 0.0, key='slider24')
+        defduels = st.slider('Defensive Duels Success %', 0.0, 1.0, 0.0, key='slider25')
+        defend = st.slider('Successful Defensive Actions per 90', 0.0, 1.0, 0.0, key='slider26')
+        tklint = st.slider('Tackles & Interceptions per 90', 0.0, 1.0, 0.0, key='slider27')
+        tkl = st.slider('Sliding Tackles per 90', 0.0, 1.0, 0.0, key='slider28')
+        intercept = st.slider('Interceptions per 90', 0.0, 1.0, 0.0, key='slider29')
+        shotblock = st.slider('Shots Blocked per 90', 0.0, 1.0, 0.0, key='slider30')
+        foul = st.slider('Fouls Committed per 90', 0.0, 1.0, 0.0, key='slider31')
+        fouldraw = st.slider('Fouls Drawn per 90', 0.0, 1.0, 0.0, key='slider32')
+        cards = st.slider('Cards per 90', 0.0, 1.0, 0.0, key='slider33')
+        submitted = st.form_submit_button("Submit Sliders")
 
 
 
@@ -957,81 +962,80 @@ final
 
 
 ########################################################################################################
-"""
-This is where main program function definition was
-"""
 ########################################################################################################
 
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
-player = st.text_input("Player's Radar to Generate", "")
-page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
-try:
-    dfxxx = df_basic[df_basic['Minutes played']>=mins].copy().reset_index(drop=True)
-    dfxxx = dfxxx[dfxxx['League']==full_league_name].reset_index(drop=True)
-    df1 = dfxxx[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
-    df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
-    df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
-    df1['Age'] = df1['Age'].astype(int)
-    df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
-    df1 = df1.dropna(subset=['Main Position']).reset_index(drop=True)
-    position_replacements = {
-        'LAMF': 'LW',
-        'RAMF': 'RW',
-        'LCB3': 'LCB',
-        'RCB3': 'RCB',
-        'LCB5': 'LCB',
-        'RCB5': 'RCB',
-        'LB5': 'LB',
-        'RB5': 'RB'
-    }
-
-    df1['Main Position'] = df1['Main Position'].replace(position_replacements)
-
-
-    a = df1['Main Position'].unique()
-    a = list(set(a))
-
-    ws_pos = ['LCMF3','RCMF3','LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB','RCB3','LCB3','RB5','RWB5','LB5','LWB5']
-    template = ['attacking','attacking','attacking','attacking','defensive','defensive','attacking','attacking','attacking','attacking','attacking','cb','defensive','attacking','defensive','gk','attacking','attacking','attacking','attacking','attacking','cb','cb','cb','cb','defensive','defensive','defensive','defensive']
-    compares = ['Central Midfielders','Central Midfielders','Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs','Center Backs','Center Backs','Fullbacks','Fullbacks','Fullbacks','Fullbacks']
-
-    gen = df1[(df1['Player']==player) & (df1['Age']==page)]
-    ix = ws_pos.index(gen['Main Position'].values[0])
-    minplay = int(gen['Minutes played'].values[0])
-
-    ##########################################################################################
-
-
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-    ssn_ = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Season.values[0]
-    xtratext = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Date.values[0]
-
-    radar_img = scout_report(
-                data_frame = df_basic,
-                gender = gender,
-                 league = league,
-                 season = ssn_,  
-                 xtra = ' current',
-                 template = template[ix],
-                pos = pos,
-                 player_pos = ws_pos[ix],
-                 compares = compares[ix],
-                 mins = mins,
-                minplay=minplay,
-                 name = gen['Player'].values[0],
-                 ws_name = gen['Player'].values[0],
-                 team = gen['Team within selected timeframe'].values[0],
-                 age = gen['Age'].values[0],
-                 sig = 'Twitter: @BeGriffis',
-                 extra_text = xtratext,
-                )
-    st.pyplot(radar_img.figure)
-except:
-    st.text("Please enter a valid name & age.  \nPlease check spelling as well as the position filters that they include your player's position.")
+with st.form('Radar Generation'):
+    player = st.text_input("Player's Radar to Generate", "")
+    page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
+    try:
+        dfxxx = df_basic[df_basic['Minutes played']>=mins].copy().reset_index(drop=True)
+        dfxxx = dfxxx[dfxxx['League']==full_league_name].reset_index(drop=True)
+        df1 = dfxxx[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
+        df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
+        df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
+        df1['Age'] = df1['Age'].astype(int)
+        df1['Main Position'] = df1['Position'].str.split().str[0].str.rstrip(',')
+        df1 = df1.dropna(subset=['Main Position']).reset_index(drop=True)
+        position_replacements = {
+            'LAMF': 'LW',
+            'RAMF': 'RW',
+            'LCB3': 'LCB',
+            'RCB3': 'RCB',
+            'LCB5': 'LCB',
+            'RCB5': 'RCB',
+            'LB5': 'LB',
+            'RB5': 'RB'
+        }
     
+        df1['Main Position'] = df1['Main Position'].replace(position_replacements)
+    
+    
+        a = df1['Main Position'].unique()
+        a = list(set(a))
+    
+        ws_pos = ['LCMF3','RCMF3','LAMF','LW','RB','LB','LCMF','DMF','RDMF','RWF','AMF','LCB','RWB','CF','LWB','GK','LDMF','RCMF','LWF','RW','RAMF','RCB','CB','RCB3','LCB3','RB5','RWB5','LB5','LWB5']
+        template = ['attacking','attacking','attacking','attacking','defensive','defensive','attacking','attacking','attacking','attacking','attacking','cb','defensive','attacking','defensive','gk','attacking','attacking','attacking','attacking','attacking','cb','cb','cb','cb','defensive','defensive','defensive','defensive']
+        compares = ['Central Midfielders','Central Midfielders','Wingers','Wingers','Fullbacks','Fullbacks','Central Midfielders','Central & Defensive Mids','Central & Defensive Mids','Wingers','Central & Attacking Mids','Center Backs','Fullbacks','Strikers','Fullbacks','Goalkeepers','Central & Defensive Mids','Central Midfielders','Wingers','Wingers','Wingers','Center Backs','Center Backs','Center Backs','Center Backs','Fullbacks','Fullbacks','Fullbacks','Fullbacks']
+    
+        gen = df1[(df1['Player']==player) & (df1['Age']==page)]
+        ix = ws_pos.index(gen['Main Position'].values[0])
+        minplay = int(gen['Minutes played'].values[0])
+    
+        ##########################################################################################
+    
+    
+        #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
+        ssn_ = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Season.values[0]
+        xtratext = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Date.values[0]
+    
+        radar_img = scout_report(
+                    data_frame = df_basic,
+                    gender = gender,
+                     league = league,
+                     season = ssn_,  
+                     xtra = ' current',
+                     template = template[ix],
+                    pos = pos,
+                     player_pos = ws_pos[ix],
+                     compares = compares[ix],
+                     mins = mins,
+                    minplay=minplay,
+                     name = gen['Player'].values[0],
+                     ws_name = gen['Player'].values[0],
+                     team = gen['Team within selected timeframe'].values[0],
+                     age = gen['Age'].values[0],
+                     sig = 'Twitter: @BeGriffis',
+                     extra_text = xtratext,
+                    )
+        st.pyplot(radar_img.figure)
+    except:
+        st.text("Please enter a valid name & age.  \nPlease check spelling as well as the position filters that they include your player's position.")
+    submitted = st.form_submit_button("Generate Radar")
+
     
 with st.expander('Metric Glossary'):
     st.write('''
