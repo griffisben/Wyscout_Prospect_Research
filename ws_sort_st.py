@@ -18,8 +18,9 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 def read_csv(link):
+    return pd.read_csv(link)
+def read_csv2(link):
     df = pd.read_csv(link)
-    st.write(df.shape)
     df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
     df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
     df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
@@ -652,11 +653,11 @@ with st.sidebar:
 
 if gender == 'Men':
     lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
+    df_basic = read_csv2('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
 if gender == 'Women':
     lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
-df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
+    df_basic = read_csv2('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
+df_basic = df_basic.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 with st.sidebar:
     st.header('Choose Basic Options')
@@ -673,7 +674,7 @@ with st.sidebar:
                                     'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs'))
     mins = st.number_input('Minimum Minutes Played', 400, 2000, 900)
-    maxage = st.slider('Max Age', min(df.Age.astype(int)), 45, 25)
+    maxage = st.slider('Max Age', min(df_basic.Age.astype(int)), 45, 25)
     callout = st.selectbox('Data Labels on Bars', ('Per 90', 'Percentile'))
     bar_colors = st.selectbox('Bar Color Scheme', ('Metric Groups', 'Benchmarking Percentiles'))
 full_league_name = f"{league} {lg_season}"
@@ -712,7 +713,7 @@ full_league_name = f"{league} {lg_season}"
 
 # Filter data
 
-dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == full_league_name)].copy()
+dfProspect = df_basic[(df_basic['Minutes played'] >= mins) & (df_basic['League'] == full_league_name)].copy()
 dfProspect = filter_by_position(dfProspect, pos)
 
 ########## PROSPECT RESEARCH ##########
@@ -961,18 +962,13 @@ This is where main program function definition was
 """
 ########################################################################################################
 
-if gender == 'Men':
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
-if gender == 'Women':
-    df = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
-
 st.header('Enter player name below to generate their radar (you can copy+paste from table above)')
 player = st.text_input("Player's Radar to Generate", "")
 page = st.number_input("Age of the player to generate (to guarantee the correct player)", step=1)
 try:
-    df = df[df['Minutes played']>=mins].reset_index(drop=True)
-    df = df[df['League']==full_league_name].reset_index(drop=True)
-    df1 = df[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
+    dfxxx = df_basic[df_basic['Minutes played']>=mins].copy().reset_index(drop=True)
+    dfxxx = dfxxx[dfxxx['League']==full_league_name].reset_index(drop=True)
+    df1 = dfxxx[['Player', 'Team within selected timeframe', 'Position', 'Age', 'Minutes played']]
     df1 = df1.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).reset_index(drop=True)
     df1 = df1.dropna(subset=['Position']).reset_index(drop=True)
     df1['Age'] = df1['Age'].astype(int)
@@ -1014,7 +1010,7 @@ try:
     xtratext = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Date.values[0]
 
     radar_img = scout_report(
-                data_frame = df,
+                data_frame = df_basic,
                 gender = gender,
                  league = league,
                  season = ssn_,  
