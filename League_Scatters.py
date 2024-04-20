@@ -78,6 +78,7 @@ with st.sidebar:
                                     'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
                                     'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs', 'Goalkeepers'))
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
+    ages = st.selectbox('Age Group', ('All Ages', 'U23', 'U22', 'U21', 'U20', 'U19', 'U18'))
     xx = st.selectbox('X-Axis Variable', ['Age']+(df.columns[18:len(df.columns)].tolist()))
     yy = st.selectbox('Y-Axis Variable', ['Age']+(df.columns[18:len(df.columns)].tolist()))
     cc = st.selectbox('Point Color Variable', ['Age']+(df.columns[18:len(df.columns)].tolist()))
@@ -160,6 +161,11 @@ def filter_by_position(df, position):
 
 dfProspect = df[(df['Minutes played'] >= mins) & (df['League'] == full_league_name)].copy()
 dfProspect = filter_by_position(dfProspect, pos)
+age_text = ''
+if ages != 'All Ages':
+    age_text = f' {ages} '
+    age_num = int(ages[1:])
+    dfProspect = dfProspect[dfProspect['Age']<=age_num]
 
 
 
@@ -172,7 +178,7 @@ fig = px.scatter(
     text = 'Player',
     hover_data=['Team', 'Age', 'Position', 'Minutes played'],
     hover_name = 'Player',
-    title = '%s %s, %s & %s <br><sup>%s | Minimum %i minutes played | %s | Code by @BeGriffis</sup>' %(ssn,league,xx,yy,pos,mins,date),
+    title = '%s %s, %s & %s <br><sup>%s%s | Minimum %i minutes played | %s | Code by @BeGriffis</sup>' %(ssn,league,xx,yy,age_text,pos,mins,date),
     width=900,
     height=700)
 fig.update_traces(textposition='top right', marker=dict(size=10, line=dict(width=1, color='black')))
