@@ -101,6 +101,8 @@ position_replacements = {
 df['Main Position'] = df['Main Position'].replace(position_replacements)
 df.fillna(0,inplace=True)
 
+colorscales2 = [f"{cc}_r" for cc in colorscales]
+colorscales += colorscales2
 
 with st.sidebar:
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
@@ -122,18 +124,6 @@ with st.sidebar:
     if 'clicked' not in st.session_state:
         st.session_state.clicked = False
     st.button('Swap X & Y Axes Back', on_click=reset_click_button)
-
-with st.sidebar:
-    flipC = f"{cscale}_r"
-    
-    if 'clicked' not in st.session_state:
-        st.session_state.clicked = False
-    st.button('Reverse colorscale', on_click=click_button2)
-    if st.session_state.clicked:
-        cscale = flipC
-    if 'clicked' not in st.session_state:
-        st.session_state.clicked = False
-    st.button('Swap colorscale back', on_click=reset_click_button2)
 
         
 
