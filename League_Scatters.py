@@ -122,7 +122,8 @@ with st.sidebar:
     if 'clicked' not in st.session_state:
         st.session_state.clicked = False
     st.button('Swap X & Y Axes Back', on_click=reset_click_button)
-    
+
+with st.sidebar:
     flipC = f"{cscale}_r"
     
     if 'clicked' not in st.session_state:
