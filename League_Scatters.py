@@ -17,6 +17,11 @@ def click_button():
     st.session_state.clicked = True
 def reset_click_button():
     st.session_state.clicked = False
+def click_button2():
+    st.session_state.clicked = True
+def reset_click_button2():
+    st.session_state.clicked = False
+
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 colorscales = px.colors.named_colorscales()
@@ -122,12 +127,12 @@ with st.sidebar:
     
     if 'clicked' not in st.session_state:
         st.session_state.clicked = False
-    st.button('Reverse colorscale', on_click=click_button)
+    st.button('Reverse colorscale', on_click=click_button2)
     if st.session_state.clicked:
         cscale = flipC
     if 'clicked' not in st.session_state:
         st.session_state.clicked = False
-    st.button('Swap colorscale back', on_click=reset_click_button)
+    st.button('Swap colorscale back', on_click=reset_click_button2)
 
         
 
