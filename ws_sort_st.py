@@ -45,7 +45,9 @@ def read_csv2(link):
         'LCB5': 'LCB',
         'RCB5': 'RCB',
         'LB5': 'LB',
-        'RB5': 'RB'
+        'RB5': 'RB',
+        'RWB': 'RB',
+        'LWB': 'LB'
     }
     df['Main Position'] = df['Main Position'].replace(position_replacements)
     df.fillna(0,inplace=True)
@@ -932,7 +934,9 @@ with st.form('Radar Generation'):
             'LCB5': 'LCB',
             'RCB5': 'RCB',
             'LB5': 'LB',
-            'RB5': 'RB'
+            'RB5': 'RB',
+            'RWB': 'RB',
+            'LWB': 'LB'
         }
     
         df1['Main Position'] = df1['Main Position'].replace(position_replacements)
