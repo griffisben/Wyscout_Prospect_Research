@@ -36,6 +36,11 @@ with st.sidebar:
     st.header('Choose Gender')
     gender = st.selectbox('Gender', ('Men','Women'))
 
+if gender == 'Men':
+    lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
+elif gender == 'Women':
+    lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
+
 with st.sidebar:
     st.header('Choose Basic Options')
     with st.expander('Note on Seasons'):
@@ -53,10 +58,8 @@ full_league_name = f"{league} {lg_season}"
 
 
 if gender == 'Men':
-    lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
     df = pd.read_csv(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20")}.csv')
 elif gender == 'Women':
-    lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
     df = pd.read_csv(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/Women/{full_league_name.replace(" ","%20")}.csv')
 df['League'] = full_league_name
 df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
