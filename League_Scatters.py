@@ -38,10 +38,11 @@ with st.sidebar:
 
 if gender == 'Men':
     lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
-    df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data.csv')
-if gender == 'Women':
+    df = pd.read_csv(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20")}.csv')
+elif gender == 'Women':
     lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
-    df = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/WS_Data_Women.csv')
+    df = pd.read_csv(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/Women/{full_league_name.replace(" ","%20")}.csv')
+df['League'] = full_league_name
 df = df.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
 
@@ -60,8 +61,21 @@ df = df.dropna(subset=['Position', 'Team within selected timeframe', 'Age']).res
 df.rename(columns={'Team':'xxxTeam', 'Team within selected timeframe':'Team'})
 
 df['Main Position'] = df['Position'].str.split().str[0].str.rstrip(',')
-df['Main Position'] = df['Main Position'].replace('LAMF','LW')
-df['Main Position'] = df['Main Position'].replace('RAMF','RW')
+df = df.dropna(subset=['Main Position']).reset_index(drop=True)
+position_replacements = {
+    'LAMF': 'LW',
+    'RAMF': 'RW',
+    'LCB3': 'LCB',
+    'RCB3': 'RCB',
+    'LCB5': 'LCB',
+    'RCB5': 'RCB',
+    'LB5': 'LB',
+    'RB5': 'RB',
+    'RWB': 'RB',
+    'LWB': 'LB'
+}
+df['Main Position'] = df['Main Position'].replace(position_replacements)
+df.fillna(0,inplace=True)
 
 
 with st.sidebar:
