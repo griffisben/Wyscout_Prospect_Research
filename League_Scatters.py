@@ -117,6 +117,18 @@ with st.sidebar:
     if 'clicked' not in st.session_state:
         st.session_state.clicked = False
     st.button('Swap X & Y Axes Back', on_click=reset_click_button)
+    
+    flipC = f"{cscale}_r"
+    
+    if 'clicked' not in st.session_state:
+        st.session_state.clicked = False
+    st.button('Reverse colorscale', on_click=click_button)
+    if st.session_state.clicked:
+        cscale = flipC
+    if 'clicked' not in st.session_state:
+        st.session_state.clicked = False
+    st.button('Swap colorscale back', on_click=reset_click_button)
+
         
 
 ssn = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Season.values[0]
