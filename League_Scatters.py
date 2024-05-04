@@ -36,6 +36,22 @@ with st.sidebar:
     st.header('Choose Gender')
     gender = st.selectbox('Gender', ('Men','Women'))
 
+with st.sidebar:
+    st.header('Choose Basic Options')
+    with st.expander('Note on Seasons'):
+        st.write('''
+        Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
+        ''')
+    lg_season = st.selectbox('Season', (['23-24','2023','22-23','2022','21-22']))
+    lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
+    league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
+    pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
+                                    'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
+                                    'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
+                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs', 'Goalkeepers'))
+full_league_name = f"{league} {lg_season}"
+
+
 if gender == 'Men':
     lg_lookup = pd.read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup.csv')
     df = pd.read_csv(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20")}.csv')
@@ -79,18 +95,6 @@ df.fillna(0,inplace=True)
 
 
 with st.sidebar:
-    st.header('Choose Basic Options')
-    with st.expander('Note on Seasons'):
-        st.write('''
-        Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
-        ''')
-    lg_season = st.selectbox('Season', (['23-24','2023','22-23','2022','21-22']))
-    lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
-    league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
-    pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
-                                    'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
-                                    'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
-                                    'Defenders (CB, FB/WB, DM)', 'Centre-Backs', 'CBs & DMs', 'Goalkeepers'))
     mins = st.number_input('Minimum Minutes Played', 400, max(df['Minutes played'].astype(int)), 900)
     ages = st.selectbox('Age Group', ('All Ages', 'U23', 'U22', 'U21', 'U20', 'U19', 'U18'))
     xx = st.selectbox('X-Axis Variable', ['Age']+(df.columns[18:len(df.columns)].tolist()))
@@ -110,7 +114,6 @@ with st.sidebar:
     if 'clicked' not in st.session_state:
         st.session_state.clicked = False
     st.button('Swap X & Y Axes Back', on_click=reset_click_button)
-full_league_name = f"{league} {lg_season}"
         
 
 ssn = lg_lookup[(lg_lookup['League']==league) & (lg_lookup['Season']==lg_season)].Season.values[0]
