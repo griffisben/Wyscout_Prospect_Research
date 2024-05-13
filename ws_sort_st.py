@@ -18,9 +18,9 @@ matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 
 def read_csv(link):
-    return pd.read_csv(link)
+    return pd.read_csv(link,encoding='utf-8-sig')
 def read_csv2(link):
-    df = pd.read_csv(link)
+    df = pd.read_csv(link,encoding='utf-8-sig')
     df['pAdj Tkl+Int per 90'] = df['PAdj Sliding tackles'] + df['PAdj Interceptions']
     df['1st, 2nd, 3rd assists'] = df['Assists per 90'] + df['Second assists per 90'] + df['Third assists per 90']
     df['xA per Shot Assist'] = df['xA per 90'] / df['Shot assists per 90']
@@ -627,6 +627,10 @@ if gender == 'Men':
 elif gender == 'Women':
     lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
 
+legaues = lg_lookup_ssn.League.unique().tolist()
+
+with st.sidebar:
+    league = st.selectbox('League', (legaues))
 
 with st.sidebar:
     with st.form('Choose Basic Options'):
@@ -636,9 +640,7 @@ with st.sidebar:
             Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
             ''')
     
-        lg_season = st.selectbox('Season', (['23-24','2024','2023','22-23','2022','21-22']))
-        lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
-        league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
+        lg_season = st.selectbox('Season', (lg_lookup[lg_lookup.League == league].Season.unique().tolist()))
         pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
                                         'Forwards no ST (AM, W)', 'Wingers', 'Central Midfielders (DM, CM, CAM)',
                                         'Central Midfielders no CAM (DM, CM)', 'Central Midfielders no DM (CM, CAM)', 'Fullbacks (FBs/WBs)',
@@ -652,9 +654,9 @@ with st.sidebar:
 full_league_name = f"{league} {lg_season}"
 
 if gender == 'Men':
-    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20")}.csv')
+    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o")}.csv')
 elif gender == 'Women':
-    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/Women/{full_league_name.replace(" ","%20")}.csv')
+    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/Women/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o")}.csv')
 df_basic['League'] = full_league_name
 df_basic = df_basic.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
