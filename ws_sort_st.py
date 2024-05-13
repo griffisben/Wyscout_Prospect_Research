@@ -627,7 +627,7 @@ if gender == 'Men':
 elif gender == 'Women':
     lg_lookup = read_csv('https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/league_info_lookup_women.csv')
 
-legaues = lg_lookup_ssn.League.unique().tolist()
+legaues = lg_lookup.League.unique().tolist()
 
 with st.sidebar:
     league = st.selectbox('League', (legaues))
