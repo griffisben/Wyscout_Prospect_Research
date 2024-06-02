@@ -654,9 +654,9 @@ with st.sidebar:
 full_league_name = f"{league} {lg_season}"
 
 if gender == 'Men':
-    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o").replace("ö","o").replace("ã","a")}.csv')
+    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o").replace("ö","o")}.csv')
 elif gender == 'Women':
-    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/Women/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o").replace("ö","o").replace("ã","a")}.csv')
+    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/Women/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o").replace("ö","o")}.csv')
 df_basic['League'] = full_league_name
 df_basic = df_basic.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
@@ -765,7 +765,7 @@ for column, column_r in zip(inverse_ranked_columns, inverse_ranked_columns_r):
     dfProspect[column] = rank_column_inverse(dfProspect, column_r)
 
 
-final = dfProspect[['Player','Age','League','Position','Team within selected timeframe','Birth country',
+final = dfProspect[['Player','Age','Minutes played','League','Position','Team within selected timeframe','Birth country',
 'fwdpct1','fwdpct2','fwdpct5','fwdpct6','fwdpct11','midpct1','midpct3','midpct4','midpct5','midpct6','midpct7','midpct8','midpct9','midpct10','midpct11','midpct12','defpct1','defpct2','defpct3','defpct4','defpct5','defpct6','defpct7','defpct8','defpct9','defpct10',
 #                     'gkpct1','gkpct2','gkpct3','gkpct4','gkpct5','gkpct6','gkpct7','gkpct8','gkpct10',
                     'extrapct','extrapct2','extrapct3','extrapct4','extrapct5','extrapct6','extrapct7','extrapct8','extrapct9','extrapct10',
