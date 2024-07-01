@@ -52,7 +52,7 @@ with st.sidebar:
         st.write('''
         Please note that with prior seasons, the players & leagues are correct but the team names can sometimes be off. Ages are also current ages, not ages in the season... I'm working on remedying this.
         ''')
-    lg_season = st.selectbox('Season', (['23-24','2023','22-23','2022','21-22']))
+    lg_season = st.selectbox('Season', (['23-24','2024','2023','22-23','2022','21-22']))
     lg_lookup_ssn = lg_lookup[lg_lookup.Season==lg_season]
     league = st.selectbox('League', (lg_lookup_ssn.League.tolist()))
     pos = st.selectbox('Positions', ('Strikers', 'Strikers and Wingers', 'Forwards (AM, W, CF)',
