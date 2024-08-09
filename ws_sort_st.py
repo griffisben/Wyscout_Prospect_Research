@@ -654,9 +654,9 @@ with st.sidebar:
 full_league_name = f"{league} {lg_season}"
 
 if gender == 'Men':
-    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o").replace("ö","o")}.csv')
+    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o").replace("ö","o").replace("ã","a")}.csv')
 elif gender == 'Women':
-    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/Women/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o").replace("ö","o")}.csv')
+    df_basic = read_csv2(f'https://raw.githubusercontent.com/griffisben/Wyscout_Prospect_Research/main/Main%20App/Women/{full_league_name.replace(" ","%20").replace("ü","u").replace("ó","o").replace("ö","o").replace("ã","a")}.csv')
 df_basic['League'] = full_league_name
 df_basic = df_basic.dropna(subset=['Position','Team within selected timeframe', 'Age']).reset_index(drop=True)
 
