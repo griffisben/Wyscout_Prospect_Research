@@ -665,7 +665,7 @@ df_basic = df_basic.dropna(subset=['Position','Team within selected timeframe', 
 
 # Filter data
 
-dfProspect = df_basic[(df_basic['Minutes played'] >= mins) & (df_basic['League'] == full_league_name)].copy()
+dfProspect = df_basic[(df_basic['Minutes played'] >= mins)].copy()
 dfProspect = filter_by_position(dfProspect, pos)
 
 ########## PROSPECT RESEARCH ##########
