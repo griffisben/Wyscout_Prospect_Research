@@ -171,9 +171,9 @@ Chilean Primera División,2020,Data Final for 2020,90,-1901,Chile
 Chilean Primera B,2019,Data Final for 2019,438,-652,Chile
 Chilean Primera División,2019,Data Final for 2019,90,-650,Chile
 Chilean Primera División,2018,Data Final for 2018,90,-649,Chile
-China League One,2024,"Data as of Nov. 29, 2024",148,-6045,China
-China League Two,2024,"Data as of Nov. 29, 2024",-293,-5169,China
-Chinese Super League,2024,"Data as of Nov. 29, 2024",51,-6010,China
+China League One,2024,Data Final for 2024,148,-6045,China
+China League Two,2024,Data Final for 2024,-293,-5169,China
+Chinese Super League,2024,Data Final for 2024,51,-6010,China
 Chinese Super League,2023,Data Final for 2023,51,-5137,China
 China League One,2023,Data Final for 2023,148,-5150,China
 China League Two,2023,Data Final for 2023,-293,-5167,China
@@ -361,8 +361,8 @@ Championship,18-19,Data Final for 18-19,70,-929,England
 League One,18-19,Data Final for 18-19,15,-932,England
 League Two,18-19,Data Final for 18-19,32,-935,England
 English National League,18-19,Data Final for 18-19,71,-931,England
-Estonia Meistriliiga,2024,"Data as of Nov. 29, 2024",111,-4949,Estonia
-Estonian Esiliiga A,2024,"Data as of Nov. 29, 2024",112,-5003,Estonia
+Estonia Meistriliiga,2024,Data Final for 2024,111,-4949,Estonia
+Estonian Esiliiga A,2024,Data Final for 2024,112,-5003,Estonia
 Estonia Meistriliiga,2023,Data Final for 2023,111,-4040,Estonia
 Estonian Esiliiga A,2023,Data Final for 2023,112,-5001,Estonia
 Estonia Meistriliiga,2022,Data Final for 2022,111,-4039,Estonia
@@ -372,9 +372,9 @@ Estonia Meistriliiga,2020,Data Final for 2020,111,-2043,Estonia
 Estonia Meistriliiga,2019,Data Final for 2019,111,-711,Estonia
 Faroe Islands Meistaradeildin,2024,Data Final for 2024,81,-4876,Faroe Islands
 Faroe Islands Meistaradeildin,2023,Data Final for 2023,81,-4065,Faroe Islands
-Veikkausliiga,2024,"Data as of Nov. 29, 2024",22,-4977,Finland
-Ykkösliiga,2024,"Data as of Nov. 29, 2024",35,-5100,Finland
-Ykkönen,2024,"Data as of Nov. 29, 2024",-958,-6052,Finland
+Veikkausliiga,2024,Data Final for 2024,22,-4977,Finland
+Ykkösliiga,2024,Data Final for 2024,35,-5100,Finland
+Ykkönen,2024,Data Final for 2024,-958,-6052,Finland
 Veikkausliiga,2023,Data Final for 2023,22,-4073,Finland
 Ykkönen,2023,Data Final for 2023,35,-4125,Finland
 Veikkausliiga,2022,Data Final for 2022,22,-2484,Finland
@@ -508,8 +508,8 @@ NB I,19-20,Data Final for 19-20,67,-1116,Hungary
 NB II,19-20,Data Final for 19-20,68,-1159,Hungary
 NB I,18-19,Data Final for 18-19,67,-886,Hungary
 NB II,18-19,Data Final for 18-19,68,-923,Hungary
-Iceland 1. Deild,2024,"Data as of Nov. 29, 2024",38,-5122,Iceland
-Besta-deild karla,2024,"Data as of Nov. 29, 2024",31,-4864,Iceland
+Iceland 1. Deild,2024,Data Final for 2024,38,-5122,Iceland
+Besta-deild karla,2024,Data Final for 2024,31,-4864,Iceland
 Besta-deild karla,2023,Data Final for 2023,31,-4103,Iceland
 Iceland 1. Deild,2023,Data Final for 2023,38,-4176,Iceland
 Iceland 1. Deild,2022,Data Final for 2022,38,-3321,Iceland
@@ -599,11 +599,11 @@ J1,2018,Data Final for 2018,109,-685,Japan
 J2,2018,Data Final for 2018,110,-687,Japan
 Jordan Pro League,24-25,"Data as of Nov. 29, 2024",218,-6282,Jordan
 Jordan Pro League,23-24,Data Final for 23-24,218,-4139,Jordan
-Kazakh Premier League,2024,"Data as of Nov. 29, 2024",79,-4954,Kazakhstan
-Kazakh 1. Division,2024,"Data as of Nov. 29, 2024",279,-6077,Kazakhstan
-Kazakh 2. Division,2024,"Data as of Nov. 29, 2024",-773,-5162,Kazakhstan
-Kazakh U18 League,2024,"Data as of Nov. 29, 2024",-764,-6080,Kazakhstan
-Kazakh U17 League,2024,"Data as of Nov. 29, 2024",-963,-6088,Kazakhstan
+Kazakh Premier League,2024,Data Final for 2024,79,-4954,Kazakhstan
+Kazakh 1. Division,2024,Data Final for 2024,279,-6077,Kazakhstan
+Kazakh 2. Division,2024,Data Final for 2024,-773,-5162,Kazakhstan
+Kazakh U18 League,2024,Data Final for 2024,-764,-6080,Kazakhstan
+Kazakh U17 League,2024,Data Final for 2024,-963,-6088,Kazakhstan
 Kazakh Premier League,2023,Data Final for 2023,79,-4041,Kazakhstan
 Kazakh 1. Division,2023,Data Final for 2023,279,-5095,Kazakhstan
 Kazakh 2. Division,2023,Data Final for 2023,-773,-5139,Kazakhstan
@@ -644,15 +644,15 @@ Kyrgyz Premier League,2021,Data Final for 2021,795,-2499,Kyrgyzstan
 Kyrgyz Premier League,2020,Data Final for 2020,795,-1667,Kyrgyzstan
 Kyrgyz Premier League,2019,Data Final for 2019,795,-812,Kyrgyzstan
 Kyrgyz Premier League,2018,Data Final for 2018,795,14915,Kyrgyzstan
-Latvian Virsliga,2024,"Data as of Nov. 29, 2024",116,-5042,Latvia
+Latvian Virsliga,2024,Data Final for 2024,116,-5042,Latvia
 Latvian Virsliga,2023,Data Final for 2023,116,-4064,Latvia
 Latvian 1. Liga,2023,Data Final for 2023,265,-4140,Latvia
 Latvian Virsliga,2022,Data Final for 2022,116,-3237,Latvia
 Latvian Virsliga,2021,Data Final for 2021,116,-2469,Latvia
 Latvian Virsliga,2020,Data Final for 2020,116,-2050,Latvia
 Latvian Virsliga,2019,Data Final for 2019,116,-746,Latvia
-Lithuanian A Lyga,2024,"Data as of Nov. 29, 2024",118,-5015,Lithuania
-Lithuanian 1 Lyga,2024,"Data as of Nov. 29, 2024",258,-5060,Lithuania
+Lithuanian A Lyga,2024,Data Final for 2024,118,-5015,Lithuania
+Lithuanian 1 Lyga,2024,Data Final for 2024,258,-5060,Lithuania
 Lithuanian A Lyga,2023,Data Final for 2023,118,-5014,Lithuania
 Lithuanian 1 Lyga,2023,Data Final for 2023,258,-4102,Lithuania
 Lithuanian A Lyga,2022,Data Final for 2022,118,-3215,Lithuania
@@ -994,9 +994,9 @@ La Liga,19-20,Data Final for 19-20,7,-1169,Spain
 La Liga 2,19-20,Data Final for 19-20,12,-1170,Spain
 La Liga,18-19,Data Final for 18-19,7,-982,Spain
 La Liga 2,18-19,Data Final for 18-19,12,-979,Spain
-Allsvenskan,2024,"Data as of Nov. 29, 2024",28,-4832,Sweden
-Superettan,2024,"Data as of Nov. 29, 2024",37,-4833,Sweden
-Ettan,2024,"Data as of Nov. 29, 2024",427,-4847,Sweden
+Allsvenskan,2024,Data Final for 2024,28,-4832,Sweden
+Superettan,2024,Data Final for 2024,37,-4833,Sweden
+Ettan,2024,Data Final for 2024,427,-4847,Sweden
 Allsvenskan,2023,Data Final for 2023,28,-4077,Sweden
 Superettan,2023,Data Final for 2023,37,-4078,Sweden
 Ettan,2023,Data Final for 2023,427,-4079,Sweden
@@ -1088,9 +1088,9 @@ UAE Pro League,23-24,Data Final for 23-24,344,-4536,United Arab Emirates
 UAE Pro League,22-23,Data Final for 22-23,344,-3596,United Arab Emirates
 UAE Pro League,21-22,Data Final for 21-22,344,-2957,United Arab Emirates
 MLS,2024,"Data as of Nov. 29, 2024",33,-4859,United States
-MLS Next Pro,2024,"Data as of Nov. 29, 2024",-658,-6020,United States
-USL Championship,2024,"Data as of Nov. 29, 2024",1133,-4932,United States
-USL League 1,2024,"Data as of Nov. 29, 2024",-389,-4953,United States
+MLS Next Pro,2024,Data Final for 2024,-658,-6020,United States
+USL Championship,2024,Data Final for 2024,1133,-4932,United States
+USL League 1,2024,Data Final for 2024,-389,-4953,United States
 MLS,2023,Data Final for 2023,33,-3994,United States
 USL Championship,2023,Data Final for 2023,1133,-4066,United States
 USL League 1,2023,Data Final for 2023,-389,-4075,United States
