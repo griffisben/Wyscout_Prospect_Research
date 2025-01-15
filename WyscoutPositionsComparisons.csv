@@ -3,17 +3,17 @@ LCMF3,Central Midfielders
 RCMF3,Central Midfielders
 LAMF,Wingers
 LW,Wingers
-RB,Fullbacks
-LB,Fullbacks
+RB,FBs & WBs
+LB,FBs & WBs
 LCMF,Central Midfielders
 DMF,Defensive Midfielders
 RDMF,Defensive Midfielders
 RWF,Wingers
 AMF,Attacking Midfielders
 LCB,Center Backs
-RWB,Wing Backs
+RWB,FBs & WBs
 CF,Strikers
-LWB,Wing Backs
+LWB,FBs & WBs
 GK,Goalkeepers
 LDMF,Defensive Midfielders
 RCMF,Central Midfielders
@@ -24,7 +24,7 @@ RCB,Center Backs
 CB,Center Backs
 RCB3,Center Backs
 LCB3,Center Backs
-RB5,Fullbacks
-RWB5,Wing Backs
-LB5,Fullbacks
-LWB5,Wing Backs
+RB5,FBs & WBs
+RWB5,FBs & WBs
+LB5,FBs & WBs
+LWB5,FBs & WBs
