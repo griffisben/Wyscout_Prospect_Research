@@ -6,16 +6,16 @@ LW,Wingers
 RB,FBs & WBs
 LB,FBs & WBs
 LCMF,Central Midfielders
-DMF,Defensive Midfielders
-RDMF,Defensive Midfielders
+DMF,Central Midfielders
+RDMF,Central Midfielders
 RWF,Wingers
-AMF,Attacking Midfielders
+AMF,Central Midfielders
 LCB,Center Backs
 RWB,FBs & WBs
 CF,Strikers
 LWB,FBs & WBs
 GK,Goalkeepers
-LDMF,Defensive Midfielders
+LDMF,Central Midfielders
 RCMF,Central Midfielders
 LWF,Wingers
 RW,Wingers
