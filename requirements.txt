@@ -1,5 +1,5 @@
 seaborn
-pandas
+pandas==2.3.3
 matplotlib
 numpy
 scipy
@@ -7,3 +7,4 @@ statistics
 streamlit
 plotly
 highlight-text
+altair
