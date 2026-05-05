@@ -5,7 +5,7 @@ Brasileiro Women,2023,Data final for 2023,1166,-4061,Brazil,1,South America,Sout
 Chinese Super League Women,2023,Data final for 2023,-278,-5044,China PR,1,Asia,East Asia,All Others
 Colombian Liga Femenina BetPlay,2023,Data final for 2023,1528,-4946,Colombia,1,South America,South America,All Others
 Czech 1. Liga Women,23-24,Data final for 23-24,330,-4416,Czech Republic,1,Europe,Eastern Europe,All Others
-Danish Elitedivisionen,23-24,Data final for 23-24,333,-4407,Denmark,1,Europe,Nordics,Proactive Primary
+Danish A-Liga,23-24,Data final for 23-24,333,-4407,Denmark,1,Europe,Nordics,Proactive Primary
 English WSL,23-24,Data final for 23-24,886,-4553,England,1,Europe,British Isles,All Others
 English Women's Championship,23-24,Data final for 23-24,1330,-4417,England,2,Europe,British Isles,All Others
 Kansallinen Liiga,2023,Data final for 2023,149,-4071,Finland,1,Europe,Nordics,Proactive Secondary
@@ -57,7 +57,7 @@ Western Australia NPL Women,2024,Data final for 2024,-957,-6042,Australia,2,Asia
 A-League Women,24-25,Data final for 24-25,370,-4765,Australia,1,Asia,Southeast Asia,Proactive Tertiary
 Belgian Super League,24-25,Data final for 24-25,1445,-5301,Belgium,1,Europe,Western Europe,All Others
 Czech 1. Liga Women,24-25,Data final for 24-25,330,-5346,Czech Republic,1,Europe,Eastern Europe,All Others
-Danish Elitedivisionen,24-25,Data final for 24-25,333,-5302,Denmark,1,Europe,Nordics,Proactive Primary
+Danish A-Liga,24-25,Data final for 24-25,333,-5302,Denmark,1,Europe,Nordics,Proactive Primary
 English WSL,24-25,Data final for 24-25,886,-6459,England,1,Europe,British Isles,All Others
 English Women's Championship,24-25,Data final for 24-25,1330,-5466,England,2,Europe,British Isles,All Others
 D1 Féminine,24-25,Data final for 24-25,328,-6425,France,1,Europe,Western Europe,All Others
@@ -95,17 +95,25 @@ Latvian Women's League,2025,Data Final for 2025,803,-6814,Latvia,1,Europe,Baltic
 Colombian Liga Femenina BetPlay,2025,Data Final for 2025,1528,-6762,Colombia,1,South America,South America,All Others
 Northern Super League,2025,Data Final for 2025,-1042,-6756,Canada,1,North/Central America,North America,All Others
 Kazakh QJ League U17,2025,Data Final for 2025,-1051,-6886,Kazakhstan,Youth,Europe,Eastern Europe,All Others
-Liga MX Femenil,25-26,"Data as of Mar. 10, 2026",-333,-6944,Mexico,1,North/Central America,North America,All Others
-Belgian Super League,25-26,"Data as of Mar. 10, 2026",1445,-5301,Belgium,1,Europe,Western Europe,All Others
-Danish Elitedivisionen,25-26,"Data as of Mar. 10, 2026",333,-5302,Denmark,1,Europe,Nordics,Proactive Primary
-English WSL,25-26,"Data as of Mar. 10, 2026",886,-6459,England,1,Europe,British Isles,All Others
-English Women's Championship,25-26,"Data as of Mar. 10, 2026",1330,-5466,England,2,Europe,British Isles,All Others
-D1 Féminine,25-26,"Data as of Mar. 10, 2026",328,-6425,France,1,Europe,Western Europe,All Others
-Frauen Bundesliga,25-26,"Data as of Mar. 10, 2026",290,-6347,Germany,1,Europe,Western Europe,All Others
-WE League,25-26,"Data as of Mar. 10, 2026",-612,-6497,Japan,1,Asia,East Asia,All Others
-Polish Ekstraliga,25-26,"Data as of Mar. 10, 2026",356,-5457,Poland,1,Europe,Eastern Europe,All Others
-Campeonato Nacional Feminino,25-26,"Data as of Mar. 10, 2026",355,-6346,Portugal,1,Europe,Southern Europe,All Others
-SWPL 1,25-26,"Data as of Mar. 10, 2026",346,-5418,Scotland,1,Europe,British Isles,All Others
-SWPL 2,25-26,"Data as of Mar. 10, 2026",1460,-5420,Scotland,2,Europe,British Isles,All Others
-Ukrainian Premier League Women,25-26,"Data as of Mar. 10, 2026",939,-5452,Ukraine,1,Europe,Eastern Europe,All Others
-USL Super League,25-26,"Data as of Mar. 10, 2026",-985,-6256,United States,2,North/Central America,North America,All Others
+Liga MX Femenil,25-26,"Data as of May 4, 2026",-333,-6944,Mexico,1,North/Central America,North America,All Others
+Belgian Super League,25-26,"Data as of May 4, 2026",1445,-5301,Belgium,1,Europe,Western Europe,All Others
+Danish A-Liga,25-26,"Data as of May 4, 2026",333,-5302,Denmark,1,Europe,Nordics,Proactive Primary
+Danish B-Liga Women,25-26,"Data as of May 4, 2026",450,-7157,Denmark,2,Europe,Nordics,Proactive Primary
+Danish U19 League,25-26,"Data as of May 4, 2026",-801,-7158,Denmark,Youth,Europe,Nordics,Proactive Secondary
+Danish U16 League,25-26,"Data as of May 4, 2026",-701,-7160,Denmark,Youth,Europe,Nordics,Proactive Secondary
+English WSL,25-26,"Data as of May 4, 2026",886,-6459,England,1,Europe,British Isles,All Others
+English Women's Championship,25-26,"Data as of May 4, 2026",1330,-5466,England,2,Europe,British Isles,All Others
+D1 Féminine,25-26,"Data as of May 4, 2026",328,-6425,France,1,Europe,Western Europe,All Others
+Frauen Bundesliga,25-26,"Data as of May 4, 2026",290,-6347,Germany,1,Europe,Western Europe,All Others
+2. Bundesliga Women,25-26,"Data as of May 4, 2026",323,,Germany,2,Europe,Western Europe,All Others
+WE League,25-26,"Data as of May 4, 2026",-612,-6497,Japan,1,Asia,East Asia,All Others
+Polish Ekstraliga,25-26,"Data as of May 4, 2026",356,-5457,Poland,1,Europe,Eastern Europe,All Others
+Campeonato Nacional Feminino,25-26,"Data as of May 4, 2026",355,-6346,Portugal,1,Europe,Southern Europe,All Others
+SWPL 1,25-26,"Data as of May 4, 2026",346,-5418,Scotland,1,Europe,British Isles,All Others
+SWPL 2,25-26,"Data as of May 4, 2026",1460,-5420,Scotland,2,Europe,British Isles,All Others
+Ukrainian Premier League Women,25-26,"Data as of May 4, 2026",939,-5452,Ukraine,1,Europe,Eastern Europe,All Others
+USL Super League,25-26,"Data as of May 4, 2026",-985,-6256,United States,2,North/Central America,North America,All Others
+A-League Women,25-26,"Data as of May 4, 2026",370,,Australia,1,Asia,Southeast Asia,Proactive Tertiary
+Czech 1. Liga Women,25-26,"Data as of May 4, 2026",330,,Czech Republic,1,Europe,Eastern Europe,All Others
+Serie A Women,25-26,"Data as of May 4, 2026",293,,Italy,1,Europe,Southern Europe,All Others
+Hong Kong 1st Division,25-26,"Data as of May 4, 2026",-714,,Hong Kong,1,Asia,East Asia,All Others
