@@ -1452,7 +1452,7 @@ Chinese Super League,2018,Data Final for 2018,31,-4864,China,1,Asia,East Asia,Al
 China League One,2018,Data Final for 2018,109,-4919,China,2,Asia,East Asia,All Others,China League One2018
 Egyptian Premier League,18-19,Data Final for 18-19,110,-4920,Egypt,1,Africa,North Africa,All Others,Egyptian Premier League18-19
 Estonia Meistriliiga,2018,Data Final for 2018,1272,-4863,Estonia,1,Europe,Baltics,Proactive Tertiary,Estonia Meistriliiga2018
-UEFA Top 5,18-19,Data Final for 18-19,79,-4954,Australia,1,Asia,Southeast Asia,All Others,UEFA Top 518-19
+UEFA Top 5,18-19,Data Final for 18-19,79,-4954,Europe,1,Euope,Western Europe,All Others,UEFA Top 518-19
 Veikkausliiga,2018,Data Final for 2018,279,-6077,Finland,1,Europe,Nordics,Proactive Secondary,Veikkausliiga2018
 Ykkönen,2018,Data Final for 2018,-773,-5162,Finland,3,Europe,Nordics,All Others,Ykkönen2018
 Besta-deild karla,2018,Data Final for 2018,-764,-6080,Iceland,1,Europe,Nordics,Proactive Secondary,Besta-deild karla2018
@@ -1474,7 +1474,7 @@ Argentina Primera Nacional,19-20,Data Final for 19-20,157,-4838,Argentina,2,Sout
 Argentina LPF,19-20,Data Final for 19-20,158,-4874,Argentina,1,South America,South America,All Others,Argentina LPF19-20
 China League Two,2019,Data Final for 2019,34,-4856,China,3,Asia,East Asia,All Others,China League Two2019
 Egyptian Premier League,19-20,Data Final for 19-20,77,-4857,Egypt,1,Africa,North Africa,All Others,Egyptian Premier League19-20
-UEFA Top 5,19-20,Data Final for 19-20,28,-4832,Australia,1,Asia,Southeast Asia,All Others,UEFA Top 519-20
+UEFA Top 5,19-20,Data Final for 19-20,28,-4832,Europe,1,Euope,Western Europe,All Others,UEFA Top 519-20
 Greek Super League 2,19-20,Data Final for 19-20,37,-4833,Greece,2,Europe,Southern Europe,Proactive Tertiary,Greek Super League 219-20
 Mexican U17 League,19-20,Data Final for 19-20,427,-4847,Mexico,Youth,North/Central America,North America,All Others,Mexican U17 League19-20
 Moldovan Super Liga,2019,Data Final for 2019,33,-4859,Moldova,1,Europe,Eastern Europe,All Others,Moldovan Super Liga2019
@@ -1593,8 +1593,6 @@ Kyrgyz Premier League,2025,Data Final for 2025,795,-6790,Kyrgyzstan,1,Asia,Centr
 USL League 1,2025,Data Final for 2025,-389,-5923,United States,3,North/Central America,North America,Proactive Tertiary,USL League 12025
 Ykkösliiga,2025,Data Final for 2025,35,-5993,Finland,2,Europe,Nordics,Proactive Secondary,Ykkösliiga2025
 Ykkönen,2025,Data Final for 2025,-958,-6857,Finland,3,Europe,Nordics,All Others,Ykkönen2025
-Ykkosliiga,2025,Data Final for 2025,35,-5993,Kyrgyzstan,2,Europe,Baltics,All Others,Ykkosliiga2025
-Ykkonen,2025,Data Final for 2025,-958,-6857,Kyrgyzstan,2,Europe,Baltics,All Others,Ykkonen2025
 Canadian Premier League,2025,Data Final for 2025,-398,-5991,Canada,1,North/Central America,North America,Proactive Tertiary,Canadian Premier League2025
 Kazakh 1. Division,2025,Data Final for 2025,279,-6838,Kazakhstan,2,Europe,Central Asia,All Others,Kazakh 1. Division2025
 Kazakh 2. Division,2025,Data Final for 2025,-773,-6847,Kazakhstan,3,Europe,Central Asia,All Others,Kazakh 2. Division2025
@@ -1890,7 +1888,6 @@ Estonia Meistriliiga,2026,"Data as of October 20, 2026",111,-7746,Estonia,1,Euro
 Estonian Esiliiga A,2026,"Data as of October 20, 2026",112,-7739,Estonia,2,Europe,Baltics,All Others,Estonian Esiliiga A2026
 Faroe Islands Meistaradeildin,2026,"Data as of October 20, 2026",81,-7744,Faroe Islands,1,Europe,Nordics,Proactive Secondary,Faroe Islands Meistaradeildin2026
 Veikkausliiga,2026,"Data as of October 20, 2026",22,-7782,Finland,1,Europe,Nordics,Proactive Secondary,Veikkausliiga2026
-Ykkosliiga,2026,"Data as of October 20, 2026",35,-7805,Kyrgyzstan,2,Europe,Baltics,All Others,Ykkosliiga2026
 Ykkösliiga,2026,"Data as of October 20, 2026",35,-7805,Finland,2,Europe,Nordics,Proactive Secondary,Ykkösliiga2026
 Erovnuli Liga,2026,"Data as of October 20, 2026",166,-7730,Georgia,1,Europe,Eastern Europe,Proactive Tertiary,Erovnuli Liga2026
 Erovnuli Liga 2,2026,"Data as of October 20, 2026",761,-7738,Georgia,2,Europe,Eastern Europe,All Others,Erovnuli Liga 22026
